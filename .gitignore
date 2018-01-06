@@ -1,0 +1,10 @@
+.*~.gz
+.mc-lists.el
+auto-save-list
+history
+irony
+places
+projectile*
+savehist
+var
+emacs.el
