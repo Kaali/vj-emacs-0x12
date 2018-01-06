@@ -1,0 +1,21 @@
+#+TITLE: Emacs configuration for 2018
+#+AUTHOR: Väinö Järvelä
+#+OPTIONS: toc:4 h:4
+
+* Intro
+
+Emacs configuration for year 2018. My [[https://github.com/Kaali/vj-emacs-0f][2015]] configuration has served me
+well. But it's time for a new configuration with a bit of a cleanup.
+
+Some of the experimental packages are now stable, and some ended up
+being unsused. Main changes are:
+
+1. Simplify package management
+2. Switch from [[https://github.com/emacs-helm/helm][helm]] to [[https://github.com/abo-abo/swiper][Ivy]]
+
+* Installation
+
+Keep it simple. Clone as .emacs.d and done.
+
+#+BEGIN_SRC emacs-lisp
+#+END_SRC
