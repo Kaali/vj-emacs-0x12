@@ -7,15 +7,1190 @@
 Emacs configuration for year 2018. My [[https://github.com/Kaali/vj-emacs-0f][2015]] configuration has served me
 well. But it's time for a new configuration with a bit of a cleanup.
 
+Main features of this configuration is:
+
+1. ob-tangle to create a literate configuration file
+2. use-package to handle packages
+3. bind-key for shortcuts
+
 Some of the experimental packages are now stable, and some ended up
 being unsused. Main changes are:
 
 1. Simplify package management
 2. Switch from [[https://github.com/emacs-helm/helm][helm]] to [[https://github.com/abo-abo/swiper][Ivy]]
+3. Try to keep startup fast
 
-* Installation
+** Requirements
 
-Keep it simple. Clone as .emacs.d and done.
+Requires Emacs 25. Configuration has been tested on macOS and
+Linux. Windows not supported at this moment.
+
+Some packages might require external tools such as git, ag, etc.
+Especially language support. But they do not block starting Emacs with
+this configuration.
+
+** Installation
+
+Keep it simple. Clone as =~/.emacs.d= and done.
+
+** org babel tips
+
+Insert a code block by tuping =<sTAB=.
+Use =C-'= to edit code blocks.
+
+* Bootstrap
+** Use custom file
+Use a specific custom file instead of saving things in =init.el= which
+is used to bootstrap =org-babel=.
 
 #+BEGIN_SRC emacs-lisp
+  (setq custom-file "~/.emacs.d/custom.el")
+  (load custom-file t)
 #+END_SRC
+
+** Setup package management
+
+#+BEGIN_SRC emacs-lisp
+  (require 'package)
+  (let* ((no-ssl (and (memq system-type '(windows-nt ms-dos))
+                      (not (gnutls-available-p))))
+         (proto (if no-ssl "http" "https")))
+    (add-to-list 'package-archives (cons "melpa" (concat proto "://melpa.org/packages/")) t))
+  (package-initialize)
+#+END_SRC
+
+Install [[https://github.com/jwiegley/use-package][use-package]].
+
+#+BEGIN_SRC emacs-lisp
+  (unless (package-installed-p 'use-package)
+    (package-refresh-contents)
+    (package-install 'use-package))
+#+END_SRC
+
+Configure use-package to print warnings if it takes too much time
+(0.1s) per statement. And to always ensure that packages are
+installed.
+
+#+BEGIN_SRC emacs-lisp
+  (setq use-package-verbose t)
+  (setq use-package-always-ensure t)
+#+END_SRC
+
+Require use-package.
+
+#+BEGIN_SRC emacs-lisp
+  (require 'use-package)
+#+END_SRC
+
+Benchmark initialization of emacs to keep it quick.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package benchmark-init
+    :ensure t
+    :config
+    ;; To disable collection of benchmark data after init is done.
+    (add-hook 'after-init-hook 'benchmark-init/deactivate))
+
+#+END_SRC
+
+Add [[https://github.com/emacsmirror/diminish][diminish]] and bind-key support to =use-package=
+
+#+BEGIN_SRC emacs-lisp
+  (use-package diminish)
+  (use-package bind-key)
+  ; Requires here should speed up the boot
+  (require 'diminish)
+  (require 'bind-key)
+#+END_SRC
+
+** Setup auto compilation
+
+Make certain that emacs never loads outdated code, by using
+[[https://github.com/emacscollective/auto-compile][auto-compile]] package.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package auto-compile
+               :config (auto-compile-on-load-mode))
+  (setq load-prefer-newer t)
+#+END_SRC
+
+* Global configuration
+
+Include mainly emacs configuration, with packages only for theming.
+
+** Basic settings
+
+Load private information out of this repository.
+
+#+BEGIN_SRC emacs-lisp
+  (load "~/.emacs.d/private.el")
+#+END_SRC
+
+Example file:
+
+#+BEGIN_SRC emacs-lisp :tangle no
+  (setq user-full-name "Väinö Järvelä"
+        user-mail-address "vaino.jarvela@example.com")
+#+END_SRC
+
+Some really basic self-explanatory settings:
+
+#+BEGIN_SRC emacs-lisp
+  (setq
+   inhibit-startup-message t
+   require-final-newline t
+   major-mode 'text-mode)
+
+  (put 'narrow-to-region 'disabled nil)
+
+  (defalias 'yes-or-no-p 'y-or-n-p)
+
+  (setq sentence-end-double-space nil)
+
+  (set-language-environment "UTF-8")
+  (prefer-coding-system 'utf-8)
+  (setq locale-coding-system 'utf-8)
+#+END_SRC
+
+Revert changed files automatically if I haven't touched them:
+
+#+BEGIN_SRC emacs-lisp
+  (global-auto-revert-mode t)
+#+END_SRC
+
+Mark-ring is navigable by typing =C-u C-SPC= and then repeating
+=C-SPC= forever:
+
+#+BEGIN_SRC emacs-lisp
+  (setq set-mark-command-repeat-pop t)
+#+END_SRC
+
+When executing shell commands from emacs, set =PATH= correctly. This
+slows down Emacs startup quite a lot depending on what the shell does.
+I have [[https://github.com/creationix/nvm][nvm]] installed, which slows it down quite a lot.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package exec-path-from-shell
+    :if (memq window-system '(mac ns))
+    :config
+    (exec-path-from-shell-initialize))
+#+END_SRC
+
+Delete selected text when backspacing:
+
+#+BEGIN_SRC emacs-lisp
+  (delete-selection-mode t)
+#+END_SRC
+
+When splitting windows, resize them all equally instead of just
+splitting the active window:
+
+#+BEGIN_SRC emacs-lisp
+  (setq window-combination-resize t)
+#+END_SRC
+
+Setup backups and history.
+
+#+BEGIN_SRC emacs-lisp
+  (setq backup-directory-alist '(("." . "~/.emacs.d/backups")))
+  (setq delete-old-versions -1)
+  (setq version-control t)
+  (setq vc-make-backup-files t)
+  (setq auto-save-file-name-transforms '((".*" "~/.emacs.d/auto-save-list/" t)))
+
+  (setq savehist-file "~/.emacs.d/savehist")
+  (savehist-mode 1)
+  (setq history-length t)
+  (setq history-delete-duplicates t)
+  (setq savehist-save-minibuffer-history 1)
+  (setq savehist-additional-variables
+        '(kill-ring
+          search-ring
+          regexp-search-ring))
+#+END_SRC
+
+** Indentation
+
+Sadly tabs seems to have lost the indentation war. So let's just use
+spaces:
+
+#+BEGIN_SRC emacs-lisp
+  (setq-default indent-tabs-mode nil)
+#+END_SRC
+
+Indent with 4 spaces and set some default styles:
+
+#+BEGIN_SRC emacs-lisp
+  (setq c-default-style
+        '((java-mode . "java") (awk-mode . "awk") (other . "bsd"))
+        c-basic-offset 4)
+#+END_SRC
+
+** Compilation
+
+By default Emacs sticks to the bottom of the compilation buffer only
+if the user puts the point at the bottom.
+
+Automatic scrolling can be enabled with:
+
+#+BEGIN_SRC emacs-lisp :tangle no
+  (setq compilation-scroll-output t)
+#+END_SRC
+
+But I like it more that it stops at the first error with:
+
+#+BEGIN_SRC emacs-lisp
+  (setq compilation-scroll-output 'first-error)
+#+END_SRC
+
+I usually use multiple frames to split my display. So please don't
+open more than one compilation buffer:
+
+#+BEGIN_SRC emacs-lisp
+  (add-to-list
+   'display-buffer-alist
+   '("\\*compilation\\*" display-buffer-reuse-window
+     (reusable-frames . t)))
+#+END_SRC
+
+** Mac settings
+Setup Mac keyboard to be close to Linux.
+
+#+BEGIN_SRC emacs-lisp
+  (if (eq system-type 'darwin)
+    (setq mac-pass-option-to-system nil
+          mac-pass-control-to-system nil
+          mac-pass-command-to-system nil
+          mac-command-key-is-meta nil
+          mac-command-modifier 'hyper
+          mac-option-modifier 'meta
+          mac-control-modifier 'control))
+#+END_SRC
+
+Use macOS default browser for urls:
+
+#+BEGIN_SRC emacs-lisp
+  (if (eq system-type 'darwin)
+      (setq browse-url-browser-function 'browse-url-default-macosx-browser))
+#+END_SRC
+
+I don't like macOS native fullscreen mode, so if I wish to run Emacs
+in fullscreen-mode, then fake it rather than using native stuff:
+
+#+BEGIN_SRC emacs-lisp
+  (setq ns-use-native-fullscreen nil)
+#+END_SRC
+
+** Visual
+
+Set a font.
+
+#+BEGIN_SRC emacs-lisp
+  (set-frame-font "Input")
+  (set-face-attribute 'default (selected-frame) :height 130)
+#+END_SRC
+
+Disable extra emacs cruft.
+
+#+BEGIN_SRC emacs-lisp
+  (tool-bar-mode -1)
+  (scroll-bar-mode -1)
+#+END_SRC
+
+Setup a modeline package before a theme. [[https://github.com/Malabarba/smart-mode-line][smart-mode-line]] adds some
+nice stylistic features to the modeline like colors and prefix
+shortening.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package smart-mode-line
+    :config (sml/setup))
+#+END_SRC
+
+Setup a light theme. I like dark [[https://github.com/kuanyui/moe-theme.el][moe-theme]], but this time I'm trying
+out a light theme. There have been research that dark text on a light
+background actually gives more focus for the eyes. I have always used
+dark themes everywhere, but maybe it's time to try a light one out,
+and see if it's too tiring.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package moe-theme
+    :config
+    (moe-light)
+    (custom-set-faces
+     '(company-tooltip-annotation ((t (:background "#3a3a3a" :foreground "#9e9e9e"))))
+     '(magit-branch-current ((t (:foreground "#3a3a3a"))))))
+#+END_SRC
+
+I like to see empty lines in the buffer as a fringe on the left.
+
+#+BEGIN_SRC emacs-lisp
+  (setq indicate-buffer-boundaries 'left)
+  (set-default 'indicate-empty-lines t)
+#+END_SRC
+
+Show column number and buffer size in the modeline.
+
+#+BEGIN_SRC emacs-lisp
+  (column-number-mode t)
+  (size-indication-mode t)
+#+END_SRC
+
+Modify Emacs bell to just flash the modeline. It's a bit heavy, but
+better than the audible bell, and I'll still notice a bell.
+
+Implementation is based on [[https://www.emacswiki.org/emacs/AlarmBell][AlarmBell Emacs Wiki]].
+
+#+BEGIN_SRC emacs-lisp
+  (setq ring-bell-function
+        (lambda ()
+          (let ((orig-fg (face-background 'mode-line)))
+            (set-face-background 'mode-line "#5fafd7")
+            (run-with-idle-timer 0.1 nil
+                                 (lambda (fg) (set-face-background 'mode-line fg))
+                                 orig-fg))))
+#+END_SRC
+
+** Keyboard
+*** Global keyboard
+
+I use this key for switching between windows in a single application
+on macOS, but Emacs eats the shortcut when I try to use the same
+shortcut for switching between frames:
+
+#+BEGIN_SRC emacs-lisp
+  (bind-key "M-`" 'other-frame)
+#+END_SRC
+
+I like to use meta+arrow for moving between windows:
+
+#+BEGIN_SRC emacs-lisp
+  (windmove-default-keybindings 'meta)
+#+END_SRC
+
+Setup better defaults for Emacs keybindings:
+
+#+BEGIN_SRC emacs-lisp
+  ;; Always reindent on newline
+  (bind-key "RET" 'newline-and-indent)
+
+  ;; Use regex searches by default.
+  (bind-key "C-s" 'isearch-forward-regexp)
+  (bind-key "C-r" 'isearch-backward-regexp)
+  (bind-key "C-M-s" 'isearch-forward)
+  (bind-key "C-M-r" 'isearch-backward)
+
+  (bind-key "C-o" 'isearch-occur isearch-mode-map)
+
+  ;; I want to use regexps by default with query-replace
+  (bind-key "M-%" 'query-replace-regexp)
+  (bind-key "C-M-%" 'query-replace)
+#+END_SRC
+
+I use join-line a lot:
+
+#+BEGIN_SRC emacs-lisp
+  (bind-key "M-j" 'join-line)
+#+END_SRC
+
+*** Vim-like features
+
+I don't like emacs =open-line= as it splits the line instead of acting
+like Vim's =o=. Which is why I rebind the shortcut globally to have
+the Vim-like behavior.
+
+#+BEGIN_SRC emacs-lisp
+  (defun vj/open-line-after ()
+    (interactive)
+    (end-of-line)
+    (newline-and-indent))
+
+  (bind-key "C-o" 'vj/open-line-after)
+#+END_SRC
+
+I also don't like emacs =zap-to-char= as it eats the char I'm zapping
+to. I usually/always want to keep the char I'm zapping to.
+
+#+BEGIN_SRC emacs-lisp
+  (defun vj/zap-up-to-char (arg char)
+    "Zap up to a character."
+    (interactive "p\ncZap up to char: ")
+    (zap-to-char arg char)
+    (insert char)
+    (forward-char -1))
+
+  (bind-key "M-z" 'vj/zap-up-to-char)
+#+END_SRC
+
+*** SlickEdit cut-copy
+
+I like SlickEdit style cut-copy. Which copies the current line if no
+region is active.
+
+Use implementation of it from [[http://ergoemacs.org/emacs/emacs_copy_cut_current_line.html][Xah]]. Previous configurations used a
+version from [[http://www.zafar.se/bkz/Articles/EmacsTips][EmacsTips]], but this version is a bit more evolved, as you
+can keep pressing the shortcut to include more lines in the kill-ring.
+
+#+BEGIN_SRC emacs-lisp
+  (defun xah-cut-line-or-region ()
+    "Cut current line, or text selection.
+  When `universal-argument' is called first, cut whole buffer (respects `narrow-to-region').
+
+  URL `http://ergoemacs.org/emacs/emacs_copy_cut_current_line.html'
+  Version 2015-06-10"
+    (interactive)
+    (if current-prefix-arg
+        (progn ; not using kill-region because we don't want to include previous kill
+          (kill-new (buffer-string))
+          (delete-region (point-min) (point-max)))
+      (progn (if (use-region-p)
+                 (kill-region (region-beginning) (region-end) t)
+               (kill-region (line-beginning-position) (line-beginning-position 2))))))
+
+  (defun xah-copy-line-or-region ()
+    "Copy current line, or text selection.
+  When called repeatedly, append copy subsequent lines.
+  When `universal-argument' is called first, copy whole buffer (respects `narrow-to-region').
+
+  URL `http://ergoemacs.org/emacs/emacs_copy_cut_current_line.html'
+  Version 2017-12-04"
+    (interactive)
+    (if current-prefix-arg
+        (progn
+          (kill-ring-save (point-min) (point-max)))
+      (if (use-region-p)
+          (progn
+            (kill-ring-save (region-beginning) (region-end)))
+        (if (eq last-command this-command)
+            (if (eobp)
+                (progn )
+              (progn
+                (kill-append "\n" nil)
+                (kill-append
+                 (buffer-substring-no-properties (line-beginning-position) (line-end-position))
+                 nil)
+                (progn
+                  (end-of-line)
+                  (forward-char))))
+          (if (eobp)
+              (if (eq (char-before) 10 )
+                  (progn )
+                (progn
+                  (kill-ring-save (line-beginning-position) (line-end-position))
+                  (end-of-line)))
+            (progn
+              (kill-ring-save (line-beginning-position) (line-end-position))
+              (end-of-line)
+              (forward-char)))))))
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp
+  (bind-key "C-w" 'xah-cut-line-or-region)
+  (bind-key "M-w" 'xah-copy-line-or-region)
+#+END_SRC
+
+*** Smarter move beginning of line
+
+Copied from http://emacsredux.com/blog/2013/05/22/smarter-navigation-to-the-beginning-of-a-line/
+
+#+BEGIN_SRC emacs-lisp
+  (defun sacha/smarter-move-beginning-of-line (arg)
+    "Move point back to indentation of beginning of line.
+
+  Move point to the first non-whitespace character on this line.
+  If point is already there, move to the beginning of the line.
+  Effectively toggle between the first non-whitespace character and
+  the beginning of the line.
+
+  If ARG is not nil or 1, move forward ARG - 1 lines first.  If
+  point reaches the beginning or end of the buffer, stop there."
+    (interactive "^p")
+    (setq arg (or arg 1))
+
+    ;; Move lines first
+    (when (/= arg 1)
+      (let ((line-move-visual nil))
+        (forward-line (1- arg))))
+
+    (let ((orig-point (point)))
+      (back-to-indentation)
+      (when (= orig-point (point))
+        (move-beginning-of-line 1))))
+
+  ;; remap C-a to `smarter-move-beginning-of-line'
+  (global-set-key [remap move-beginning-of-line]
+                  'sacha/smarter-move-beginning-of-line)
+#+END_SRC
+
+*** cycle spacing
+This requires a bit newer emacs version. It allows you to cycle
+between three different whitespace amount around a point:
+
+1. Delete all but one space
+2. Delete all space
+3. Keep original spaces
+
+#+BEGIN_SRC emacs-lisp
+  (bind-key* "C-M-SPC" 'cycle-spacing)
+#+END_SRC
+
+* Major modes
+** Magit
+
+[[https://magit.vc/][Magit]] the magic git integration.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package magit
+    :config
+    (setq
+     magit-completing-read-function 'ivy-completing-read
+     magit-save-repository-buffers 'dontask)
+    :bind ("C-x g" . magit-status))
+#+END_SRC
+
+** yaml
+
+#+BEGIN_SRC emacs-lisp
+  (use-package yaml-mode
+    :mode "\\.ya?ml$")
+#+END_SRC
+
+** markdown
+
+#+BEGIN_SRC emacs-lisp
+  (use-package markdown-mode
+    :mode "\\.md$")
+#+END_SRC
+
+** ediff
+
+The default configuration is horrible for window configurations. I
+really don't want any package to create new frames for me. And I
+usually split my display vertically, so use horizontal splits.
+
+Also add a hook that saves and restores window configurations when I'm
+done with =ediff=.
+
+#+BEGIN_SRC emacs-lisp
+  (setq ediff-window-setup-function 'ediff-setup-windows-plain)
+  (setq ediff-split-window-function 'split-window-horizontally)
+
+  (add-hook 'ediff-load-hook
+            (lambda ()
+              (add-hook 'ediff-before-setup-hook
+                        (lambda ()
+                          (setq ediff-saved-window-configuration (current-window-configuration))))
+              (let ((restore-window-configuration
+                     (lambda ()
+                       (set-window-configuration ediff-saved-window-configuration))))
+                (add-hook 'ediff-quit-hook restore-window-configuration 'append)
+                (add-hook 'ediff-suspend-hook restore-window-configuration 'append))))
+#+END_SRC
+
+** eshell
+
+#+BEGIN_SRC emacs-lisp
+  (use-package eshell
+    :bind (("C-x m" . eshell)
+           ("C-x M" . (lambda () (interactive) (eshell t)))))
+#+END_SRC
+
+** dired and dired+
+
+Small dired customizations
+
+#+BEGIN_SRC emacs-lisp
+  (setq dired-auto-revert-buffer t)
+
+  (use-package dired+
+    :defer t
+    :requires dired
+    :config
+    (toggle-diredp-find-file-reuse-dir 1)
+    (setq diredp-hide-details-initially-flag nil)
+    (setq diredp-hide-details-propagate-flag nil))
+#+END_SRC
+
+** org
+
+org-mode is excellent, I just use it too little.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package org
+    :bind (("C-c a" . org-agenda))
+    :mode ("\\.org$" . org-mode)
+    :config
+    (setq org-startup-folded t
+          org-startup-with-inline-images t
+          org-startup-truncated t
+          org-agenda-start-with-log-mode t
+          org-directory "~/Documents/org"
+          org-default-notes-file (concat org-directory "/notes.org")
+          org-replace-disputed-keys t
+          org-hide-emphasis-markers t))
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp
+  (use-package org-bullets
+    :requires org
+    :hook (org-mode .  (lambda () (org-bullets-mode 1))))
+#+END_SRC
+
+** Projectile
+
+Project management support.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package projectile
+    :diminish ""
+    :demand t
+    :init
+    (setq
+     projectile-keymap-prefix (kbd "C-c p")
+     projectile-completion-system 'ivy
+     projectile-enable-caching t
+     projectile-indexing-method 'alien)
+    :bind-keymap ("M-p" . projectile-command-map))
+#+END_SRC
+
+Projectile counsel support.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package counsel-projectile
+    :demand t
+    :requires projectile
+    :config (counsel-projectile-mode))
+#+END_SRC
+
+** Python
+
+Default to Python 3 on macOS. Requires installation from homebrew.
+
+#+BEGIN_SRC emacs-lisp
+  (if (eq system-type 'darwin)
+      (setq python-shell-interpreter "python3"))
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp
+  (use-package python
+    :mode ("\\.py$" . python-mode)
+    :interpreter ("python" . python-mode))
+#+END_SRC
+
+Setup Anaconda mode for Python autocomplete and navigation.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package anaconda-mode
+    :commands anaconda-mode
+    :hook ((python-mode . anaconda-mode)
+           (python-mode . anaconda-eldoc-mode)))
+
+  (use-package company-anaconda
+    :defer t
+    :hook (anaconda-mode . (lambda () (add-to-list 'company-backends 'company-anaconda))))
+#+END_SRC
+
+** C and C++
+
+I like to use =subword-mode= in C -languages and I don't like when
+namespaces in C++ indents the block, as then all my code would be at
+indentation level 2.
+
+#+BEGIN_SRC emacs-lisp
+  (defun my-c-mode-setup ()
+    (subword-mode 1)
+    (c-set-offset 'innamespace 4))
+
+  (add-hook 'c-mode-common-hook 'my-c-mode-setup)
+#+END_SRC
+
+**** RTags
+
+=irony-mode= has not been a complete success for me, with a lot of
+timeouts or just not understanding other than basic method or function
+lookup. It's quite nice and easy to setup, but it leaves me wanting
+more. So I'm going to try out [[https://github.com/Andersbakken/rtags][rtags]] which is a more complete C++
+system, which provides autocomplete, diagnostics, refactoring and
+navigation.
+
+The problem is that it's a bit more complicated to setup, and tool
+support seems to be a bit lacking vs. separate tools such as
+=irony-mode= and =gtags=.
+
+And I have a untested mapping with navigation that uses =gtags= if =rtags=
+is not available.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package rtags
+    :requires company
+    :config
+    (rtags-enable-standard-keybindings c-mode-base-map)
+    (setq rtags-display-result-backend 'ivy)
+    (defun use-rtags (&optional useFileManager)
+      (and (rtags-executable-find "rc")
+           (cond ;((not (gtags-get-rootpath)) t)
+            ((and (not (eq major-mode 'c++-mode))
+                  (not (eq major-mode 'c-mode))) (rtags-has-filemanager))
+            (useFileManager (rtags-has-filemanager))
+            (t (rtags-is-indexed)))))
+
+    (defun tags-find-symbol-at-point (&optional prefix)
+      (interactive "P")
+      (if (and (not (rtags-find-symbol-at-point prefix)) rtags-last-request-not-indexed)
+          (helm-gtags-find-tag)))
+    (defun tags-find-references-at-point (&optional prefix)
+      (interactive "P")
+      (if (and (not (rtags-find-references-at-point prefix)) rtags-last-request-not-indexed)
+          (helm-gtags-find-rtag)))
+    (defun tags-find-symbol ()
+      (interactive)
+      (call-interactively (if (use-rtags) 'rtags-find-symbol 'helm-gtags-find-symbol)))
+    (defun tags-find-references ()
+      (interactive)
+      (call-interactively (if (use-rtags) 'rtags-find-references 'helm-gtags-find-rtag)))
+    (defun tags-find-file ()
+      (interactive)
+      (call-interactively (if (use-rtags t) 'rtags-find-file 'helm-gtags-find-files)))
+    (defun tags-imenu ()
+      (interactive)
+      (call-interactively (if (use-rtags t) 'rtags-imenu 'idomenu)))
+    (defun tags-previous ()
+      (interactive)
+      (call-interactively (if (use-rtags) 'rtags-location-stack-back 'helm-gtags-previous-history)))
+    (rtags-enable-standard-keybindings)
+    :bind (
+     :map c-mode-base-map
+     ("M-." . tags-find-symbol-at-point)
+     ("M-," . tags-previous)
+     ("C-." . tags-find-symbol)
+     ("C-," . tags-find-references)
+     ("C-c <" . rtags-previous-match)
+     ("C-c >" . rtags-next-match)
+     ("C-<left>" . rtags-previous-match)
+     ("C-<right>" . rtags-next-match)
+     ("C-\\" . rtags-display-summary)))
+#+END_SRC
+
+**** Irony
+
+For autocomplete use [[https://github.com/Sarcasm/irony-mode][irony-mode]], as it seems to be quite lightweight,
+but still quite feature complete. =company-mode= can do completion
+quite well without =irony-mode= but with =irony-mode= we get better
+project support and other tools.
+
+To get =irony-mode= working, you have to run =irony-install-server=
+command, and have =libclang= installed on your system. On a Mac you
+can install =libclang= with:
+
+#+BEGIN_SRC sh :tangle no
+  $ brew install llvm --with-clang
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp
+  (use-package irony
+    :init
+    (defun my-irony-mode-hook ()
+      (define-key irony-mode-map [remap completion-at-point]
+        'irony-completion-at-point-async)
+      (define-key irony-mode-map [remap complete-symbol]
+        'irony-completion-at-point-async))
+    :hook ((c++-mode c-mode objc-mode) . irony-mode)
+    :config
+    (add-hook 'irony-mode-hook 'my-irony-mode-hook)
+    (add-hook 'irony-mode-hook 'irony-cdb-autosetup-compile-options))
+
+  (use-package company-irony
+    :requires (company irony)
+    :config
+    (eval-after-load 'company '(add-to-list 'company-backends 'company-irony)))
+#+END_SRC
+
+Autocomplete C headers with =company=. Needs some work for project
+paths. For now I have just added a single include path from my system
+to get C++ headers.
+
+To set user headers, see =company-c-headers-path-user=.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package company-c-headers
+    :requires company
+    :config
+    (add-to-list 'company-backends 'company-c-headers))
+#+END_SRC
+
+Because =irony= mode can read compile options from multiple different
+project styles, it's convenient to use [[https://github.com/Sarcasm/flycheck-irony][flycheck-irony]] for =flycheck=.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package flycheck-irony
+    :requires (flycheck irony)
+    :config (eval-after-load 'flycheck '(add-to-list 'flycheck-checkers 'irony)))
+#+END_SRC
+
+There is also =irony-eldoc= for seeing function interfaces when you
+place the point on top of a function. It can only understand overloads
+by arity, but it's better than nothing.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package irony-eldoc
+    :requires (irony eldoc)
+    :hook (irony-mode . irony-eldoc))
+#+END_SRC
+
+**** CMake
+For editing CMake files:
+
+#+BEGIN_SRC emacs-lisp
+  (use-package cmake-mode
+    :mode "CMakeFiles.txt")
+#+END_SRC
+
+** Javascript
+
+I don't do it a lot, and when I do, it's usually in IntelliJ IDEA, but
+here goes some untested configuration copied from around the
+globe. I'll adjust them as I end up in a project where I have to do
+more Javascript.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package js2-mode
+    :mode "\\.js$"
+    :config (setq js2-basic-offset 2))
+#+END_SRC
+
+** elisp
+I don't like to have =checkdoc= warning in elisp with =flycheck=
+
+#+BEGIN_SRC emacs-lisp
+  (with-eval-after-load 'flycheck
+    (setq-default flycheck-disabled-checkers '(emacs-lisp-checkdoc)))
+#+END_SRC
+
+**** edebug
+Use tracing with edebug, hit =T=:
+
+#+BEGIN_SRC emacs-lisp
+  (setq edebug-trace t)
+#+END_SRC
+
+**** eldoc
+#+BEGIN_SRC emacs-lisp
+  (use-package eldoc
+    :diminish eldoc-mode
+    :config
+    (turn-on-eldoc-mode)
+    (add-hook 'emacs-lisp-mode-hook 'turn-on-eldoc-mode)
+    (add-hook 'lisp-interaction-mode-hook 'turn-on-eldoc-mode))
+#+END_SRC
+
+* Minor Modes
+** smex
+
+M-x replacement. Using it to augment =counsel-M-x=.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package smex)
+#+END_SRC
+
+** Ivy
+
+I have used [[https://github.com/emacs-helm/helm][Helm]] as a global completion and UI overhaul of emacs. I
+like it, but it feels like a really complicated beast, and I'm
+forgetting keybindings and stuff it can do. I'm going to try out
+[[https://github.com/abo-abo/swiper][Ivy]]/Counsel this time. Which is a simple auto completion package, with
+extra packages that does many of the things Helm does, but in a
+seemingly simpler way.
+
+Ivy, Swiper and Counsel are kind of interleaved, so I'm not sure where
+I should enable what. But the following works. =:demand= is used to
+force loading of the packages.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package ivy
+    :diminish ""
+    :demand t
+    :init
+    (setq ivy-use-virtual-buffers t
+          ivy-height 20
+          ivy-count-format "%d/%d "))
+#+END_SRC
+
+Add =ivy-hydra= to enable augmented UI features in swiper/counsel.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package ivy-hydra)
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp
+  (use-package swiper
+    :demand t
+    :requires ivy
+    :init (setq ivy-use-selectable-prompt t)
+    :bind (
+           ("C-s" . counsel-grep-or-swiper)
+           ("C-c v" . ivy-push-view)
+           ("C-c V" . ivy-pop-view)))
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp
+  (use-package counsel
+    :demand t
+    :requires (ivy smex)
+    :after (ivy smex)
+    :config
+    (ivy-mode 1)
+    :bind (("M-x" . counsel-M-x)
+           ("C-h C-h" . counsel-M-x)
+           ("C-x C-f" . counsel-find-file)
+           ("M-y" . counsel-yank-pop)
+           ("C-h b" . counsel-descbinds)
+           ("C-c f" . counsel-ag)
+           ("C-c g" . counsel-git-grep)))
+#+END_SRC
+
+** ivy-rich
+
+Ivy's switch buffer is quite bare after getting used to Helm. [[https://github.com/Yevgnen/ivy-rich][ivy-rich]]
+makes it closer to Helm.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package ivy-rich
+    :config
+    (setq
+     ivy-virtual-abbreviate 'full
+     ivy-rich-switch-buffer-align-virtual-buffer t
+     ivy-rich-switch-buffer-name-max-length 40
+     ivy-rich-path-style 'abbrev)
+    (ivy-set-display-transformer 'ivy-switch-buffer 'ivy-rich-switch-buffer-transformer))
+#+END_SRC
+
+** avy
+
+Bundle of movement stuff.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package avy
+    :demand t
+    :config (avy-setup-default)
+    :bind ("M-'" . avy-goto-char-timer))
+#+END_SRC
+
+** smartparens
+
+I have had a bit of trouble with [[https://github.com/Fuco1/smartparens][smartparens]] outside of lispy stuff,
+but still it seems I cannot live without it anymore.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package smartparens
+    :demand t
+    :diminish smartparens-mode
+    :config
+    (require 'smartparens-config)
+    (smartparens-global-mode t)
+    (show-smartparens-global-mode t)
+    (sp-use-paredit-bindings)
+    :bind (
+           :map sp-keymap
+                ("C-<left>" . nil)
+                ("C-<right>" . nil)
+                ("M-<up>" . nil)
+                ("M-<down>" . nil))
+    :hook (emacs-lisp-mode . smartparens-strict-mode))
+#+END_SRC
+
+** back-button
+
+Nice visual way of moving back and forth through mark-rings.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package back-button
+    :diminish ""
+    :config
+    (setq back-button-local-keystrokes nil)
+    (back-button-mode t)
+    :bind (("M--" . back-button-local-backward)
+           ("M-=" . back-button-local-forward)))
+#+END_SRC
+
+** diff-hl-mode
+
+Shows VC status at the left margin with a hook for =magit= to refresh
+the status when =magit= refreshes.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package diff-hl
+    :requires magit
+    :config
+    (global-diff-hl-mode)
+    (diff-hl-margin-mode)
+    (add-hook 'magit-post-refresh-hook 'diff-hl-magit-post-refresh))
+#+END_SRC
+
+** uniquify
+
+I don't like the default buffer name uniquefier style, which appends
+directory at the end of a non-unique buffer name, e.g. ~foo<bar/quux>~
+and ~foo<something/else>~. So set the style to =forward=, which skips
+the greatest common denominator directory:
+
+#+BEGIN_SRC emacs-lisp
+  (setq uniquify-buffer-name-style 'forward)
+  (setq uniquify-min-dir-content 2)
+#+END_SRC
+
+** expand-region
+
+This is a game changer of text editing in Emacs for me. In a way it
+replaces Vim's motion stuff for me, but visually.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package expand-region
+    :bind (("M-[" . er/contract-region)
+           ("M-]" . er/expand-region)))
+#+END_SRC
+
+** multiple-cursors
+
+After getting used to this, I use it more often than search&replace
+facilities. Except that it has a lot of compatibilty issues with
+different modes.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package multiple-cursors
+    :bind (("C-<" . mc/mark-previous-like-this)
+           ("C->" . mc/mark-next-like-this)
+           ("C-*" . mc/mark-all-like-this)))
+#+END_SRC
+
+** undo-tree
+
+Handle undo as a tree. More intuitive than emacs default for me.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package undo-tree
+    :diminish undo-tree-mode
+    :config
+    (global-undo-tree-mode)
+    (setq undo-tree-auto-save-history t
+          undo-tree-history-directory-alist `(("." . ,(expand-file-name "~/.emacs.d/undo-tree/")))))
+#+END_SRC
+
+** winner-mode
+Let's me undo and redo window configurations.
+
+#+BEGIN_SRC emacs-lisp
+  (winner-mode t)
+#+END_SRC
+
+** recentf
+
+#+BEGIN_SRC emacs-lisp
+  (use-package recentf
+    :config
+    (setq recentf-save-file "~/.emacs.d/recentf"
+          recentf-max-saved-items 500
+          recentf-max-menu-items 15
+          recentf-auto-cleanup 'never)
+    (recentf-mode t))
+#+END_SRC
+
+** company
+
+#+BEGIN_SRC emacs-lisp
+  (use-package company
+    :diminish company-mode
+    :hook (after-init . global-company-mode)
+    :bind ("M-/" . company-complete)
+    :config
+    (setq company-minimum-prefix-length 2
+          company-selection-wrap-around t
+          company-show-numbers t
+          company-tooltip-align-annotations t
+          company-require-match nil
+          company-dabbrev-downcase nil
+          company-dabbrev-ignore-case nil))
+#+END_SRC
+
+** flycheck
+
+Flycheck is a nice on the fly syntax / compilation checker.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package flycheck
+    :diminish global-flycheck-mode
+    :config
+    (add-hook 'after-init-hook #'global-flycheck-mode)
+    (add-hook 'c++-mode-hook (lambda () (setq flycheck-clang-language-standard "c++11"))))
+
+#+END_SRC
+
+** whitespace
+
+I like to see mistakes with indentation clearly.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package whitespace
+    :diminish ""
+    :config
+    (setq whitespace-style (quote (face indentation:space trailing tabs tab-mark)))
+    (global-whitespace-mode t))
+#+END_SRC
+
+** which-key
+
+Show a help window with modal commands.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package which-key
+    :diminish ""
+    :config (which-key-mode))
+#+END_SRC
+
+** saveplace
+
+Remember where I was when I last saved.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package saveplace
+    :config
+    (save-place-mode 1))
+#+END_SRC
+
+** ace-window
+
+Used for moving quicky between windows.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package ace-window
+    :ensure t
+    :defer t
+    :bind (("C-x o" . ace-window)
+           ("M-o" . ace-window))
+    :config
+    (set-face-attribute 'aw-leading-char-face nil :foreground "deep sky blue" :weight 'bold :height 3.0)
+    (set-face-attribute 'aw-mode-line-face nil :inherit 'mode-line-buffer-id :foreground "lawn green")
+    (setq aw-keys '(?a ?s ?d ?f ?j ?k ?l)
+          aw-background nil))
+#+END_SRC
+
+** visual-regexp-steroids
+
+There are a couple of problems with Emacs regexp search and replace.
+
+1. A lot of escaping, which I forget because it's inconsistent with
+   other regexp engines I'm using.
+2. You have to fly blind
+
+[[https://github.com/benma/visual-regexp-steroids.el/][visual-regexp-steroids]] tries to fix both of the problems. With a
+caveat that it requires Python for it to work.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package visual-regexp-steroids
+    :bind (("C-c r" . vr/replace)
+           ("C-c q" . vr/query-replace)))
+#+END_SRC
+
+* Emacs server
+#+BEGIN_SRC emacs-lisp
+  (server-start)
+#+END_SRC
+

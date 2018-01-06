@@ -8,3 +8,8 @@ projectile*
 savehist
 var
 emacs.el
+anaconda-mode
+private.el
+recentf
+smex-items
+elpa
