@@ -169,10 +169,14 @@ When executing shell commands from emacs, set =PATH= correctly. This
 slows down Emacs startup quite a lot depending on what the shell does.
 I have [[https://github.com/creationix/nvm][nvm]] installed, which slows it down quite a lot.
 
+For some reason I have to run it twice to get a final =PATH= should
+investigate why.
+
 #+BEGIN_SRC emacs-lisp
   (use-package exec-path-from-shell
     :if (memq window-system '(mac ns))
     :config
+    (exec-path-from-shell-initialize)
     (exec-path-from-shell-initialize))
 #+END_SRC
 
