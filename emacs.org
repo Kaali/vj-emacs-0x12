@@ -850,15 +850,23 @@ For editing CMake files:
 
 ** Javascript
 
-I don't do it a lot, and when I do, it's usually in IntelliJ IDEA, but
-here goes some untested configuration copied from around the
-globe. I'll adjust them as I end up in a project where I have to do
-more Javascript.
+Use =js2-mode= for syntax highlighting and for the AST that some
+packages require. And use [[https://github.com/emacs-lsp/lsp-javascript][lsp-javascript]] for navigation / auto
+complete functionality.
+
+Requires [[https://github.com/sourcegraph/javascript-typescript-langserver][Javascript Language Server]] to be installed. Install it with:
+
+#+BEGIN_SRC sh
+  npm install -g javascript-typescript-langserver
+#+END_SRC
 
 #+BEGIN_SRC emacs-lisp
   (use-package js2-mode
     :mode "\\.js$"
     :config (setq js2-basic-offset 2))
+
+  (use-package lsp-javascript-typescript
+    :hook (js2-mode . lsp-javascript-typescript-enable))
 #+END_SRC
 
 ** elisp
@@ -1191,6 +1199,20 @@ caveat that it requires Python for it to work.
   (use-package visual-regexp-steroids
     :bind (("C-c r" . vr/replace)
            ("C-c q" . vr/query-replace)))
+#+END_SRC
+
+** lsp-mode
+
+Try out [[https://github.com/emacs-lsp/lsp-mode][lsp-mode]] for language support. It's a Microsoft Language
+Server Protocol library.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package lsp-mode
+    :config
+    (with-eval-after-load 'lsp-mode
+      (require 'lsp-flycheck)))
+
+  (use-package company-lsp)
 #+END_SRC
 
 * Emacs server
