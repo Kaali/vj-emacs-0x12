@@ -1309,6 +1309,19 @@ Server Protocol library.
   (use-package company-lsp)
 #+END_SRC
 
+** lsp-ui
+
+Add some =lsp-mode= specific UI features. Because =lsp-ui-doc-mode= only
+supports Emacs 26 (and greater), it's limited by that.
+
+Not really sure if I like them, but just trying them out here.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package lsp-ui
+    :if (> emacs-major-version 26)
+    :hook (lsp-mode . lsp-ui-mode))
+#+END_SRC
+
 * Emacs server
 #+BEGIN_SRC emacs-lisp
   (server-start)
