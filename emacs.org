@@ -962,6 +962,14 @@ Use tracing with edebug, hit =T=:
     (add-hook 'lisp-interaction-mode-hook 'turn-on-eldoc-mode))
 #+END_SRC
 
+** lua
+
+#+BEGIN_SRC emacs-lisp
+  (use-package lua-mode
+    :mode "\\.lua$"
+    :interpreter "lua")
+#+END_SRC
+
 * Minor Modes
 ** smex
 
