@@ -348,19 +348,23 @@ Show column number and buffer size in the modeline.
   (size-indication-mode t)
 #+END_SRC
 
-Modify Emacs bell to just flash the modeline. It's a bit heavy, but
-better than the audible bell, and I'll still notice a bell.
+Reduce Emacs bells but keep it on as a visual bell.
+
+Previously I tried to flash the modeline but in some cases it made
+Emacs slow down a lot. Especially on Windows.
 
 Implementation is based on [[https://www.emacswiki.org/emacs/AlarmBell][AlarmBell Emacs Wiki]].
 
 #+BEGIN_SRC emacs-lisp
+  (setq visual-bell 1)
   (setq ring-bell-function
         (lambda ()
-          (let ((orig-fg (face-background 'mode-line)))
-            (set-face-background 'mode-line "#5fafd7")
-            (run-with-idle-timer 0.1 nil
-                                 (lambda (fg) (set-face-background 'mode-line fg))
-                                 orig-fg))))
+          (unless (memq this-command
+                        '(isearch-abort
+                          abort-recursive-edit 
+                          exit-minibuffer
+                          keyboard-quit))
+            (ding))))
 #+END_SRC
 
 ** Keyboard
