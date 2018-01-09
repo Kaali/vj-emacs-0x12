@@ -79,7 +79,8 @@ installed.
 Require use-package.
 
 #+BEGIN_SRC emacs-lisp
-  (require 'use-package)
+  (eval-when-compile
+    (require 'use-package))
 #+END_SRC
 
 Benchmark initialization of emacs to keep it quick.
