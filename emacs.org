@@ -192,12 +192,6 @@ splitting the active window:
 Setup backups and history.
 
 #+BEGIN_SRC emacs-lisp
-  (setq backup-directory-alist '(("." . "~/.emacs.d/backups")))
-  (setq delete-old-versions -1)
-  (setq version-control t)
-  (setq vc-make-backup-files t)
-  (setq auto-save-file-name-transforms '((".*" "~/.emacs.d/auto-save-list/" t)))
-
   (setq savehist-file "~/.emacs.d/savehist")
   (savehist-mode 1)
   (setq history-length t)
@@ -207,6 +201,28 @@ Setup backups and history.
         '(kill-ring
           search-ring
           regexp-search-ring))
+#+END_SRC
+
+Emacs 26 has a better auto save system, which actually auto saves the
+original file. That it what I actually want of a auto save system. So
+on Emacs 26 use the new auto save system and disable backups as they
+are not needed anymore. And I have never actually restored a old
+backup from Emacs so it's not necessary for that either.
+
+#+BEGIN_SRC emacs-lisp
+  (if (>= emacs-major-version 26)
+      (progn
+        (auto-save-visited-mode t)
+        (setq auto-save-timeout 30
+              auto-save-interval 300
+              make-backup-files nil))
+    (progn
+      (setq backup-directory-alist '(("." . "~/.emacs.d/backups")))
+      (setq delete-old-versions -1)
+      (setq version-control t)
+      (setq vc-make-backup-files t)
+      (setq auto-save-file-name-transforms '((".*" "~/.emacs.d/auto-save-list/" t)))
+  ))
 #+END_SRC
 
 ** Indentation
