@@ -971,6 +971,14 @@ Use tracing with edebug, hit =T=:
     :interpreter "lua")
 #+END_SRC
 
+** ibuffer
+
+Use ibuffer instead of list-buffers.
+
+#+BEGIN_SRC emacs-lisp
+  (bind-key "C-x C-b" 'ibuffer)
+#+END_SRC
+
 * Minor Modes
 ** smex
 
