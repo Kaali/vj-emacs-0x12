@@ -110,12 +110,6 @@ Make certain that emacs never loads outdated code, by using
   (setq load-prefer-newer t)
 #+END_SRC
 
-** Setup some extra elisp tools to make scripting simpler
-
-#+BEGIN_SRC emacs-lisp
-  (use-package dash)
-#+END_SRC
-
 * Global configuration
 
 Include mainly emacs configuration, with packages only for theming.
@@ -292,12 +286,11 @@ in fullscreen-mode, then fake it rather than using native stuff:
 Set a font.
 
 #+BEGIN_SRC emacs-lisp
-  (require 'dash)
-
-  ;; from https://www.emacswiki.org/emacs/SetFonts
+  ;; adapted from https://www.emacswiki.org/emacs/SetFonts
+  (require 'seq)
   (defun font-candidate (&rest fonts)
     "Return the first available font."
-    (--first (find-font (font-spec :name it)) fonts))
+    (seq-find (lambda (x) (find-font (font-spec :name x))) fonts))
 
   (set-frame-font (font-candidate "Input-13" "DejaVu Sans Mono-9"))
   (set-face-attribute 'default (selected-frame))
