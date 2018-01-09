@@ -292,7 +292,7 @@ Set a font.
     "Return the first available font."
     (seq-find (lambda (x) (find-font (font-spec :name x))) fonts))
 
-  (set-frame-font (font-candidate "Input-13" "DejaVu Sans Mono-9"))
+  (set-frame-font (font-candidate "Input-13" "DejaVu Sans Mono-9" "Consolas-9"))
   (set-face-attribute 'default (selected-frame))
 #+END_SRC
 
