@@ -86,12 +86,7 @@ Require use-package.
 Benchmark initialization of emacs to keep it quick.
 
 #+BEGIN_SRC emacs-lisp
-  (use-package benchmark-init
-    :ensure t
-    :config
-    ;; To disable collection of benchmark data after init is done.
-    (add-hook 'after-init-hook 'benchmark-init/deactivate))
-
+  (setq use-package-compute-statistics t)
 #+END_SRC
 
 Add [[https://github.com/emacsmirror/diminish][diminish]] and bind-key support to =use-package=
