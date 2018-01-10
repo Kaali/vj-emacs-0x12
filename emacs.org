@@ -270,17 +270,19 @@ open more than one compilation buffer:
 #+END_SRC
 
 ** Mac settings
+
 Setup Mac keyboard to be close to Linux.
 
 #+BEGIN_SRC emacs-lisp
-  (if (eq system-type 'darwin)
-    (setq mac-pass-option-to-system nil
-          mac-pass-control-to-system nil
-          mac-pass-command-to-system nil
-          mac-command-key-is-meta nil
-          mac-command-modifier 'hyper
-          mac-option-modifier 'meta
-          mac-control-modifier 'control))
+    (if (eq system-type 'darwin)
+      (setq mac-pass-option-to-system nil
+            mac-pass-control-to-system nil
+            mac-pass-command-to-system nil
+            mac-command-key-is-meta t
+            mac-option-key-is-meta nil
+            mac-command-modifier 'meta
+            mac-option-modifier nil
+            mac-control-modifier 'control))
 #+END_SRC
 
 Use macOS default browser for urls:
