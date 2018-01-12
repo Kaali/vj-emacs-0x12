@@ -682,8 +682,7 @@ Project management support.
      projectile-keymap-prefix (kbd "C-c p")
      projectile-completion-system 'ivy
      projectile-enable-caching t
-     projectile-indexing-method 'alien)
-    :bind-keymap ("M-p" . projectile-command-map))
+     projectile-indexing-method 'alien))
 #+END_SRC
 
 Projectile counsel support.
