@@ -1303,7 +1303,11 @@ Combine all the navigation tools under a single umbrella with
 #+BEGIN_SRC emacs-lisp
   (use-package smart-jump
     :config
-    (smart-jump-setup-default-registers))
+    (smart-jump-setup-default-registers)
+    ; Replace the default elisp registration as I don't have slime and it doesn't
+    ; work without it
+    (smart-jump-register :modes '(emacs-lisp-mode lisp-interaction-mode))
+  )
 #+END_SRC
 
 * Emacs server
