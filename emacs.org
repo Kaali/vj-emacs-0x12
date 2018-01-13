@@ -1140,7 +1140,7 @@ Handle undo as a tree. More intuitive than emacs default for me.
     :diminish undo-tree-mode
     :config
     (global-undo-tree-mode)
-    (setq undo-tree-auto-save-history t
+    (setq undo-tree-auto-save-history nil
           undo-tree-history-directory-alist `(("." . ,(expand-file-name "~/.emacs.d/undo-tree/")))))
 #+END_SRC
 
