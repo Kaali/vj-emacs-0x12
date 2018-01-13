@@ -749,58 +749,12 @@ The problem is that it's a bit more complicated to setup, and tool
 support seems to be a bit lacking vs. separate tools such as
 =irony-mode= and =gtags=.
 
-And I have a untested mapping with navigation that uses =gtags= if =rtags=
-is not available.
-
 #+BEGIN_SRC emacs-lisp
   (use-package rtags
     :requires company
     :config
     (rtags-enable-standard-keybindings c-mode-base-map)
-    (setq rtags-display-result-backend 'ivy)
-    (defun use-rtags (&optional useFileManager)
-      (and (rtags-executable-find "rc")
-           (cond ;((not (gtags-get-rootpath)) t)
-            ((and (not (eq major-mode 'c++-mode))
-                  (not (eq major-mode 'c-mode))) (rtags-has-filemanager))
-            (useFileManager (rtags-has-filemanager))
-            (t (rtags-is-indexed)))))
-
-    (defun tags-find-symbol-at-point (&optional prefix)
-      (interactive "P")
-      (if (and (not (rtags-find-symbol-at-point prefix)) rtags-last-request-not-indexed)
-          (helm-gtags-find-tag)))
-    (defun tags-find-references-at-point (&optional prefix)
-      (interactive "P")
-      (if (and (not (rtags-find-references-at-point prefix)) rtags-last-request-not-indexed)
-          (helm-gtags-find-rtag)))
-    (defun tags-find-symbol ()
-      (interactive)
-      (call-interactively (if (use-rtags) 'rtags-find-symbol 'helm-gtags-find-symbol)))
-    (defun tags-find-references ()
-      (interactive)
-      (call-interactively (if (use-rtags) 'rtags-find-references 'helm-gtags-find-rtag)))
-    (defun tags-find-file ()
-      (interactive)
-      (call-interactively (if (use-rtags t) 'rtags-find-file 'helm-gtags-find-files)))
-    (defun tags-imenu ()
-      (interactive)
-      (call-interactively (if (use-rtags t) 'rtags-imenu 'idomenu)))
-    (defun tags-previous ()
-      (interactive)
-      (call-interactively (if (use-rtags) 'rtags-location-stack-back 'helm-gtags-previous-history)))
-    (rtags-enable-standard-keybindings)
-    :bind (
-     :map c-mode-base-map
-     ("M-." . tags-find-symbol-at-point)
-     ("M-," . tags-previous)
-     ("C-." . tags-find-symbol)
-     ("C-," . tags-find-references)
-     ("C-c <" . rtags-previous-match)
-     ("C-c >" . rtags-next-match)
-     ("C-<left>" . rtags-previous-match)
-     ("C-<right>" . rtags-next-match)
-     ("C-\\" . rtags-display-summary)))
+    (setq rtags-display-result-backend 'ivy))
 #+END_SRC
 
 **** Irony
@@ -1326,6 +1280,30 @@ Not really sure if I like them, but just trying them out here.
   (use-package lsp-ui
     :if (> emacs-major-version 26)
     :hook (lsp-mode . lsp-ui-mode))
+#+END_SRC
+
+** dumb-jump
+
+[[https://github.com/jacktasia/dumb-jump][dumb-jump]] is a navigation tool, that uses some regex magic and the
+best available grepping tool to find symbols in a project. The idea is
+quite nice, as harddrives and greppers are so fast, that in many cases
+you don't actually need indexing.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package dumb-jump
+    :config
+    (setq dumb-jump-selector 'ivy))
+#+END_SRC
+
+** smart-jump
+
+Combine all the navigation tools under a single umbrella with
+[[https://github.com/jojojames/smart-jump][smart-jump]].
+
+#+BEGIN_SRC emacs-lisp
+  (use-package smart-jump
+    :config
+    (smart-jump-setup-default-registers))
 #+END_SRC
 
 * Emacs server
