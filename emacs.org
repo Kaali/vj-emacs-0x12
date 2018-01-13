@@ -418,6 +418,10 @@ Setup better defaults for Emacs keybindings:
   ;; I want to use regexps by default with query-replace
   (bind-key "M-%" 'query-replace-regexp)
   (bind-key "C-M-%" 'query-replace)
+
+  ;; Kill this buffer by default
+  (bind-key "C-x k" 'kill-this-buffer)
+  (bind-key "C-x K" 'kill-buffer)
 #+END_SRC
 
 I use join-line a lot:
