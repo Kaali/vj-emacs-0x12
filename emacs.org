@@ -647,8 +647,10 @@ done with =ediff=.
 
 #+BEGIN_SRC emacs-lisp
   (use-package eshell
+    :preface
+    (defun vj--new-eshell () (interactive) (eshell t))
     :bind (("C-x m" . eshell)
-           ("C-x M" . (lambda () (interactive) (eshell t)))))
+           ("C-x M" . vj--new-eshell)))
 #+END_SRC
 
 ** dired and dired+
