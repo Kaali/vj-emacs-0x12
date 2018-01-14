@@ -985,6 +985,15 @@ to =ibuffer=.
                        (ibuffer-update nil t))))
 #+END_SRC
 
+** wgrep
+
+For mass editing search results. [[Ivy]] also supports =wgrep= so keep it
+loaded.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package wgrep)
+#+END_SRC
+
 * Minor Modes
 ** smex
 
