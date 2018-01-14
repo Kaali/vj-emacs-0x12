@@ -1393,6 +1393,15 @@ Use [[https://github.com/larstvei/Try][Try]] for testing out packages.
     :commands try)
 #+END_SRC
 
+** free-keys
+
+[[https://github.com/Fuco1/free-keys][free-keys]] is a simple tool to list free keybindings in the current
+buffer.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package free-keys
+    :commands free-keys)
+#+END_SRC
 * Emacs server
 #+BEGIN_SRC emacs-lisp
   (server-start)
