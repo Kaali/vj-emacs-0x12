@@ -339,10 +339,7 @@ and see if it's too tiring.
 #+BEGIN_SRC emacs-lisp
   (use-package moe-theme
     :config
-    (moe-light)
-    (custom-set-faces
-     '(company-tooltip-annotation ((t (:background "#3a3a3a" :foreground "#9e9e9e"))))
-     '(magit-branch-current ((t (:foreground "#3a3a3a"))))))
+    (moe-light))
 #+END_SRC
 
 I like to see empty lines in the buffer as a fringe on the left.
@@ -578,6 +575,8 @@ between three different whitespace amount around a point:
 
 #+BEGIN_SRC emacs-lisp
   (use-package magit
+    :custom-face
+    (magit-branch-current ((t (:foreground "#3a3a3a"))))
     :config
     (setq
      magit-completing-read-function 'ivy-completing-read
@@ -1170,6 +1169,8 @@ Let's me undo and redo window configurations.
     :diminish company-mode
     :hook (after-init . global-company-mode)
     :bind ("M-/" . company-complete)
+    :custom-face
+    (company-tooltip-annotation ((t (:background "#3a3a3a" :foreground "#9e9e9e"))))
     :config
     (setq company-minimum-prefix-length 2
           company-selection-wrap-around t
@@ -1236,10 +1237,10 @@ Used for moving quicky between windows.
     :bind (("C-x o" . ace-window)
            ("M-o" . ace-window))
     :config
-    (set-face-attribute 'aw-leading-char-face nil :foreground "deep sky blue" :weight 'bold :height 3.0)
-    (set-face-attribute 'aw-mode-line-face nil :inherit 'mode-line-buffer-id :foreground "lawn green")
     (setq aw-keys '(?a ?s ?d ?f ?j ?k ?l)
-          aw-background nil))
+          aw-background nil)
+    :custom-face
+    (aw-leading-char-face ((t (:foreground "3a3a3a" :weight bold :height 3.0)))))
 #+END_SRC
 
 ** visual-regexp-steroids
