@@ -586,6 +586,23 @@ between three different whitespace amount around a point:
     :bind ("C-x g" . magit-status))
 #+END_SRC
 
+Also install [[https://github.com/magit/git-modes][git-modes]] from =Magit= to make editing git files a bit
+better.
+
+They are actually released as three packages, and to setup the
+autoloads, they have to be required.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package gitconfig-mode
+    :config (require 'gitconfig-mode))
+
+  (use-package gitattributes-mode
+    :config (require 'gitattributes-mode))
+
+  (use-package gitignore-mode
+    :config (require 'gitignore-mode))
+#+END_SRC
+
 ** yaml
 
 #+BEGIN_SRC emacs-lisp
