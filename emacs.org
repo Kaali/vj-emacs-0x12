@@ -154,6 +154,7 @@ Revert changed files automatically if I haven't touched them:
 
 #+BEGIN_SRC emacs-lisp
   (global-auto-revert-mode t)
+  (diminish 'auto-revert)
 #+END_SRC
 
 Mark-ring is navigable by typing =C-u C-SPC= and then repeating
