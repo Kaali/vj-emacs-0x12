@@ -1353,6 +1353,15 @@ Combine all the navigation tools under a single umbrella with
   )
 #+END_SRC
 
+** try
+
+Use [[https://github.com/larstvei/Try][Try]] for testing out packages.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package try
+    :commands try)
+#+END_SRC
+
 * Emacs server
 #+BEGIN_SRC emacs-lisp
   (server-start)
