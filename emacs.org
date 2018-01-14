@@ -1047,7 +1047,9 @@ force loading of the packages.
           ; don't use an initial input for ivy
           ivy-initial-inputs-alist nil
           ; allow regexp in any order
-          ivy-re-builders-alist '((t . ivy--regex-ignore-order))))
+          ivy-re-builders-alist '((t . ivy--regex-ignore-order)))
+    :custom-face
+    (ivy-current-match ((t (:background "#3a3a3a")))))
 #+END_SRC
 
 Add =ivy-hydra= to enable augmented UI features in swiper/counsel.
