@@ -943,7 +943,44 @@ Use tracing with edebug, hit =T=:
 Use ibuffer instead of list-buffers.
 
 #+BEGIN_SRC emacs-lisp
-  (bind-key "C-x C-b" 'ibuffer)
+  (use-package ibuffer
+    :commands ibuffer
+    :bind ("C-x C-b" . ibuffer))
+#+END_SRC
+
+Use [[https://github.com/purcell/ibuffer-vc][ibuffer-vc]] to add version control information and project grouping
+to =ibuffer=.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package ibuffer-vc
+    :commands ibuffer-vc-set-filter-groups-by-vc-root
+    :config
+    (setq ibuffer-formats
+        '((mark modified read-only vc-status-mini " "
+                (name 18 18 :left :elide)
+                " "
+                (size 9 -1 :right)
+                " "
+                (mode 16 16 :left :elide)
+                " "
+                (vc-status 16 16 :left)
+                " "
+                filename-and-process))
+        ibuffer-show-empty-filter-groups nil)
+    :hook (ibuffer . (lambda ()
+                       (setq ibuffer-filter-groups
+                             (append
+                              '(
+                                ("Emacs"
+                                 (or
+                                  (name . "^\\*scratch\\*$")
+                                  (name . "^\\*Messages\\*$")))
+                                ("Special buffers"
+                                 (name . "^\\*.*\\*$")))
+                              (ibuffer-vc-generate-filter-groups-by-vc-root)))
+                       (unless (eq ibuffer-sorting-mode 'alphabetic)
+                         (ibuffer-do-sort-by-filename/process))
+                       (ibuffer-update nil t))))
 #+END_SRC
 
 * Minor Modes
