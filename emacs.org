@@ -146,6 +146,8 @@ Some really basic self-explanatory settings:
   (set-language-environment "UTF-8")
   (prefer-coding-system 'utf-8)
   (setq locale-coding-system 'utf-8)
+
+  (setq mouse-yank-at-point t)
 #+END_SRC
 
 Revert changed files automatically if I haven't touched them:
