@@ -1023,6 +1023,7 @@ makes it closer to Helm.
 
 #+BEGIN_SRC emacs-lisp
   (use-package ivy-rich
+    :demand t
     :config
     (setq
      ivy-virtual-abbreviate 'full
