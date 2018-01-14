@@ -214,7 +214,7 @@ backup from Emacs so it's not necessary for that either.
       (progn
         (auto-save-visited-mode t)
         (setq auto-save-timeout 30
-              auto-save-interval 300
+              auto-save-interval 0
               make-backup-files nil))
     (progn
       (setq backup-directory-alist '(("." . "~/.emacs.d/backups")))
