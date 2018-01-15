@@ -408,12 +408,9 @@ Setup better defaults for Emacs keybindings:
   (bind-key "RET" 'newline-and-indent)
 
   ;; Use regex searches by default.
-  (bind-key "C-s" 'isearch-forward-regexp)
   (bind-key "C-r" 'isearch-backward-regexp)
   (bind-key "C-M-s" 'isearch-forward)
   (bind-key "C-M-r" 'isearch-backward)
-
-  (bind-key "C-o" 'isearch-occur isearch-mode-map)
 
   ;; I want to use regexps by default with query-replace
   (bind-key "M-%" 'query-replace-regexp)
