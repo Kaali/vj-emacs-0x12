@@ -898,6 +898,23 @@ loaded.
   (use-package wgrep)
 #+END_SRC
 
+** json
+
+Use a proper [[https://github.com/joshwnj/json-mode][json-mode]]e instead of =j2-mode=. Prettier colors and a
+formatter.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package json-mode
+    :mode "\\.json$")
+#+END_SRC
+
+Also install [[https://github.com/Sterlingg/json-snatcher][json-snatcher]] for getting those json paths easily.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package json-snatcher
+    :commands jsons-print-path)
+#+END_SRC
+
 * Minor Modes
 ** smex
 
