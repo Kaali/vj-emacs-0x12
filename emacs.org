@@ -99,17 +99,6 @@ Add [[https://github.com/emacsmirror/diminish][diminish]] and bind-key support t
   (require 'bind-key)
 #+END_SRC
 
-** Setup auto compilation
-
-Make certain that emacs never loads outdated code, by using
-[[https://github.com/emacscollective/auto-compile][auto-compile]] package.
-
-#+BEGIN_SRC emacs-lisp
-  (use-package auto-compile
-               :config (auto-compile-on-load-mode))
-  (setq load-prefer-newer t)
-#+END_SRC
-
 * Global configuration
 
 Include mainly emacs configuration, with packages only for theming.
