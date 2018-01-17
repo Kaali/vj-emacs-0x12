@@ -330,7 +330,8 @@ shortening.
 
 #+BEGIN_SRC emacs-lisp
   (use-package smart-mode-line
-    :config (sml/setup))
+    :config
+    (sml/setup))
 #+END_SRC
 
 Setup a light theme. I like dark [[https://github.com/kuanyui/moe-theme.el][moe-theme]], but this time I'm trying
@@ -341,6 +342,8 @@ and see if it's too tiring.
 
 #+BEGIN_SRC emacs-lisp
   (use-package moe-theme
+    :demand t
+    :after smart-mode-line
     :config
     (moe-light))
 #+END_SRC
@@ -472,20 +475,26 @@ between three different whitespace amount around a point:
 #+END_SRC
 
 Also install [[https://github.com/magit/git-modes][git-modes]] from =Magit= to make editing git files a bit
-better.
-
-They are actually released as three packages, and to setup the
-autoloads, they have to be required.
+better. They are actually released as three packages.
 
 #+BEGIN_SRC emacs-lisp
   (use-package gitconfig-mode
-    :config (require 'gitconfig-mode))
+    :mode ("/\\.gitconfig\\'"
+           "/\\.git/config\\'"
+           "/modules/.*/config\\'"
+           "/git/config\\'"
+           "/\\.gitmodules\\'"
+           "/etc/gitconfig\\'"))
 
   (use-package gitattributes-mode
-    :config (require 'gitattributes-mode))
+    :mode ("/\\.gitattributes\\'"
+           "/info/attributes\\'"
+           "/git/attributes\\'"))
 
   (use-package gitignore-mode
-    :config (require 'gitignore-mode))
+    :mode ("/\\.gitignore\\'"
+           "/info/exclude\\'"
+           "/git/ignore\\'"))
 #+END_SRC
 
 ** yaml
@@ -542,12 +551,10 @@ done with =ediff=.
 Small dired customizations
 
 #+BEGIN_SRC emacs-lisp
-  (setq dired-auto-revert-buffer t)
-
   (use-package dired+
-    :defer t
-    :requires dired
+    :commands dired
     :config
+    (setq dired-auto-revert-buffer t)
     (toggle-diredp-find-file-reuse-dir 1)
     (setq diredp-hide-details-initially-flag nil)
     (setq diredp-hide-details-propagate-flag nil))
@@ -574,7 +581,7 @@ org-mode is excellent, I just use it too little.
 
 #+BEGIN_SRC emacs-lisp
   (use-package org-bullets
-    :requires org
+    :after org
     :hook (org-mode .  (lambda () (org-bullets-mode 1))))
 #+END_SRC
 
@@ -584,22 +591,23 @@ Project management support.
 
 #+BEGIN_SRC emacs-lisp
   (use-package projectile
-    :diminish ""
-    :demand t
+    :diminish
+    :defer 5
     :init
     (setq
      projectile-keymap-prefix (kbd "C-c p")
      projectile-completion-system 'ivy
      projectile-enable-caching t
-     projectile-indexing-method 'alien))
+     projectile-indexing-method 'alien)
+    :config
+    (projectile-global-mode))
 #+END_SRC
 
 Projectile counsel support.
 
 #+BEGIN_SRC emacs-lisp
   (use-package counsel-projectile
-    :demand t
-    :requires projectile
+    :after (counsel projectile)
     :config (counsel-projectile-mode))
 #+END_SRC
 
@@ -622,12 +630,13 @@ Setup Anaconda mode for Python autocomplete and navigation.
 
 #+BEGIN_SRC emacs-lisp
   (use-package anaconda-mode
+    :after python
     :commands anaconda-mode
     :hook ((python-mode . anaconda-mode)
            (python-mode . anaconda-eldoc-mode)))
 
   (use-package company-anaconda
-    :defer t
+    :after (python anaconda-mode)
     :hook (anaconda-mode . (lambda () (add-to-list 'company-backends 'company-anaconda))))
 #+END_SRC
 
@@ -660,7 +669,8 @@ support seems to be a bit lacking vs. separate tools such as
 
 #+BEGIN_SRC emacs-lisp
   (use-package rtags
-    :requires company
+    :after company
+    :commands rtags-mode
     :config
     (rtags-enable-standard-keybindings c-mode-base-map)
     (setq rtags-display-result-backend 'ivy))
@@ -695,7 +705,7 @@ can install =libclang= with:
     (add-hook 'irony-mode-hook 'irony-cdb-autosetup-compile-options))
 
   (use-package company-irony
-    :requires (company irony)
+    :after (company irony)
     :config
     (eval-after-load 'company '(add-to-list 'company-backends 'company-irony)))
 #+END_SRC
@@ -708,7 +718,7 @@ To set user headers, see =company-c-headers-path-user=.
 
 #+BEGIN_SRC emacs-lisp
   (use-package company-c-headers
-    :requires company
+    :after company
     :config
     (add-to-list 'company-backends 'company-c-headers))
 #+END_SRC
@@ -718,7 +728,7 @@ project styles, it's convenient to use [[https://github.com/Sarcasm/flycheck-iro
 
 #+BEGIN_SRC emacs-lisp
   (use-package flycheck-irony
-    :requires (flycheck irony)
+    :after (flycheck irony)
     :config (eval-after-load 'flycheck '(add-to-list 'flycheck-checkers 'irony)))
 #+END_SRC
 
@@ -728,7 +738,7 @@ by arity, but it's better than nothing.
 
 #+BEGIN_SRC emacs-lisp
   (use-package irony-eldoc
-    :requires (irony eldoc)
+    :after (irony eldoc)
     :hook (irony-mode . irony-eldoc))
 #+END_SRC
 
@@ -765,7 +775,7 @@ Use [[https://github.com/magnars/js2-refactor.el][js2-refactor]] for refactoring
 
 #+BEGIN_SRC emacs-lisp
   (use-package js2-refactor
-    :requires hydra
+    :after (js2-mode hydra)
     :hook (js2-mode . js2-refactor-mode)
     :bind ("C-c <C-m>" . js2-refactor-hydra/body)
     :config
@@ -830,10 +840,7 @@ Use tracing with edebug, hit =T=:
 #+BEGIN_SRC emacs-lisp
   (use-package eldoc
     :diminish eldoc-mode
-    :config
-    (turn-on-eldoc-mode)
-    (add-hook 'emacs-lisp-mode-hook 'turn-on-eldoc-mode)
-    (add-hook 'lisp-interaction-mode-hook 'turn-on-eldoc-mode))
+    :hook ((c-mode-common emacs-lisp-mode lisp-interaction-mode-hook) . eldoc-mode))
 #+END_SRC
 
 ** lua
@@ -859,6 +866,7 @@ to =ibuffer=.
 
 #+BEGIN_SRC emacs-lisp
   (use-package ibuffer-vc
+    :after ibuffer
     :commands ibuffer-vc-set-filter-groups-by-vc-root
     :config
     (setq ibuffer-formats
@@ -895,7 +903,8 @@ For mass editing search results. [[Ivy]] also supports =wgrep= so keep it
 loaded.
 
 #+BEGIN_SRC emacs-lisp
-  (use-package wgrep)
+  (use-package wgrep
+    :defer 5)
 #+END_SRC
 
 ** json
@@ -921,7 +930,9 @@ Also install [[https://github.com/Sterlingg/json-snatcher][json-snatcher]] for g
 M-x replacement. Using it to augment =counsel-M-x=.
 
 #+BEGIN_SRC emacs-lisp
-  (use-package smex)
+  (use-package smex
+    :defer 5
+    :commands smex)
 #+END_SRC
 
 ** Ivy
@@ -956,13 +967,13 @@ force loading of the packages.
 Add =ivy-hydra= to enable augmented UI features in swiper/counsel.
 
 #+BEGIN_SRC emacs-lisp
-  (use-package ivy-hydra)
+  (use-package ivy-hydra
+    :after ivy)
 #+END_SRC
 
 #+BEGIN_SRC emacs-lisp
   (use-package swiper
-    :demand t
-    :requires ivy
+    :after ivy
     :init (setq ivy-use-selectable-prompt t)
     :bind (
            ("C-s" . counsel-grep-or-swiper)
@@ -973,8 +984,8 @@ Add =ivy-hydra= to enable augmented UI features in swiper/counsel.
 #+BEGIN_SRC emacs-lisp
   (use-package counsel
     :demand t
-    :requires (ivy smex)
-    :after (ivy smex)
+    :after ivy
+    :commands counsel-minibuffer-history
     :config
     (ivy-mode 1)
     (setq counsel-find-file-at-point t)
@@ -1023,7 +1034,7 @@ but still it seems I cannot live without it anymore.
 
 #+BEGIN_SRC emacs-lisp
   (use-package smartparens
-    :demand t
+    :defer 5
     :diminish smartparens-mode
     :config
     (require 'smartparens-config)
@@ -1045,6 +1056,7 @@ Nice visual way of moving back and forth through mark-rings.
 
 #+BEGIN_SRC emacs-lisp
   (use-package back-button
+    :defer 5
     :diminish ""
     :config
     (setq back-button-local-keystrokes nil)
@@ -1060,7 +1072,7 @@ the status when =magit= refreshes.
 
 #+BEGIN_SRC emacs-lisp
   (use-package diff-hl
-    :demand t
+    :defer 5
     :hook (magit-post-refresh . diff-hl-magit-post-refresh)
     :config
     (global-diff-hl-mode)
@@ -1110,6 +1122,7 @@ Handle undo as a tree. More intuitive than emacs default for me.
 #+BEGIN_SRC emacs-lisp
   (use-package undo-tree
     :diminish undo-tree-mode
+    :demand t
     :config
     (global-undo-tree-mode)
     (setq undo-tree-auto-save-history nil
@@ -1139,6 +1152,7 @@ Let's me undo and redo window configurations.
 
 #+BEGIN_SRC emacs-lisp
   (use-package company
+    :defer 5
     :diminish company-mode
     :hook (after-init . global-company-mode)
     :bind ("M-/" . company-complete)
@@ -1173,9 +1187,9 @@ Flycheck is a nice on the fly syntax / compilation checker.
 #+BEGIN_SRC emacs-lisp
   (use-package flycheck
     :diminish global-flycheck-mode
-    :config
-    (add-hook 'after-init-hook #'global-flycheck-mode)
-    (add-hook 'c++-mode-hook (lambda () (setq flycheck-clang-language-standard "c++11"))))
+    :hook ((prog-mode-hook . flycheck-mode)
+           (c++-mode-hook . (lambda () (setq flycheck-clang-language-standard "c++11"))))
+    :commands (flycheck-mode flycheck-next-error flycheck-previous-error))
 
 #+END_SRC
 
@@ -1198,6 +1212,8 @@ Show a help window with modal commands.
 #+BEGIN_SRC emacs-lisp
   (use-package which-key
     :diminish ""
+    :defer 5
+    :commands which-key-mode
     :config (which-key-mode))
 #+END_SRC
 
@@ -1217,8 +1233,7 @@ Used for moving quicky between windows.
 
 #+BEGIN_SRC emacs-lisp
   (use-package ace-window
-    :ensure t
-    :defer t
+    :commands ace-window
     :bind (("C-x o" . ace-window)
            ("M-o" . ace-window))
     :config
@@ -1241,6 +1256,7 @@ caveat that it requires Python for it to work.
 
 #+BEGIN_SRC emacs-lisp
   (use-package visual-regexp-steroids
+    :commands (vr/replace vr/query-replace)
     :bind (("C-c r" . vr/replace)
            ("C-c q" . vr/query-replace)))
 #+END_SRC
@@ -1252,11 +1268,13 @@ Server Protocol library.
 
 #+BEGIN_SRC emacs-lisp
   (use-package lsp-mode
+    :defer 5
     :config
     (with-eval-after-load 'lsp-mode
       (require 'lsp-flycheck)))
 
-  (use-package company-lsp)
+  (use-package company-lsp
+    :after (company lsp-mode))
 #+END_SRC
 
 ** lsp-ui
@@ -1268,6 +1286,7 @@ Not really sure if I like them, but just trying them out here.
 
 #+BEGIN_SRC emacs-lisp
   (use-package lsp-ui
+    :after lsp-mode
     :if (> emacs-major-version 26)
     :hook (lsp-mode . lsp-ui-mode))
 #+END_SRC
@@ -1281,6 +1300,7 @@ you don't actually need indexing.
 
 #+BEGIN_SRC emacs-lisp
   (use-package dumb-jump
+    :defer 5
     :config
     (setq dumb-jump-selector 'ivy))
 #+END_SRC
@@ -1292,7 +1312,8 @@ Combine all the navigation tools under a single umbrella with
 
 #+BEGIN_SRC emacs-lisp
   (use-package smart-jump
-    :demand t
+    :defer 5
+    :commands smart-jump-go
     :config
     (smart-jump-setup-default-registers)
     ; Replace the default elisp registration as I don't have slime and it doesn't
@@ -1341,12 +1362,15 @@ snippets, and a quick snippet creation mode: [[https://github.com/abo-abo/auto-y
 
 #+BEGIN_SRC emacs-lisp
   (use-package yasnippet
-    :after prog-mode
+    :defer 10
     :diminish yas-minor-mode
+    :commands yas-expand
     :config
     (yas-global-mode 1))
-  (use-package yasnippet-snippets)
-  (use-package auto-yasnippet)
+  (use-package yasnippet-snippets
+    :after yasnippet)
+  (use-package auto-yasnippet
+    :after yasnippet)
 #+END_SRC
 
 ** crux
