@@ -399,6 +399,7 @@ Setup better defaults for Emacs keybindings:
   (bind-key "RET" 'newline-and-indent)
 
   ;; Use regex searches by default.
+  (bind-key "C-s" 'isearch-forward-regexp)
   (bind-key "C-r" 'isearch-backward-regexp)
   (bind-key "C-M-s" 'isearch-forward)
   (bind-key "C-M-r" 'isearch-backward)
@@ -965,7 +966,7 @@ Add =ivy-hydra= to enable augmented UI features in swiper/counsel.
     :after ivy
     :init (setq ivy-use-selectable-prompt t)
     :bind (
-           ("C-s" . counsel-grep-or-swiper)
+           ("C-M-s" . counsel-grep-or-swiper)
            ("C-c v" . ivy-push-view)
            ("C-c V" . ivy-pop-view)))
 #+END_SRC
