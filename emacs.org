@@ -164,7 +164,6 @@ investigate why.
   (use-package exec-path-from-shell
     :unless (memq window-system '(w32))
     :config
-    (exec-path-from-shell-initialize)
     (exec-path-from-shell-initialize))
 #+END_SRC
 
