@@ -322,18 +322,17 @@ shortening.
     (sml/setup))
 #+END_SRC
 
-Setup a light theme. I like dark [[https://github.com/kuanyui/moe-theme.el][moe-theme]], but this time I'm trying
-out a light theme. There have been research that dark text on a light
-background actually gives more focus for the eyes. I have always used
-dark themes everywhere, but maybe it's time to try a light one out,
-and see if it's too tiring.
+Setup a light theme. There have been research that dark text on a
+light background actually gives more focus for the eyes. I have always
+used dark themes everywhere, but maybe it's time to try a light one
+out, and see if it's too tiring.
 
 #+BEGIN_SRC emacs-lisp
-  (use-package moe-theme
+  (use-package color-theme-sanityinc-tomorrow
     :demand t
     :after smart-mode-line
     :config
-    (moe-light))
+    (load-theme 'sanityinc-tomorrow-day t))
 #+END_SRC
 
 I like to see empty lines in the buffer as a fringe on the left.
@@ -454,8 +453,6 @@ between three different whitespace amount around a point:
 
 #+BEGIN_SRC emacs-lisp
   (use-package magit
-    :custom-face
-    (magit-branch-current ((t (:foreground "#3a3a3a"))))
     :config
     (setq
      magit-completing-read-function 'ivy-completing-read
@@ -565,7 +562,9 @@ org-mode is excellent, I just use it too little.
           org-directory "~/Documents/org"
           org-default-notes-file (concat org-directory "/notes.org")
           org-replace-disputed-keys t
-          org-hide-emphasis-markers t))
+          org-hide-emphasis-markers t)
+    :custom-face
+    (org-block ((t (:background "#f8f8f8")))))
 #+END_SRC
 
 #+BEGIN_SRC emacs-lisp
@@ -951,7 +950,7 @@ force loading of the packages.
           ivy-re-builders-alist '((t . ivy--regex-ignore-order))
           ivy-dynamic-exhibit-delay-ms 200)
     :custom-face
-    (ivy-current-match ((t (:background "#3a3a3a")))))
+    (ivy-current-match ((t (:background "#dedede")))))
 #+END_SRC
 
 Add =ivy-hydra= to enable augmented UI features in swiper/counsel.
@@ -1146,8 +1145,6 @@ Let's me undo and redo window configurations.
     :diminish company-mode
     :hook (after-init . global-company-mode)
     :bind ("M-/" . company-complete)
-    :custom-face
-    (company-tooltip-annotation ((t (:background "#3a3a3a" :foreground "#9e9e9e"))))
     :config
     ; from https://github.com/jwiegley/dot-emacs/blob/2284be300ec20505d6a79f0f35a66b11efc0d41c/init.el#L761
     (eval-after-load "yasnippet"
