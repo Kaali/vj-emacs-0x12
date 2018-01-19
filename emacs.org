@@ -569,7 +569,6 @@ Project management support.
 
 #+BEGIN_SRC emacs-lisp
   (use-package projectile
-    :diminish
     :defer 5
     :init
     (setq
