@@ -312,16 +312,6 @@ Disable extra emacs cruft.
   (scroll-bar-mode -1)
 #+END_SRC
 
-Setup a modeline package before a theme. [[https://github.com/Malabarba/smart-mode-line][smart-mode-line]] adds some
-nice stylistic features to the modeline like colors and prefix
-shortening.
-
-#+BEGIN_SRC emacs-lisp
-  (use-package smart-mode-line
-    :config
-    (sml/setup))
-#+END_SRC
-
 Setup a light theme. There have been research that dark text on a
 light background actually gives more focus for the eyes. I have always
 used dark themes everywhere, but maybe it's time to try a light one
