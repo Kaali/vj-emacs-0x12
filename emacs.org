@@ -344,7 +344,6 @@ out, and see if it's too tiring.
 #+BEGIN_SRC emacs-lisp
   (use-package color-theme-sanityinc-tomorrow
     :demand t
-    :after smart-mode-line
     :config
     (load-theme 'sanityinc-tomorrow-day t))
 #+END_SRC
@@ -963,9 +962,7 @@ force loading of the packages.
           ivy-initial-inputs-alist nil
           ; allow regexp in any order
           ivy-re-builders-alist '((t . ivy--regex-ignore-order))
-          ivy-dynamic-exhibit-delay-ms 200)
-    :custom-face
-    (ivy-current-match ((t (:background "#dedede")))))
+          ivy-dynamic-exhibit-delay-ms 200))
 #+END_SRC
 
 Add =ivy-hydra= to enable augmented UI features in swiper/counsel.
