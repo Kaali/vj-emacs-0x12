@@ -1096,11 +1096,27 @@ After getting used to this, I use it more often than search&replace
 facilities. Except that it has a lot of compatibilty issues with
 different modes.
 
+mc shortcuts copied from:
+https://github.com/jwiegley/dot-emacs/blob/8e669ab1aa420486d93276db2de8fb0c0948cd6d/init.el#L2643
+
+
 #+BEGIN_SRC emacs-lisp
   (use-package multiple-cursors
-    :bind (("C-<" . mc/mark-previous-like-this)
-           ("C->" . mc/mark-next-like-this)
-           ("C-*" . mc/mark-all-like-this)))
+    :after selected
+    :defer 5
+    :bind (:map selected-keymap
+                ("c"   . mc/edit-lines)
+                ("*"   . mc/mark-all-like-this)
+                ("."   . mc/mark-next-like-this)
+                ("<"   . mc/unmark-next-like-this)
+                ("C->" . mc/skip-to-next-like-this)
+                (","   . mc/mark-previous-like-this)
+                (">"   . mc/unmark-previous-like-this)
+                ("C-<" . mc/skip-to-previous-like-this)
+                ("y"   . mc/mark-next-symbol-like-this)
+                ("Y"   . mc/mark-previous-symbol-like-this)
+                ("w"   . mc/mark-next-word-like-this)
+                ("W"   . mc/mark-previous-word-like-this)))
 #+END_SRC
 
 ** undo-tree
@@ -1383,6 +1399,25 @@ jumps. Makes it a bit easier to find the cursor on sudden movements.
   (use-package beacon
     :config (beacon-mode t))
 
+#+END_SRC
+
+** selected
+
+[[https://github.com/Kungsgeten/selected.el][selected]] is a tool for rebinding keys while a selection is active. It
+means that I cannot type over a selection, but makes doing stuff with
+selections much easier on the fingers.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package selected
+    :defer 5
+    :diminish selected-minor-mode
+    :commands selected-minor-mode
+    :bind (:map selected-keymap
+                ("<tab>" . indent-region)
+                ("w" . kill-region)
+                ("m" . apply-macro-to-region-lines))
+    :config
+    (selected-global-mode t))
 #+END_SRC
 
 * Emacs server
