@@ -39,6 +39,14 @@ Insert a code block by tuping =<sTAB=.
 Use =C-'= to edit code blocks.
 
 * Bootstrap
+** Initial frame size
+
+Maximize the frame as soon as possible.
+
+#+BEGIN_SRC emacs-lisp
+  (setq initial-frame-alist '((fullscreen . maximized)))
+#+END_SRC
+
 ** Use custom file
 Use a specific custom file instead of saving things in =init.el= which
 is used to bootstrap =org-babel=.
