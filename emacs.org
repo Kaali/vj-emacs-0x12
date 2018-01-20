@@ -557,12 +557,6 @@ org-mode is excellent, I just use it too little.
     (org-block ((t (:background "#f8f8f8")))))
 #+END_SRC
 
-#+BEGIN_SRC emacs-lisp
-  (use-package org-bullets
-    :after org
-    :hook (org-mode .  (lambda () (org-bullets-mode 1))))
-#+END_SRC
-
 ** Projectile
 
 Project management support.
