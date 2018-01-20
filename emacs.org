@@ -570,13 +570,13 @@ Project management support.
 #+BEGIN_SRC emacs-lisp
   (use-package projectile
     :defer 5
-    :init
+    :config
     (setq
      projectile-keymap-prefix (kbd "C-c p")
      projectile-completion-system 'ivy
      projectile-enable-caching t
-     projectile-indexing-method 'alien)
-    :config
+     projectile-indexing-method 'alien
+     projectile-mode-line '(:eval (format " Proj[%s]" (projectile-project-name))))
     (projectile-global-mode))
 #+END_SRC
 
