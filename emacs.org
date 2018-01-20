@@ -217,6 +217,21 @@ backup from Emacs so it's not necessary for that either.
   ))
 #+END_SRC
 
+Also enable out-of-focus auto saving. The timing can be wrong when
+switching between shell and Emacs to run commands. So make sure that
+all files are saved when Emacs goes out of focus.
+
+#+BEGIN_SRC emacs-lisp
+  (when (>= emacs-major-version 26)
+      (defun save-some-buffers-without-prompt ()
+        (save-some-buffers
+         :no-prompt
+         (lambda ()
+           (not (and buffer-auto-save-file-name
+                     auto-save-visited-file-name)))))
+      (add-hook 'focus-out-hook #'save-some-buffers-without-prompt))
+#+END_SRC
+
 ** Indentation
 
 Sadly tabs seems to have lost the indentation war. So let's just use
