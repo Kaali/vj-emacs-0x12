@@ -1167,6 +1167,8 @@ Let's me undo and redo window configurations.
 
 ** company
 
+Use [[https://github.com/company-mode/company-mode][company-mode]] for auto completion.
+
 #+BEGIN_SRC emacs-lisp
   (use-package company
     :defer 5
@@ -1192,7 +1194,16 @@ Let's me undo and redo window configurations.
           company-require-match nil
           company-dabbrev-downcase nil
           company-dabbrev-ignore-case nil))
+#+END_SRC
 
+Use [[https://github.com/expez/company-quickhelp][company-quickhelp]] to show documentation of the completion
+candidate.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package company-quickhelp
+    :after company
+    :bind (:map company-active-map
+                ("C-c h" . company-quickhelp-manual-begin)))
 #+END_SRC
 
 ** flycheck
