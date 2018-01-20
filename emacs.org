@@ -1410,6 +1410,7 @@ jumps. Makes it a bit easier to find the cursor on sudden movements.
 
 #+BEGIN_SRC emacs-lisp
   (use-package beacon
+    :diminish
     :config (beacon-mode t))
 
 #+END_SRC
