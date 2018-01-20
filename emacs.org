@@ -1364,6 +1364,17 @@ which should be better maintained.
             ("C-a" . crux-move-beginning-of-line)))
 #+END_SRC
 
+** beacon
+
+[[https://github.com/Malabarba/beacon][Beacon]] is a fun little mode that flashes the line where the cursor
+jumps. Makes it a bit easier to find the cursor on sudden movements.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package beacon
+    :config (beacon-mode t))
+
+#+END_SRC
+
 * Emacs server
 #+BEGIN_SRC emacs-lisp
   (server-start)
