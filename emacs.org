@@ -1372,6 +1372,9 @@ jumps. Makes it a bit easier to find the cursor on sudden movements.
 
 * Emacs server
 #+BEGIN_SRC emacs-lisp
-  (server-start)
+  (use-package server
+    :unless noninteractive
+    :no-require
+    :hook (after-init . server-start))
 #+END_SRC
 
