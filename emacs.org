@@ -1175,7 +1175,7 @@ I like to see mistakes with indentation clearly.
 
 #+BEGIN_SRC emacs-lisp
   (use-package whitespace
-    :diminish ""
+    :diminish global-whitespace-mode
     :config
     (setq whitespace-style (quote (face indentation:space trailing tabs tab-mark)))
     (global-whitespace-mode t))
