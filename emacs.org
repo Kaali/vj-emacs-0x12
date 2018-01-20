@@ -497,6 +497,14 @@ better. They are actually released as three packages.
            "/git/ignore\\'"))
 #+END_SRC
 
+Use [[https://github.com/magit/ssh-agency/blob/master/ssh-agency.el][ssh-agency]] to handle ssh-agent for git with Windows.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package ssh-agency
+    :demand t
+    :if (eq system-type 'windows-nt))
+#+END_SRC
+
 ** yaml
 
 #+BEGIN_SRC emacs-lisp
