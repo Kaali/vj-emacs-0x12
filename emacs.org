@@ -628,7 +628,7 @@ Project management support.
 
 #+BEGIN_SRC emacs-lisp
   (use-package projectile
-    :defer 5
+    :demand t
     :config
     (setq
      projectile-keymap-prefix (kbd "C-c p")
