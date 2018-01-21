@@ -1013,7 +1013,10 @@ Add =ivy-hydra= to enable augmented UI features in swiper/counsel.
     :bind (
            ("C-M-s" . counsel-grep-or-swiper)
            ("C-c v" . ivy-push-view)
-           ("C-c V" . ivy-pop-view)))
+           ("C-c V" . ivy-pop-view)
+           :map isearch-mode-map
+           ("C-o" . swiper-from-isearch)
+           ("C-M-s" . swiper-from-isearch)))
 #+END_SRC
 
 #+BEGIN_SRC emacs-lisp
