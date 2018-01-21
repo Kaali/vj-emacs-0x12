@@ -1442,13 +1442,29 @@ snippets, and a quick snippet creation mode: [[https://github.com/abo-abo/auto-y
 ones I had custom functions, but can now use =crux= version of them,
 which should be better maintained.
 
+It's really slow to load though.
+
 #+BEGIN_SRC emacs-lisp
   (use-package crux
-    :demand t
-    :config
-    (crux-with-region-or-line kill-ring-save)
+    :defer 5
     :bind* (("C-o" . crux-smart-open-line)
             ("C-a" . crux-move-beginning-of-line)))
+#+END_SRC
+
+** whole-line-or-region
+
+Use [[https://github.com/purcell/whole-line-or-region][whole-line-or-region]] to bind actions such as kill/yank to work on
+the whole line when there is no region active. [[crux][crux]] could handle this
+with it's advices, but I want to defer it as it's really slow to load,
+but still have the functionality available.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package whole-line-or-region
+    :unless noninteractive
+    :demand t
+    :diminish whole-line-or-region-local-mode
+    :config
+    (whole-line-or-region-global-mode 1))
 #+END_SRC
 
 ** beacon
