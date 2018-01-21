@@ -381,6 +381,40 @@ Implementation is based on [[https://www.emacswiki.org/emacs/AlarmBell][AlarmBel
             (ding))))
 #+END_SRC
 
+Modeline customization. I'm removing the vc-mode stuff as it's usually
+out of date with magit.
+
+#+BEGIN_SRC emacs-lisp
+  (defun vj--modeline-justify (left right)
+    (let* ((l (format-mode-line left))
+           (r (format-mode-line right))
+           (width (max 0 (- (window-total-width) (string-width l) (string-width r))))
+           (fill (make-string width ? )))
+      (concat l fill r)))
+
+  (defvar vj--projectile-mode-line)
+  (put 'vj--projectile-mode-line 'risky-local-variable t)
+  (eval-after-load "projectile"
+    '(progn
+       (setq vj--projectile-mode-line
+             '(:propertize
+               (:eval (when (projectile-project-p)
+                        (concat " [" (projectile-project-name) "]")))))))
+
+  (setq-default mode-line-format
+                '((:eval (vj--modeline-justify
+                          '("%e"
+                            mode-line-front-space
+                            mode-line-modified
+                            "%4l"
+                            vj--projectile-mode-line
+                            " %[" mode-line-buffer-identification "%]")
+                          '(" "
+                            mode-line-modes
+                            mode-line-misc-info
+                            mode-line-end-spaces)))))
+#+END_SRC
+
 ** Keyboard
 *** Global keyboard
 
@@ -601,7 +635,7 @@ Project management support.
      projectile-completion-system 'ivy
      projectile-enable-caching t
      projectile-indexing-method 'alien
-     projectile-mode-line '(:eval (format " Proj[%s]" (projectile-project-name))))
+     projectile-mode-line nil)
     (projectile-global-mode))
 #+END_SRC
 
