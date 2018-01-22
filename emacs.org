@@ -561,12 +561,23 @@ usually split my display vertically, so use horizontal splits.
 Also add a hook that saves and restores window configurations when I'm
 done with =ediff=.
 
+When running ediff from magit, it creates a temporary C -buffer. Emacs
+26 auto-save-visited-mode tries to save that buffer and asks for a
+filename for it. This seems to be because ediff hooks up
+auto-save-mode and touches some buffer local variables which makes
+this happen.
+
+So my quick fix is to just override that function when running Emacs
+>= 26. This is a hack, but it works for me.
+
 #+BEGIN_SRC emacs-lisp
   (setq ediff-window-setup-function 'ediff-setup-windows-plain)
   (setq ediff-split-window-function 'split-window-horizontally)
 
   (add-hook 'ediff-load-hook
             (lambda ()
+              (when (>= emacs-major-version 26)
+                (defun ediff-arrange-autosave-in-merge-jobs (merge-buffer-file)))
               (add-hook 'ediff-before-setup-hook
                         (lambda ()
                           (setq ediff-saved-window-configuration (current-window-configuration))))
