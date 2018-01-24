@@ -644,7 +644,7 @@ Project management support.
     (setq
      projectile-keymap-prefix (kbd "C-c p")
      projectile-completion-system 'ivy
-     projectile-enable-caching t
+     projectile-enable-caching nil
      projectile-indexing-method 'alien
      projectile-mode-line nil)
     (projectile-global-mode))
