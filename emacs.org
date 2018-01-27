@@ -39,6 +39,23 @@ Insert a code block by tuping =<sTAB=.
 Use =C-'= to edit code blocks.
 
 * Bootstrap
+** Benchmark Emacs startup
+
+It's easier to optimize Emacs startup time when I have some data
+available. Time code borrowed from [[https://github.com/jwiegley/dot-emacs/blob/master/init.el][John Wiegley's init.el]]
+
+#+BEGIN_SRC emacs-lisp
+  (defconst emacs-start-time (current-time))
+
+  (add-hook 'after-init-hook
+            `(lambda ()
+               (let ((elapsed
+                      (float-time
+                       (time-subtract (current-time) emacs-start-time))))
+                 (message "Loading %s...done (%.3fs) [after-init]"
+                          ,load-file-name elapsed))) t)
+#+END_SRC
+
 ** Initial frame size
 
 Maximize the frame as soon as possible.
