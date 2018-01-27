@@ -1142,7 +1142,7 @@ but still it seems I cannot live without it anymore.
     (show-smartparens-global-mode t)
     (sp-use-paredit-bindings)
     :bind (
-           :map sp-keymap
+           :map smartparens-mode-map
                 ("C-<left>" . nil)
                 ("C-<right>" . nil)
                 ("M-<up>" . nil)
