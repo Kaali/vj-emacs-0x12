@@ -604,6 +604,7 @@ Small dired customizations
 
 #+BEGIN_SRC emacs-lisp
   (use-package dired+
+    :disabled t
     :commands dired
     :config
     (setq dired-auto-revert-buffer t)
