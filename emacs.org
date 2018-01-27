@@ -583,7 +583,7 @@ Use [[https://github.com/magit/ssh-agency/blob/master/ssh-agency.el][ssh-agency]
 
 #+BEGIN_SRC emacs-lisp
   (use-package ssh-agency
-    :demand t
+    :after magit
     :if (eq system-type 'windows-nt))
 #+END_SRC
 
