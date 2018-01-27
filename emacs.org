@@ -690,6 +690,7 @@ Project management support.
 #+BEGIN_SRC emacs-lisp
   (use-package projectile
     :demand t
+    :commands projectile-mode
     :config
     (setq
      projectile-keymap-prefix (kbd "C-c p")
@@ -697,7 +698,7 @@ Project management support.
      projectile-enable-caching nil
      projectile-indexing-method 'alien
      projectile-mode-line nil)
-    (projectile-global-mode))
+    (projectile-mode))
 #+END_SRC
 
 Projectile counsel support.
