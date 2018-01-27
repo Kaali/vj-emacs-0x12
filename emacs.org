@@ -1546,7 +1546,6 @@ jumps. Makes it a bit easier to find the cursor on sudden movements.
   (use-package beacon
     :diminish
     :config (beacon-mode t))
-
 #+END_SRC
 
 ** selected
