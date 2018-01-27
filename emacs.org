@@ -56,6 +56,26 @@ available. Time code borrowed from [[https://github.com/jwiegley/dot-emacs/blob/
                           ,load-file-name elapsed))) t)
 #+END_SRC
 
+** Adjust GC in startup
+
+Emacs garbage collector tries to use sane settings for an interactive
+environment. It reduced throughput a bit. We can make Emacs start
+faster by adjusting GC on startup and then fallback to interactive
+settings.
+
+#+BEGIN_SRC emacs-lisp
+  (defvar original-gc-cons-threshold gc-cons-threshold)
+  (defvar original-gc-cons-percentage gc-cons-percentage)
+
+  (setq gc-cons-threshold 402653184
+        gc-cons-percentage 0.6)
+
+  (add-hook 'after-init-hook
+            `(lambda () (setq gc-cons-threshold original-gc-cons-threshold
+                              gc-cons-percentage original-gc-cons-percentage)) t)
+
+#+END_SRC
+
 ** Initial frame size
 
 Maximize the frame as soon as possible.
