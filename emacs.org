@@ -437,11 +437,18 @@ out, and see if it's too tiring.
     (load-theme 'sanityinc-tomorrow-day t))
 #+END_SRC
 
-I like to see empty lines in the buffer as a fringe on the left.
+Global settings related to Emacs UI.
 
 #+BEGIN_SRC emacs-lisp
-  (setq indicate-buffer-boundaries 'left)
-  (set-default 'indicate-empty-lines t)
+  (setq-default
+   ;; Improve performance, especially with long lines or large buffers
+   bidi-display-reordering nil
+   jit-lock-stealth-nice 0.1
+   jit-lock-stealth-time 0.2
+   ;; Clean up visual cruft
+   indicate-buffer-boundaries nil
+   indicate-empty-lines nil)
+#+END_SRC
 #+END_SRC
 
 Show column number and buffer size in the modeline.
