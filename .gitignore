@@ -8,6 +8,7 @@ projectile*
 savehist
 var
 emacs.el
+emacs.elc
 anaconda-mode
 private.el
 recentf

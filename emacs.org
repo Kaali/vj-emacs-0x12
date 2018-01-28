@@ -39,6 +39,11 @@ Insert a code block by tuping =<sTAB=.
 Use =C-'= to edit code blocks.
 
 * Bootstrap
+** Enable lexical binding
+#+BEGIN_SRC emacs-lisp
+  ;;; -*- lexical-binding: t; -*-
+#+END_SRC
+
 ** Benchmark Emacs startup
 
 It's easier to optimize Emacs startup time when I have some data
@@ -107,44 +112,79 @@ is used to bootstrap =org-babel=.
 
 ** Setup package management
 
+Setup package.el manually to speed up startup. Adapted from
+[[https://github.com/gilbertw1/emacs-literate-starter/blob/master/emacs.org#emacs-initialization][emacs-literate-starter]] and [[https://github.com/nilcons/emacs-use-package-fast][emacs-use-package-fast]].
+
 #+BEGIN_SRC emacs-lisp
-  (require 'package)
-  (let* ((no-ssl (and (memq system-type '(windows-nt ms-dos))
-                      (not (gnutls-available-p))))
-         (proto (if no-ssl "http" "https")))
-    (add-to-list 'package-archives (cons "melpa" (concat proto "://melpa.org/packages/")) t)
-    (add-to-list 'package-archives (cons "org" (concat proto "://orgmode.org/elpa/")) t))
-  (package-initialize)
+  (eval-and-compile
+    (setq load-prefer-newer t
+          package-user-dir "~/.emacs.d/elpa"
+          package--init-file-ensured t
+          package-enable-at-startup nil)
+
+    (unless (file-directory-p package-user-dir)
+      (make-directory package-user-dir t))
+
+    (eval-and-compile
+      (setq load-path (append load-path (directory-files package-user-dir t "^[^.]" t))))
+
+    ;; Add packages to info, required because we haven't run
+    ;; package-initialize
+    (with-eval-after-load "info"
+      (info-initialize)
+      (dolist (dir (directory-files package-user-dir))
+        (let ((fdir (concat (file-name-as-directory package-user-dir) dir)))
+          (unless (or (member dir '("." ".." "archives" "gnupg"))
+                      (not (file-directory-p fdir))
+                      (not (file-exists-p (concat (file-name-as-directory fdir) "dir"))))
+            (add-to-list 'Info-directory-list fdir))))))
 #+END_SRC
 
-Install [[https://github.com/jwiegley/use-package][use-package]].
+Initialize package.el and [[https://github.com/jwiegley/use-package][use-package]] only when compiling. But hook up
+the initialization if =package-initialize= is called so that package.el
+still works.
 
 #+BEGIN_SRC emacs-lisp
-  (unless (package-installed-p 'use-package)
-    (package-refresh-contents)
-    (package-install 'use-package))
-#+END_SRC
+  (defun vj--setup-package-el ()
+    (require 'package)
+    (let* ((no-ssl (and (memq system-type '(windows-nt ms-dos))
+                        (not (gnutls-available-p))))
+           (proto (if no-ssl "http" "https")))
+      (add-to-list 'package-archives (cons "melpa" (concat proto "://melpa.org/packages/")) t)
+      (add-to-list 'package-archives (cons "org" (concat proto "://orgmode.org/elpa/")) t)))
 
-Configure use-package to print warnings if it takes too much time
-(0.1s) per statement. And to always ensure that packages are
-installed.
+  (advice-add #'package-initialize :before #'vj--setup-package-el)
 
-#+BEGIN_SRC emacs-lisp
-  (setq use-package-verbose t)
-  (setq use-package-always-ensure t)
-#+END_SRC
+  (eval-when-compile
+    (package-initialize)
+    (unless (package-installed-p 'use-package)
+      (package-refresh-contents)
+      (package-install 'use-package)))
 
-Require use-package.
+  ;; In init-file-debug mode, enable verbosity and statistics for use-package.
+  (eval-and-compile
+    (setq use-package-always-ensure t)
+    (if init-file-debug
+        (setq use-package-verbose t
+              use-package-expand-minimally nil
+              use-package-compute-statistics t)
+      (setq use-package-verbose nil
+            use-package-expand-minimally t
+            use-package-compute-statistics nil)))
 
-#+BEGIN_SRC emacs-lisp
   (eval-when-compile
     (require 'use-package))
 #+END_SRC
 
-Benchmark initialization of emacs to keep it quick.
+When running from byte compiled file, setup autoload for =use-package=
+so it can be used seamlessly. It also does package-initialize after
+load to make sure =package.el= is also initialized.
 
 #+BEGIN_SRC emacs-lisp
-  (setq use-package-compute-statistics t)
+  (unless (featurep 'use-package)
+    (require 'package)
+    (autoload 'use-package "use-package")
+    (eval-after-load "use-package" #'package-initialize))
 #+END_SRC
 
 Add [[https://github.com/emacsmirror/diminish][diminish]] and bind-key support to =use-package=
@@ -1181,6 +1221,7 @@ the status when =magit= refreshes.
     :hook (magit-post-refresh . diff-hl-magit-post-refresh)
     :config
     (global-diff-hl-mode)
+    (require 'diff-hl-margin)
     (diff-hl-margin-mode))
 #+END_SRC
 
