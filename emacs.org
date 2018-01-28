@@ -1608,15 +1608,32 @@ snippets, and a quick snippet creation mode: [[https://github.com/abo-abo/auto-y
 
 #+BEGIN_SRC emacs-lisp
   (use-package yasnippet
-    :defer 10
     :diminish yas-minor-mode
-    :commands yas-expand
+    :commands (yas-minor-mode yas-minor-mode-on yas-expand
+               yas-expand-snippet yas-lookup-snippet
+               yas-insert-snippet yas-new-snippet
+               yas-visit-snippet-file snippet-mode)
+    :preface
+    (defvar yas-minor-mode-map (make-sparse-keymap))
+    :init
+    (defun vj--yas-reload-all-hook ()
+      (yas-reload-all)
+      (remove-hook 'yas-minor-mode-hook 'vj--yas-reload-all-hook))
+    (add-hook 'yas-minor-mode-hook 'vj--yas-reload-all-hook)
+    :hook ((text-mode . yas-minor-mode-on)
+           (prog-mode . yas-minor-mode-on)
+           (snippet-mode . yas-minor-mode-on))
     :config
-    (yas-global-mode 1))
+    (setq yas-trigger-in-field t)
+    ;; Fix smartparens conflict
+    (advice-add #'yas-expand :before #'sp-remove-active-pair-overlay))
+
   (use-package yasnippet-snippets
     :after yasnippet)
+
   (use-package auto-yasnippet
-    :after yasnippet)
+    :after yasnippet
+    :commands (aya-create aya-expand aya-open-line aya-persist-snippet))
 #+END_SRC
 
 ** crux
