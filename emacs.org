@@ -1127,12 +1127,15 @@ force loading of the packages.
     :init
     (setq ivy-use-virtual-buffers t
           ivy-height 20
+          ivy-fixed-height-minibuffer t
           ivy-count-format "%d/%d "
           ; don't use an initial input for ivy
           ivy-initial-inputs-alist nil
           ; allow regexp in any order
           ivy-re-builders-alist '((t . ivy--regex-ignore-order))
-          ivy-dynamic-exhibit-delay-ms 200)
+          ivy-dynamic-exhibit-delay-ms 200
+          ivy-use-selectable-prompt t
+          ivy-format-function #'ivy-format-function-line)
     :config
     (ivy-mode 1))
 #+END_SRC
@@ -1147,7 +1150,7 @@ Add =ivy-hydra= to enable augmented UI features in swiper/counsel.
 #+BEGIN_SRC emacs-lisp
   (use-package swiper
     :after ivy
-    :init (setq ivy-use-selectable-prompt t)
+    :commands (swiper swiper-all)
     :bind (
            ("C-M-s" . counsel-grep-or-swiper)
            ("C-c v" . ivy-push-view)
@@ -1202,6 +1205,7 @@ makes it closer to Helm.
      ivy-rich-switch-buffer-align-virtual-buffer t
      ivy-rich-switch-buffer-name-max-length 40
      ivy-rich-path-style 'abbrev)
+    (ivy-set-display-transformer 'counsel-projectile-switch-to-buffer 'ivy-rich-switch-buffer-transformer)
     (ivy-set-display-transformer 'ivy-switch-buffer 'ivy-rich-switch-buffer-transformer))
 #+END_SRC
 
