@@ -1361,7 +1361,8 @@ Flycheck is a nice on the fly syntax / compilation checker.
 #+BEGIN_SRC emacs-lisp
   (use-package flycheck
     :diminish global-flycheck-mode
-    :hook ((prog-mode-hook . flycheck-mode)
+    :hook ((emacs-lisp-mode . flycheck-mode)
+           (prog-mode-hook . flycheck-mode)
            (c++-mode-hook . (lambda () (setq flycheck-clang-language-standard "c++11"))))
     :commands (flycheck-mode flycheck-next-error flycheck-previous-error))
 
