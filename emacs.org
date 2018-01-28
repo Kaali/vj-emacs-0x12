@@ -235,6 +235,7 @@ Some really basic self-explanatory settings:
   (setq locale-coding-system 'utf-8)
 
   (setq mouse-yank-at-point t)
+  (setq save-interprogram-paste-before-kill t)
 #+END_SRC
 
 Revert changed files automatically if I haven't touched them:
