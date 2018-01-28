@@ -1191,8 +1191,6 @@ Add =ivy-hydra= to enable augmented UI features in swiper/counsel.
            ("M-i" . counsel-imenu)))
 #+END_SRC
 
-** ivy-rich
-
 Ivy's switch buffer is quite bare after getting used to Helm. [[https://github.com/Yevgnen/ivy-rich][ivy-rich]]
 makes it closer to Helm.
 
@@ -1207,6 +1205,14 @@ makes it closer to Helm.
      ivy-rich-path-style 'abbrev)
     (ivy-set-display-transformer 'counsel-projectile-switch-to-buffer 'ivy-rich-switch-buffer-transformer)
     (ivy-set-display-transformer 'ivy-switch-buffer 'ivy-rich-switch-buffer-transformer))
+#+END_SRC
+
+Use Ivy for xref.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package ivy-xref
+    :after (ivy xref)
+    :config (setq xref-show-xrefs-function #'ivy-xref-show-xrefs))
 #+END_SRC
 
 ** avy
