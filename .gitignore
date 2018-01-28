@@ -14,3 +14,12 @@ private.el
 recentf
 smex-items
 elpa
+backups
+eshell
+semanticdb
+undo-tree
+url
+var
+custom.el
+bookmarks
+server/server
