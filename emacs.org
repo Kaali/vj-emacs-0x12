@@ -1533,7 +1533,7 @@ Not really sure if I like them, but just trying them out here.
 #+BEGIN_SRC emacs-lisp
   (use-package lsp-ui
     :after lsp-mode
-    :if (> emacs-major-version 26)
+    :if (>= emacs-major-version 26)
     :hook (lsp-mode . lsp-ui-mode))
 #+END_SRC
 
