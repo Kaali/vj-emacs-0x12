@@ -236,6 +236,12 @@ Some really basic self-explanatory settings:
 
   (setq mouse-yank-at-point t)
   (setq save-interprogram-paste-before-kill t)
+
+  (setq scroll-conservatively 1000
+        scroll-margin 0
+        scroll-preserve-screen-position t
+        hscroll-margin 1
+        hscroll-step 1)
 #+END_SRC
 
 Revert changed files automatically if I haven't touched them:
