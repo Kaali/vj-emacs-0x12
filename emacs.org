@@ -1546,7 +1546,7 @@ you don't actually need indexing.
 
 #+BEGIN_SRC emacs-lisp
   (use-package dumb-jump
-    :defer 5
+    :after smart-jump
     :config
     (setq dumb-jump-selector 'ivy))
 #+END_SRC
