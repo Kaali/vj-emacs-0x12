@@ -112,58 +112,98 @@ is used to bootstrap =org-babel=.
 
 ** Setup package management
 
+I'm trying out [[https://github.com/raxod502/straight.el][straight.el]] for support reproducible builds, and also
+to have the option of fetching newer versions of packages from git.
+
+#+BEGIN_SRC emacs-lisp
+  (defconst vj--use-straight-el t)
+#+END_SRC
+
+*** straight.el
+
+#+BEGIN_SRC emacs-lisp
+  (when vj--use-straight-el
+    (let ((bootstrap-file (concat user-emacs-directory "straight/repos/straight.el/bootstrap.el"))
+          (bootstrap-version 3))
+      (unless (file-exists-p bootstrap-file)
+        (with-current-buffer
+            (url-retrieve-synchronously
+             "https://raw.githubusercontent.com/raxod502/straight.el/develop/install.el"
+             'silent 'inhibit-cookies)
+          (goto-char (point-max))
+          (eval-print-last-sexp)))
+      (load bootstrap-file nil 'nomessage))
+
+    (setq straight-check-for-modifications 'live)
+    (straight-use-package 'use-package))
+#+END_SRC
+
+*** package.el
+
 Setup package.el manually to speed up startup. Adapted from
 [[https://github.com/gilbertw1/emacs-literate-starter/blob/master/emacs.org#emacs-initialization][emacs-literate-starter]] and [[https://github.com/nilcons/emacs-use-package-fast][emacs-use-package-fast]].
 
-#+BEGIN_SRC emacs-lisp
-  (eval-and-compile
-    (setq load-prefer-newer t
-          package-user-dir "~/.emacs.d/elpa"
-          package--init-file-ensured t
-          package-enable-at-startup nil)
-
-    (unless (file-directory-p package-user-dir)
-      (make-directory package-user-dir t))
-
+#+BEGIN_SRC emacs-lisp :tangle no
+  (unless vj--use-straight-el
     (eval-and-compile
-      (setq load-path (append load-path (directory-files package-user-dir t "^[^.]" t))))
+      (setq load-prefer-newer t
+            package-user-dir "~/.emacs.d/elpa"
+            package--init-file-ensured t
+            package-enable-at-startup nil)
 
-    ;; Add packages to info, required because we haven't run
-    ;; package-initialize
-    (with-eval-after-load "info"
-      (info-initialize)
-      (dolist (dir (directory-files package-user-dir))
-        (let ((fdir (concat (file-name-as-directory package-user-dir) dir)))
-          (unless (or (member dir '("." ".." "archives" "gnupg"))
-                      (not (file-directory-p fdir))
-                      (not (file-exists-p (concat (file-name-as-directory fdir) "dir"))))
-            (add-to-list 'Info-directory-list fdir))))))
+      (unless (file-directory-p package-user-dir)
+        (make-directory package-user-dir t))
+
+      (eval-and-compile
+        (setq load-path (append load-path (directory-files package-user-dir t "^[^.]" t))))
+
+      ;; Add packages to info, required because we haven't run
+      ;; package-initialize
+      (with-eval-after-load "info"
+        (info-initialize)
+        (dolist (dir (directory-files package-user-dir))
+          (let ((fdir (concat (file-name-as-directory package-user-dir) dir)))
+            (unless (or (member dir '("." ".." "archives" "gnupg"))
+                        (not (file-directory-p fdir))
+                        (not (file-exists-p (concat (file-name-as-directory fdir) "dir"))))
+              (add-to-list 'Info-directory-list fdir)))))))
 #+END_SRC
 
 Initialize package.el and [[https://github.com/jwiegley/use-package][use-package]] only when compiling. But hook up
 the initialization if =package-initialize= is called so that package.el
 still works.
 
+#+BEGIN_SRC emacs-lisp :tangle no
+  (unless vj--use-straight-el
+    (defun vj--setup-package-el ()
+      (require 'package)
+      (let* ((no-ssl (and (memq system-type '(windows-nt ms-dos))
+                          (not (gnutls-available-p))))
+             (proto (if no-ssl "http" "https")))
+        (add-to-list 'package-archives (cons "melpa" (concat proto "://melpa.org/packages/")) t)
+        (add-to-list 'package-archives (cons "org" (concat proto "://orgmode.org/elpa/")) t)))
+
+    (advice-add #'package-initialize :before #'vj--setup-package-el)
+
+    (eval-when-compile
+      (package-initialize)
+      (unless (package-installed-p 'use-package)
+        (package-refresh-contents)
+        (package-install 'use-package))))
+#+END_SRC
+
+*** use-package
+
+When running from byte compiled file, setup autoload for =use-package=
+so it can be used seamlessly. It also does package-initialize after
+load to make sure =package.el= is also initialized.
+
 #+BEGIN_SRC emacs-lisp
-  (defun vj--setup-package-el ()
-    (require 'package)
-    (let* ((no-ssl (and (memq system-type '(windows-nt ms-dos))
-                        (not (gnutls-available-p))))
-           (proto (if no-ssl "http" "https")))
-      (add-to-list 'package-archives (cons "melpa" (concat proto "://melpa.org/packages/")) t)
-      (add-to-list 'package-archives (cons "org" (concat proto "://orgmode.org/elpa/")) t)))
-
-  (advice-add #'package-initialize :before #'vj--setup-package-el)
-
-  (eval-when-compile
-    (package-initialize)
-    (unless (package-installed-p 'use-package)
-      (package-refresh-contents)
-      (package-install 'use-package)))
-
   ;; In init-file-debug mode, enable verbosity and statistics for use-package.
   (eval-and-compile
-    (setq use-package-always-ensure t)
+    (if vj--use-straight-el
+        (setq straight-use-package-by-default t)
+      (setq use-package-always-ensure t))
     (if init-file-debug
         (setq use-package-verbose t
               use-package-expand-minimally nil
@@ -174,17 +214,12 @@ still works.
 
   (eval-when-compile
     (require 'use-package))
-#+END_SRC
 
-When running from byte compiled file, setup autoload for =use-package=
-so it can be used seamlessly. It also does package-initialize after
-load to make sure =package.el= is also initialized.
-
-#+BEGIN_SRC emacs-lisp
-  (unless (featurep 'use-package)
-    (require 'package)
-    (autoload 'use-package "use-package")
-    (eval-after-load "use-package" #'package-initialize))
+  ;(unless (and (not vj--use-straight-el) (featurep 'use-package))
+  ;  (message "should not run")
+  ;  (require 'package)
+  ;  (autoload 'use-package "use-package")
+  ;  (eval-after-load "use-package" #'package-initialize))
 #+END_SRC
 
 Add [[https://github.com/emacsmirror/diminish][diminish]] and bind-key support to =use-package=
