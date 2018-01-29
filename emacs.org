@@ -1577,7 +1577,9 @@ Use [[https://github.com/larstvei/Try][Try]] for testing out packages.
 
 #+BEGIN_SRC emacs-lisp
   (use-package try
-    :commands try)
+    :commands try
+    :init
+    (eval-after-load "try" #'package-initialize))
 #+END_SRC
 
 ** free-keys
