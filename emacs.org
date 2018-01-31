@@ -714,6 +714,15 @@ So my quick fix is to just override that function when running Emacs
 Small dired customizations
 
 #+BEGIN_SRC emacs-lisp
+  (use-package dired
+    :ensure nil)
+
+  (use-package dired-x
+    :ensure nil
+    :after dired
+    :config
+    (setq-default dired-omit-files-p t))
+
   (use-package dired+
     :disabled t
     :commands dired
