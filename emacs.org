@@ -95,7 +95,8 @@ the startup. Should not affect initialization with my configuration.
 
 ** Initial frame size
 
-Maximize the frame as soon as possible.
+Maximize the initial frame. There will be some flashing unless Emacs
+is started with =-mm= command line parameter.
 
 #+BEGIN_SRC emacs-lisp
   (setq initial-frame-alist '((fullscreen . maximized)))
@@ -1480,7 +1481,7 @@ Used for moving quicky between windows.
 #+BEGIN_SRC emacs-lisp
   (use-package ace-window
     :commands ace-window
-    :bind* (("C-x o" . ace-window)
+    :bind (("C-x o" . ace-window)
             ("M-o" . ace-window))
     :config
     (setq aw-keys '(?a ?s ?d ?f ?j ?k ?l)
