@@ -1712,6 +1712,18 @@ selections much easier on the fingers.
     (selected-global-mode t))
 #+END_SRC
 
+** el-patch
+
+Use [[https://github.com/raxod502/el-patch][el-patch]] for modifying package functionality. Provides a safer way
+to modify defs by providing validation and diffing capabilities.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package el-patch
+    :commands (el-patch-defmacro el-patch-defsubst el-patch-defvar
+               el-patch-defconst el-patch-defcustom
+               el-patch-define-minor-mode))
+#+END_SRC
+
 * Emacs server
 #+BEGIN_SRC emacs-lisp
   (use-package server
