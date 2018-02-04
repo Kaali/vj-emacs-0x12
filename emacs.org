@@ -653,7 +653,35 @@ Use [[https://github.com/magit/ssh-agency/blob/master/ssh-agency.el][ssh-agency]
 
 #+BEGIN_SRC emacs-lisp
   (use-package yaml-mode
-    :mode "\\.ya?ml$")
+    :mode "\\.ya?ml$"
+    :config
+    ;; Apply my custom patch to fix apostrohpe in string, until PR is
+    ;; through
+    (el-patch-defun yaml-mode-syntax-propertize-function (beg end)
+      "Unhighlight foo#bar tokens between BEG and END."
+      (save-excursion
+        (goto-char beg)
+        (while (search-forward "#" end t)
+          (save-excursion
+            (forward-char -1)
+            ;; both ^# and [ \t]# are comments
+            (when (and (not (bolp))
+                       (not (memq (preceding-char) '(?\s ?\t))))
+              (put-text-property (point) (1+ (point))
+                                 'syntax-table (string-to-syntax "_"))))))
+      (el-patch-add
+        ;; If quote is detected as a syntactic string start but appeared
+        ;; after a non-whitespace character, then mark it as syntactic word.
+        (save-excursion
+          (goto-char beg)
+          (while (search-forward "'" end t)
+            (when (nth 8 (syntax-ppss))
+              (save-excursion
+                (forward-char -1)
+                (when (and (not (bolp))
+                           (not (memq (preceding-char) '(?\s ?\t))))
+                  (put-text-property (point) (1+ (point))
+                                     'syntax-table (string-to-syntax "w"))))))))))
 #+END_SRC
 
 ** markdown
