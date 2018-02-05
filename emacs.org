@@ -146,7 +146,7 @@ the initialization if =package-initialize= is called so that package.el
 still works.
 
 #+BEGIN_SRC emacs-lisp
-  (defun vj--setup-package-el ()
+  (defun vj--setup-package-el (&optional _)
     (require 'package)
     (let* ((no-ssl (and (memq system-type '(windows-nt ms-dos))
                         (not (gnutls-available-p))))
