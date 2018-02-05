@@ -654,6 +654,7 @@ Use [[https://github.com/magit/ssh-agency/blob/master/ssh-agency.el][ssh-agency]
 #+BEGIN_SRC emacs-lisp
   (use-package yaml-mode
     :mode "\\.ya?ml$"
+    :init (el-patch-feature yaml-mode)
     :config
     ;; Apply my custom patch to fix apostrohpe in string, until PR is
     ;; through
@@ -1747,9 +1748,10 @@ to modify defs by providing validation and diffing capabilities.
 
 #+BEGIN_SRC emacs-lisp
   (use-package el-patch
+    :demand t
     :commands (el-patch-defmacro el-patch-defsubst el-patch-defvar
                el-patch-defconst el-patch-defcustom
-               el-patch-define-minor-mode))
+               el-patch-define-minor-mode el-patch-feature))
 #+END_SRC
 
 ** smartscan
