@@ -604,6 +604,19 @@ between three different whitespace amount around a point:
   (bind-key* "C-M-SPC" 'cycle-spacing)
 #+END_SRC
 
+** el-patch
+
+Use [[https://github.com/raxod502/el-patch][el-patch]] for modifying package functionality. Provides a safer way
+to modify defs by providing validation and diffing capabilities.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package el-patch
+    :demand t
+    :commands (el-patch-defmacro el-patch-defsubst el-patch-defvar
+               el-patch-defconst el-patch-defcustom
+               el-patch-define-minor-mode el-patch-feature))
+#+END_SRC
+
 * Major modes
 ** Magit
 
@@ -1739,19 +1752,6 @@ selections much easier on the fingers.
                 ("m" . apply-macro-to-region-lines))
     :config
     (selected-global-mode t))
-#+END_SRC
-
-** el-patch
-
-Use [[https://github.com/raxod502/el-patch][el-patch]] for modifying package functionality. Provides a safer way
-to modify defs by providing validation and diffing capabilities.
-
-#+BEGIN_SRC emacs-lisp
-  (use-package el-patch
-    :demand t
-    :commands (el-patch-defmacro el-patch-defsubst el-patch-defvar
-               el-patch-defconst el-patch-defcustom
-               el-patch-define-minor-mode el-patch-feature))
 #+END_SRC
 
 ** smartscan
