@@ -1752,6 +1752,18 @@ to modify defs by providing validation and diffing capabilities.
                el-patch-define-minor-mode))
 #+END_SRC
 
+** smartscan
+
+Move to next and previous symbol with [[https://github.com/mickeynp/smart-scan][smart-scan]].
+
+#+BEGIN_SRC emacs-lisp
+  (use-package smartscan
+    :bind (:map smartscan-map
+                ("M-n" . smartscan-symbol-go-forward)
+                ("M-p" . smartscan-symbol-go-backward))
+    :config (global-smartscan-mode t))
+#+END_SRC
+
 * Emacs server
 #+BEGIN_SRC emacs-lisp
   (use-package server
