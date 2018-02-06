@@ -994,7 +994,11 @@ Requires [[https://github.com/sourcegraph/javascript-typescript-langserver][Java
     :config (setq js2-basic-offset 2))
 
   (use-package lsp-javascript-typescript
-    :hook (js2-mode . lsp-javascript-typescript-enable))
+    :init
+    (defun vj--lsp-javascript-typescript-enable ()
+      (unless (file-remote-p default-directory)
+        lsp-javascript-typescript-enable))
+    :hook (js2-mode . vj--lsp-javascript-typescript-enable))
 #+END_SRC
 
 Use [[https://github.com/magnars/js2-refactor.el][js2-refactor]] for refactoring support.
