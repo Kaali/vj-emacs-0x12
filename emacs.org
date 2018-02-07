@@ -1780,7 +1780,8 @@ Control Emacs buffers with [[https://github.com/wasamasa/shackle][shackle]].
     :config
     (setq
      shackle-default-rule '(:select t)
-     shackle-rules '(("\\`\\*Flycheck" :regexp t :size 0.2 :noselect t :align bottom)))
+     shackle-rules '(("\\`\\*Flycheck" :regexp t :size 0.2 :noselect t :align bottom)
+                     ("\\`\\*magit-diff" :regexp t :align bottom :noselect t)))
     (shackle-mode))
 #+END_SRC
 
