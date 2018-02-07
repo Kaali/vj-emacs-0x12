@@ -1770,6 +1770,20 @@ Move to next and previous symbol with [[https://github.com/mickeynp/smart-scan][
     :config (global-smartscan-mode t))
 #+END_SRC
 
+** shackle
+
+Control Emacs buffers with [[https://github.com/wasamasa/shackle][shackle]].
+
+#+BEGIN_SRC emacs-lisp
+  (use-package shackle
+    :demand t
+    :config
+    (setq
+     shackle-default-rule '(:select t)
+     shackle-rules '(("\\`\\*Flycheck" :regexp t :size 0.2 :noselect t :align bottom)))
+    (shackle-mode))
+#+END_SRC
+
 * Emacs server
 #+BEGIN_SRC emacs-lisp
   (use-package server
