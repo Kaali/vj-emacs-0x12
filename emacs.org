@@ -223,7 +223,8 @@ Some really basic self-explanatory settings:
   (setq
    inhibit-startup-message t
    require-final-newline t
-   major-mode 'text-mode)
+   major-mode 'text-mode
+   confirm-kill-emacs 'y-or-n-p)
 
   (put 'narrow-to-region 'disabled nil)
 
