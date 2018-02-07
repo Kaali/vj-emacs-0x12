@@ -754,13 +754,15 @@ So my quick fix is to just override that function when running Emacs
            ("C-x M" . vj--new-eshell)))
 #+END_SRC
 
-** dired and dired+
+** dired
 
 Small dired customizations
 
 #+BEGIN_SRC emacs-lisp
   (use-package dired
-    :ensure nil)
+    :ensure nil
+    :config
+    (setq dired-auto-revert-buffer t))
 
   (use-package dired-x
     :ensure nil
@@ -772,10 +774,26 @@ Small dired customizations
     :disabled t
     :commands dired
     :config
-    (setq dired-auto-revert-buffer t)
     (toggle-diredp-find-file-reuse-dir 1)
     (setq diredp-hide-details-initially-flag nil)
     (setq diredp-hide-details-propagate-flag nil))
+#+END_SRC
+
+Add some colors with [[https://github.com/purcell/diredfl][direfl]]
+
+#+BEGIN_SRC emacs-lisp
+  (use-package diredfl
+    :after dired
+    :hook (dired-mode . diredfl-mode))
+#+END_SRC
+
+Use [[https://github.com/Fuco1/dired-hacks#dired-collapse][dired-collapse]] to collapse directories with just a single file
+into one entry in dired.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package dired-collapse
+    :after dired
+    :hook (dired-mode . dired-collapse-mode))
 #+END_SRC
 
 ** org
