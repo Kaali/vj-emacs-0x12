@@ -1538,6 +1538,9 @@ Used for moving quicky between windows.
 #+BEGIN_SRC emacs-lisp
   (use-package ace-window
     :commands ace-window
+    :init
+    (eval-after-load "term"
+      '(define-key term-raw-map (kbd "M-o") nil))
     :bind (("C-x o" . ace-window)
             ("M-o" . ace-window))
     :config
