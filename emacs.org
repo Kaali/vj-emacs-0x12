@@ -690,13 +690,13 @@ Use [[https://github.com/magit/ssh-agency/blob/master/ssh-agency.el][ssh-agency]
       ;; after a non-whitespace character, then mark it as syntactic word.
       (save-excursion
         (goto-char beg)
-        (while (search-forward "'" end t)
+        (while (re-search-forward "['\"]" end t)
           (when (nth 8 (syntax-ppss))
             (save-excursion
               (forward-char -1)
               (when (and (not (bolp))
                          (el-patch-remove (not (memq (preceding-char) '(?\s ?\t))))
-                         (el-patch-add (eq ?w (char-syntax (char-before (point))))))
+                         (el-patch-add (char-equal ?w (char-syntax (char-before (point))))))
                 (put-text-property (point) (1+ (point))
                                    'syntax-table (string-to-syntax "w")))))))))
 #+END_SRC
