@@ -1018,7 +1018,7 @@ Requires [[https://github.com/sourcegraph/javascript-typescript-langserver][Java
     :init
     (defun vj--lsp-javascript-typescript-enable ()
       (unless (file-remote-p default-directory)
-        lsp-javascript-typescript-enable))
+        (lsp-javascript-typescript-enable)))
     :hook (js2-mode . vj--lsp-javascript-typescript-enable))
 #+END_SRC
 
