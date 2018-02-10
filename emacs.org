@@ -519,7 +519,7 @@ out of date with magit.
                           '("%e"
                             mode-line-front-space
                             mode-line-modified
-                            "%4l"
+                            "%4l:%c"
                             vj--projectile-mode-line
                             " %[" mode-line-buffer-identification "%]")
                           '(" "
