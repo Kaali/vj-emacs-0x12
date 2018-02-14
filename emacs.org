@@ -269,6 +269,7 @@ investigate why.
 
 #+BEGIN_SRC emacs-lisp
   (use-package exec-path-from-shell
+    :disabled t
     :unless (memq window-system '(w32))
     :config
     (exec-path-from-shell-initialize))
