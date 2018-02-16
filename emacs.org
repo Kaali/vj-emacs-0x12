@@ -1217,6 +1217,8 @@ force loading of the packages.
           ivy-dynamic-exhibit-delay-ms 200
           ivy-use-selectable-prompt t
           ivy-format-function #'ivy-format-function-line)
+    :custom-face
+    (ivy-current-match ((t (:background "#efefef"))))
     :config
     (ivy-mode 1))
 #+END_SRC
@@ -1807,7 +1809,8 @@ Control Emacs buffers with [[https://github.com/wasamasa/shackle][shackle]].
     (setq
      shackle-default-rule '(:select t)
      shackle-rules '(("\\`\\*Flycheck" :regexp t :size 0.2 :noselect t :align bottom)
-                     ("\\`\\*magit-diff" :regexp t :align bottom :noselect t)))
+                     (magit-diff-mode :select nil :align left :size 0.5)
+                     (magit-commit-mode :ignore t)))
     (shackle-mode))
 #+END_SRC
 
