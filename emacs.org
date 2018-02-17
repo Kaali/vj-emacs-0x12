@@ -1777,7 +1777,6 @@ selections much easier on the fingers.
     :commands selected-minor-mode
     :bind (:map selected-keymap
                 ("<tab>" . indent-region)
-                ("w" . kill-region)
                 ("m" . apply-macro-to-region-lines))
     :config
     (selected-global-mode t))
