@@ -424,7 +424,9 @@ Set a font.
     "Return the first available font."
     (seq-find (lambda (x) (find-font (font-spec :name x))) fonts))
 
-  (set-frame-font (font-candidate "Noto Mono-12" "Input-13" "DejaVu Sans Mono-9" "Consolas-9") nil t)
+  (if (eq system-type 'windows-nt)
+      (set-frame-font (font-candidate "Noto Mono-9" "Input-13" "DejaVu Sans Mono-9" "Consolas-9") nil t)
+    (set-frame-font (font-candidate "Noto Mono-12" "Input-13" "DejaVu Sans Mono-9" "Consolas-9") nil t))
   (set-face-attribute 'default (selected-frame))
 #+END_SRC
 
