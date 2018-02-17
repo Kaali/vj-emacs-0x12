@@ -1412,7 +1412,8 @@ https://github.com/jwiegley/dot-emacs/blob/8e669ab1aa420486d93276db2de8fb0c0948c
                 ("y"   . mc/mark-next-symbol-like-this)
                 ("Y"   . mc/mark-previous-symbol-like-this)
                 ("w"   . mc/mark-next-word-like-this)
-                ("W"   . mc/mark-previous-word-like-this)))
+                ("W"   . mc/mark-previous-word-like-this)
+                ("?"   . mc-hide-unmatched-lines-mode)))
 #+END_SRC
 
 ** undo-tree
