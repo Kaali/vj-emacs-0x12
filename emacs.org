@@ -1815,6 +1815,20 @@ Control Emacs buffers with [[https://github.com/wasamasa/shackle][shackle]].
     (shackle-mode))
 #+END_SRC
 
+** eyebrowse
+
+I'm working on multiple project all the time in Emacs. My buffers are
+all over the place. Try using [[https://github.com/wasamasa/eyebrowse][eyebrowse]] to handle it.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package eyebrowse
+    :demand t
+    :config
+    (setq
+     eyebrowse-mode-line-separator ""
+     eyebrowse-new-workspace t)
+    (eyebrowse-mode t))
+#+END_SRC
 * Emacs server
 #+BEGIN_SRC emacs-lisp
   (use-package server
