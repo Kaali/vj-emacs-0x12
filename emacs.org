@@ -704,6 +704,29 @@ Use [[https://github.com/magit/ssh-agency/blob/master/ssh-agency.el][ssh-agency]
                                    'syntax-table (string-to-syntax "w")))))))))
 #+END_SRC
 
+** mmm
+
+#+BEGIN_SRC emacs-lisp
+  (use-package mmm-mode
+    :config
+    (setq mmm-global-mode 'maybe))
+#+END_SRC
+
+** jinja2
+
+#+BEGIN_SRC emacs-lisp
+  (use-package jinja2-mode)
+
+  ;; Not working without demand, fix
+  (use-package mmm-jinja2
+    :requires mmm-mode
+    :mode ("\\.yml\\.j2\\'" . yaml-mode)
+    :config
+    (mmm-mode-on)
+  
+    (mmm-add-mode-ext-class 'yaml-mode "\\.yml\\.j2\\'" 'jinja2))
+#+END_SRC
+
 ** markdown
 
 #+BEGIN_SRC emacs-lisp
@@ -1818,6 +1841,18 @@ all over the place. Try using [[https://github.com/wasamasa/eyebrowse][eyebrowse
      eyebrowse-new-workspace t)
     (eyebrowse-mode t))
 #+END_SRC
+
+** ansible
+
+Add autocomplete for Ansible.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package company-ansible
+    :after company
+    :config
+    (eval-after-load 'company '(add-to-list 'company-backends 'company-ansible)))
+#+END_SRC
+
 * Emacs server
 #+BEGIN_SRC emacs-lisp
   (use-package server
