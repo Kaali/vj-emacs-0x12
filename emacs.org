@@ -1756,17 +1756,6 @@ but still have the functionality available.
     (whole-line-or-region-global-mode 1))
 #+END_SRC
 
-** beacon
-
-[[https://github.com/Malabarba/beacon][Beacon]] is a fun little mode that flashes the line where the cursor
-jumps. Makes it a bit easier to find the cursor on sudden movements.
-
-#+BEGIN_SRC emacs-lisp
-  (use-package beacon
-    :diminish
-    :config (beacon-mode t))
-#+END_SRC
-
 ** selected
 
 [[https://github.com/Kungsgeten/selected.el][selected]] is a tool for rebinding keys while a selection is active. It
