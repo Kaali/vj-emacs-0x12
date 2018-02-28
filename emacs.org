@@ -269,7 +269,6 @@ investigate why.
 
 #+BEGIN_SRC emacs-lisp
   (use-package exec-path-from-shell
-    :disabled t
     :unless (memq window-system '(w32))
     :config
     (exec-path-from-shell-initialize))
@@ -1803,6 +1802,7 @@ Move to next and previous symbol with [[https://github.com/mickeynp/smart-scan][
 
 #+BEGIN_SRC emacs-lisp
   (use-package smartscan
+    :demand t
     :bind (:map smartscan-map
                 ("M-n" . smartscan-symbol-go-forward)
                 ("M-p" . smartscan-symbol-go-backward))
