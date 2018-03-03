@@ -1201,6 +1201,13 @@ Also install [[https://github.com/Sterlingg/json-snatcher][json-snatcher]] for g
     :commands jsons-print-path)
 #+END_SRC
 
+** nix
+
+#+BEGIN_SRC emacs-lisp
+  (use-package nix-mode
+    :mode "\\.nix$")
+#+END_SRC
+
 * Minor Modes
 ** smex
 
