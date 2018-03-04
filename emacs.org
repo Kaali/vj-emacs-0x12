@@ -1803,17 +1803,21 @@ selections much easier on the fingers.
     (selected-global-mode t))
 #+END_SRC
 
-** smartscan
+** symbol-overlay
 
-Move to next and previous symbol with [[https://github.com/mickeynp/smart-scan][smart-scan]].
+Use [[https://github.com/wolray/symbol-overlay][symbol-overlay]] to mainly navigate between symbols in the current
+buffer. I previously used [[https://github.com/mickeynp/smart-scan][smart-scan]] for that, but symbol-overlay can
+also provide additional features such as highlighting symbols.
 
 #+BEGIN_SRC emacs-lisp
-  (use-package smartscan
-    :demand t
-    :bind (:map smartscan-map
-                ("M-n" . smartscan-symbol-go-forward)
-                ("M-p" . smartscan-symbol-go-backward))
-    :config (global-smartscan-mode t))
+  (use-package symbol-overlay
+    :commands symbol-overlay-put
+    :diminish symbol-overlay-mode
+    :hook ((prog-mode-hook . symbol-overlay-mode)
+           (html-mode-hook . symbol-overlay-mode)
+           (css-mode-hook . symbol-overlay-mode))
+    :bind (("M-n" . symbol-overlay-jump-next)
+           ("M-p" . symbol-overlay-jump-prev)))
 #+END_SRC
 
 ** shackle
