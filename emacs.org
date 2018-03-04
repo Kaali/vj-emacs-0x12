@@ -837,9 +837,7 @@ org-mode is excellent, I just use it too little.
           org-directory "~/Documents/org"
           org-default-notes-file (concat org-directory "/notes.org")
           org-replace-disputed-keys t
-          org-hide-emphasis-markers t)
-    :custom-face
-    (org-block ((t (:background "#f8f8f8")))))
+          org-hide-emphasis-markers t))
 #+END_SRC
 
 ** Projectile
@@ -1251,8 +1249,6 @@ force loading of the packages.
           ivy-magic-tilde nil)
     :bind (:map ivy-minibuffer-map
                 ("<up>" . ivy-previous-line-or-history))
-    :custom-face
-    (ivy-current-match ((t (:background "#efefef"))))
     :config
     (ivy-mode 1))
 #+END_SRC
