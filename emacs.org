@@ -1335,7 +1335,7 @@ Use Ivy for xref.
 Use [[https://github.com/PythonNut/historian.el][historian]] to get result matching based on history.
 
 #+BEGIN_SRC emacs-lisp
-  (use-package historian
+  (use-package ivy-historian
     :demand t
     :after ivy
     :config (ivy-historian-mode t))
