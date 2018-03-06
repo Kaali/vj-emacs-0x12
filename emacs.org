@@ -1872,6 +1872,18 @@ Add autocomplete for Ansible.
     (eval-after-load 'company '(add-to-list 'company-backends 'company-ansible)))
 #+END_SRC
 
+** macrostep
+
+It's nice to see what a elisp macro does sometimes. [[https://github.com/joddie/macrostep][macrostep]] is a
+nice tool for that.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package macrostep
+    :bind (:map emacs-lisp-mode-map
+           ("C-c e" . macrostep-expand)))
+
+#+END_SRC
+
 * Emacs server
 #+BEGIN_SRC emacs-lisp
   (use-package server
