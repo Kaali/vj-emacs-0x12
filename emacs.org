@@ -382,6 +382,17 @@ open more than one compilation buffer:
      (reusable-frames . t)))
 #+END_SRC
 
+** Windows settings
+
+Speed up reading sub-process output on Windows. The default setting is
+optimized for MS-DOS sub-processes. This is the new default in Emacs
+master-branch.
+
+#+BEGIN_SRC emacs-lisp
+  (when (boundp 'w32-pipe-read-delay)
+    (setq w32-pipe-read-delay 0))
+#+END_SRC
+
 ** Mac settings
 
 Setup Mac keyboard to be close to Linux.
