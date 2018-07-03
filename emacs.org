@@ -1,3 +1,4 @@
+-*- mode: org; fill-column: 78 -*-
 #+TITLE: Emacs configuration for 2018
 #+AUTHOR: Väinö Järvelä
 #+OPTIONS: toc:4 h:4
