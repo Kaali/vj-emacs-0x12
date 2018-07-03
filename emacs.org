@@ -810,6 +810,7 @@ org-mode is excellent, I just use it too little.
   (use-package org
     :bind (("C-c a" . org-agenda))
     :mode ("\\.org$" . org-mode)
+    :hook (org-mode . auto-fill-mode)
     :config
     (setq org-startup-folded t
           org-startup-with-inline-images t
@@ -1185,6 +1186,14 @@ Also install [[https://github.com/Sterlingg/json-snatcher][json-snatcher]] for g
 #+BEGIN_SRC emacs-lisp
   (use-package nix-mode
     :mode "\\.nix$")
+#+END_SRC
+
+** text-mode
+
+#+BEGIN_SRC emacs-lisp
+  (use-package text-mode
+    :ensure nil
+    :hook (text-mode . auto-fill-mode))
 #+END_SRC
 
 * Minor Modes
