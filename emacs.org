@@ -1306,6 +1306,14 @@ Add =ivy-hydra= to enable augmented UI features in swiper/counsel.
            ("M-i" . counsel-imenu)))
 #+END_SRC
 
+Add my own Counsel extensions.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package my-counsel
+    :load-path "site-lisp/counsel/"
+    :bind ("C-c m" . counsel-all-mark-ring))
+#+END_SRC
+
 Ivy's switch buffer is quite bare after getting used to Helm. [[https://github.com/Yevgnen/ivy-rich][ivy-rich]]
 makes it closer to Helm.
 
