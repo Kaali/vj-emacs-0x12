@@ -1361,21 +1361,6 @@ but still it seems I cannot live without it anymore.
     :hook (emacs-lisp-mode . smartparens-strict-mode))
 #+END_SRC
 
-** back-button
-
-Nice visual way of moving back and forth through mark-rings.
-
-#+BEGIN_SRC emacs-lisp
-  (use-package back-button
-    :defer 5
-    :diminish ""
-    :config
-    (setq back-button-local-keystrokes nil)
-    (back-button-mode t)
-    :bind (("M--" . back-button-local-backward)
-           ("M-=" . back-button-local-forward)))
-#+END_SRC
-
 ** diff-hl-mode
 
 Shows VC status at the left margin with a hook for =magit= to refresh
