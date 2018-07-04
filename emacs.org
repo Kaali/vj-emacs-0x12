@@ -1918,6 +1918,16 @@ nice tool for that.
 
 #+END_SRC
 
+** helpful
+
+#+BEGIN_SRC emacs-lisp
+  (use-package helpful
+    :commands (helpful-callable helpful-variable helpful-key)
+    :bind (("C-h f" . helpful-callable)
+           ("C-h v" . helpful-variable)
+           ("C-h k" . helpful-key)))
+#+END_SRC
+
 * Emacs server
 #+BEGIN_SRC emacs-lisp
   (use-package server
