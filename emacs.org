@@ -1249,7 +1249,9 @@ force loading of the packages.
           ivy-use-selectable-prompt t
           ivy-format-function #'ivy-format-function-line
           ivy-magic-tilde nil)
-    :bind (:map ivy-minibuffer-map
+    :bind (
+           ("C-c C-r" . ivy-resume)
+           :map ivy-minibuffer-map
                 ("<up>" . ivy-previous-line-or-history))
     :config
     (ivy-mode 1))
