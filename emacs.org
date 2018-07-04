@@ -632,6 +632,16 @@ to modify defs by providing validation and diffing capabilities.
                el-patch-define-minor-mode el-patch-feature))
 #+END_SRC
 
+** async
+
+Use [[https://github.com/jwiegley/emacs-async][emacs-async]] to compile packages asynchronously.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package async
+    :config
+    (setq async-bytecomp-package-mode t))
+#+END_SRC
+
 * Major modes
 ** Magit
 
