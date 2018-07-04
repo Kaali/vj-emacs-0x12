@@ -203,6 +203,16 @@ Add [[https://github.com/emacsmirror/diminish][diminish]] and bind-key support t
 
 Include mainly emacs configuration, with packages only for theming.
 
+** No littering
+
+Use [[https://github.com/emacscollective/no-littering][no-littering]] to enable wide array of default paths and filenames for modes
+that tries to save in .emacs.d directory. And drop my custom paths when
+possible.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package no-littering)
+#+END_SRC
+
 ** Basic settings
 
 Load private information out of this repository.
@@ -291,7 +301,6 @@ splitting the active window:
 Setup backups and history.
 
 #+BEGIN_SRC emacs-lisp
-  (setq savehist-file "~/.emacs.d/savehist")
   (savehist-mode 1)
   (setq history-length t)
   (setq history-delete-duplicates t)
@@ -316,7 +325,6 @@ backup from Emacs so it's not necessary for that either.
               auto-save-interval 0
               make-backup-files nil))
     (progn
-      (setq backup-directory-alist '(("." . "~/.emacs.d/backups")))
       (setq delete-old-versions -1)
       (setq version-control t)
       (setq vc-make-backup-files t)
@@ -1463,8 +1471,7 @@ Handle undo as a tree. More intuitive than emacs default for me.
     :demand t
     :config
     (global-undo-tree-mode)
-    (setq undo-tree-auto-save-history nil
-          undo-tree-history-directory-alist `(("." . ,(expand-file-name "~/.emacs.d/undo-tree/")))))
+    (setq undo-tree-auto-save-history nil))
 #+END_SRC
 
 ** winner-mode
@@ -1479,8 +1486,7 @@ Let's me undo and redo window configurations.
 #+BEGIN_SRC emacs-lisp
   (use-package recentf
     :config
-    (setq recentf-save-file "~/.emacs.d/recentf"
-          recentf-max-saved-items 500
+    (setq recentf-max-saved-items 500
           recentf-max-menu-items 15
           recentf-auto-cleanup 'never)
     (recentf-mode t))
