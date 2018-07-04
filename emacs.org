@@ -1467,11 +1467,14 @@ https://github.com/jwiegley/dot-emacs/blob/8e669ab1aa420486d93276db2de8fb0c0948c
 
 #+BEGIN_SRC emacs-lisp
   (use-package multiple-cursors
-    :after selected
+    :after (selected phi-search)
     :defer 5
     :bind (("C-<" . mc/mark-previous-like-this)
            ("C->" . mc/mark-next-like-this)
            ("C-*" . mc/mark-all-like-this))
+    :bind (:map mc/keymap
+                ("C-s" . phi-search)
+                ("C-r" . phi-search-backward))
     :bind (:map selected-keymap
                 ("c"   . mc/edit-lines)
                 ("*"   . mc/mark-all-like-this)
@@ -1486,6 +1489,22 @@ https://github.com/jwiegley/dot-emacs/blob/8e669ab1aa420486d93276db2de8fb0c0948c
                 ("w"   . mc/mark-next-word-like-this)
                 ("W"   . mc/mark-previous-word-like-this)
                 ("?"   . mc-hide-unmatched-lines-mode)))
+#+END_SRC
+
+** phi-search
+
+Use [[https://github.com/zk-phi/phi-search][phi-search]] as an isearch replacement when doing [[multiple-cursors][multiple-cursors]] stuff, as
+isearch doesn't work there. Not yet going to replace isearch though.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package phi-search
+    :defer 5)
+
+  (use-package phi-search-mc
+    :after (phi-search multiple-cursors)
+    :config
+    (phi-search-mc/setup-keys)
+    (add-hook 'isearch-mode-mode #'phi-search-from-isearch-mc/setup-keys))
 #+END_SRC
 
 ** undo-tree
