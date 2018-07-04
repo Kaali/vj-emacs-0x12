@@ -660,7 +660,13 @@ Use [[https://github.com/jwiegley/emacs-async][emacs-async]] to compile packages
     :config
     (setq
      magit-completing-read-function 'ivy-completing-read
-     magit-save-repository-buffers 'dontask)
+     magit-save-repository-buffers 'dontask
+     magit-wip-after-save-local-mode-lighter nil
+     magit-wip-after-apply-mode-lighter nil
+     magit-wip-before-change-mode-lighter nil)
+    (magit-wip-after-save-mode)
+    (magit-wip-after-apply-mode)
+    (magit-wip-before-change-mode)
     :bind ("C-x g" . magit-status))
 #+END_SRC
 
