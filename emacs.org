@@ -1217,12 +1217,23 @@ Also install [[https://github.com/Sterlingg/json-snatcher][json-snatcher]] for g
 #+END_SRC
 
 * Minor Modes
+** prescient
+
+Try out using [[https://github.com/raxod502/prescient.el][prescient]] for making completions smarter.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package prescient
+    :demand t
+    :config (prescient-persist-mode))
+#+END_SRC
+
 ** smex
 
 M-x replacement. Using it to augment =counsel-M-x=.
 
 #+BEGIN_SRC emacs-lisp
   (use-package smex
+    :disabled t
     :defer 5
     :commands smex)
 #+END_SRC
@@ -1353,9 +1364,19 @@ Use [[https://github.com/PythonNut/historian.el][historian]] to get result match
 
 #+BEGIN_SRC emacs-lisp
   (use-package ivy-historian
+    :disabled t
     :demand t
     :after ivy
     :config (ivy-historian-mode t))
+#+END_SRC
+
+Try out using [[prescient][prescient]] for making ivy a bit smarter, instead of smex and
+historian.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package ivy-prescient
+    :after (prescient ivy)
+    :config (ivy-prescient-mode))
 #+END_SRC
 
 ** avy
@@ -1531,6 +1552,14 @@ candidate.
     :after company
     :bind (:map company-active-map
                 ("C-c h" . company-quickhelp-manual-begin)))
+#+END_SRC
+
+Use prescient for company.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package company-prescient
+    :after (prescient company)
+    :config (company-prescient-mode))
 #+END_SRC
 
 ** fringe-helper
