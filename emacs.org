@@ -1672,22 +1672,16 @@ Used for moving quicky between windows.
     (aw-leading-char-face ((t (:foreground "3a3a3a" :weight bold :height 3.0)))))
 #+END_SRC
 
-** visual-regexp-steroids
+** visual-regexp
 
-There are a couple of problems with Emacs regexp search and replace.
-
-1. A lot of escaping, which I forget because it's inconsistent with
-   other regexp engines I'm using.
-2. You have to fly blind
-
-[[https://github.com/benma/visual-regexp-steroids.el/][visual-regexp-steroids]] tries to fix both of the problems. With a
-caveat that it requires Python for it to work.
+[[https://github.com/benma/visual-regexp.el][visual-regexp]] for easier regexp replace.
 
 #+BEGIN_SRC emacs-lisp
-  (use-package visual-regexp-steroids
-    :commands (vr/replace vr/query-replace)
+  (use-package visual-regexp
+    :commands (vr/replace vr/query-replace vr/mc-mark)
     :bind (("C-c r" . vr/replace)
-           ("C-c q" . vr/query-replace)))
+           ("C-c q" . vr/query-replace)
+           ("C-c m" . vr/mc-mark)))
 #+END_SRC
 
 ** lsp-mode
