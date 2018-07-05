@@ -1471,7 +1471,9 @@ https://github.com/jwiegley/dot-emacs/blob/8e669ab1aa420486d93276db2de8fb0c0948c
     :defer 5
     :bind (("C-<" . mc/mark-previous-like-this)
            ("C->" . mc/mark-next-like-this)
-           ("C-*" . mc/mark-all-like-this))
+           ("C-*" . mc/mark-all-like-this)
+           ("S-<down-mouse-1>")
+           ("S-<mouse-1>" . mc/add-cursor-on-click))
     :bind (:map mc/keymap
                 ("C-s" . phi-search)
                 ("C-r" . phi-search-backward))
