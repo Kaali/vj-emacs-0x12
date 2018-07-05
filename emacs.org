@@ -1421,13 +1421,16 @@ but still it seems I cannot live without it anymore.
     ;; Don't use Emacs matching paren blink as smartparens does something
     ;; similar.
     (setq blink-matching-paren nil)
+
+    (dolist (mode sp-lisp-modes)
+      (let ((mode-hook (intern (format "%S-hook" mode))))
+        (add-hook mode-hook #'smartparens-strict-mode)))
     :bind (
            :map smartparens-mode-map
                 ("C-<left>" . nil)
                 ("C-<right>" . nil)
                 ("M-<up>" . nil)
-                ("M-<down>" . nil))
-    :hook (emacs-lisp-mode . smartparens-strict-mode))
+                ("M-<down>" . nil)))
 #+END_SRC
 
 ** diff-hl-mode
