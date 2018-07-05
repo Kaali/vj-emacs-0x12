@@ -1873,6 +1873,7 @@ It's really slow to load though.
   (use-package crux
     :defer 5
     :bind* (("C-o" . crux-smart-open-line)
+            ("C-S-o" . crux-smart-open-line-above)
             ("C-a" . crux-move-beginning-of-line)))
 #+END_SRC
 
