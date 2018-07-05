@@ -235,7 +235,8 @@ Some really basic self-explanatory settings:
    inhibit-startup-message t
    require-final-newline t
    major-mode 'text-mode
-   confirm-kill-emacs 'y-or-n-p)
+   confirm-kill-emacs 'y-or-n-p
+   kill-do-not-save-duplicates t)
 
   (put 'narrow-to-region 'disabled nil)
 
