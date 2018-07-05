@@ -1303,7 +1303,15 @@ Add =ivy-hydra= to enable augmented UI features in swiper/counsel.
            ("C-c V" . ivy-pop-view)
            :map isearch-mode-map
            ("C-o" . swiper-from-isearch)
-           ("C-M-s" . swiper-from-isearch)))
+           ("C-M-s" . swiper-from-isearch)
+           :map swiper-map
+           ("M-c" . haba/swiper-mc-fixed))
+    :config
+    ;; https://github.com/abo-abo/swiper/issues/1304
+    (defun haba/swiper-mc-fixed ()
+      (interactive)
+      (setq swiper--current-window-start nil)
+      (swiper-mc)))
 #+END_SRC
 
 #+BEGIN_SRC emacs-lisp
