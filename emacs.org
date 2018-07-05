@@ -1418,6 +1418,9 @@ but still it seems I cannot live without it anymore.
     (smartparens-global-mode t)
     (show-smartparens-global-mode t)
     (sp-use-paredit-bindings)
+    ;; Don't use Emacs matching paren blink as smartparens does something
+    ;; similar.
+    (setq blink-matching-paren nil)
     :bind (
            :map smartparens-mode-map
                 ("C-<left>" . nil)
