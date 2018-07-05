@@ -456,6 +456,8 @@ Disable extra emacs cruft.
 #+BEGIN_SRC emacs-lisp
   (tool-bar-mode -1)
   (scroll-bar-mode -1)
+  (unless (eq system-type 'mac)
+    (menu-bar-mode -1))
 #+END_SRC
 
 Setup a light theme. There have been research that dark text on a
