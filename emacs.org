@@ -1409,6 +1409,9 @@ Bundle of movement stuff.
 I have had a bit of trouble with [[https://github.com/Fuco1/smartparens][smartparens]] outside of lispy stuff,
 but still it seems I cannot live without it anymore.
 
+Copied some of the smartparens configuration from [[https://github.com/raxod502/radian/blob/master/emacs/modules/radian-pairs.el][radian-pairs.el]]
+(MIT License -- Copyright (c) 2016 Radon Rosborough)
+
 #+BEGIN_SRC emacs-lisp
   (use-package smartparens
     :defer 5
@@ -1425,12 +1428,40 @@ but still it seems I cannot live without it anymore.
     (dolist (mode sp-lisp-modes)
       (let ((mode-hook (intern (format "%S-hook" mode))))
         (add-hook mode-hook #'smartparens-strict-mode)))
-    :bind (
-           :map smartparens-mode-map
-                ("C-<left>" . nil)
-                ("C-<right>" . nil)
-                ("M-<up>" . nil)
-                ("M-<down>" . nil)))
+
+    ;; Disable smartparens in org-stuff
+    (with-eval-after-load 'org
+      (add-to-list 'sp-ignore-modes-list #'org-mode))
+
+    (with-eval-after-load 'org-agenda
+      (add-to-list 'sp-ignore-modes-list #'org-agenda-mode))
+
+    (defun radian-enter-and-indent-sexp (&rest _ignored)
+      "Insert an extra newline after point, and reindent."
+      (newline)
+      (indent-according-to-mode)
+      (forward-line -1)
+      (indent-according-to-mode))
+
+    (dolist (mode '(c-mode c++-mode css-mode objc-mode java-mode
+                           js2-mode json-mode
+                           python-mode sh-mode web-mode))
+      (sp-local-pair mode "{" nil :post-handlers
+                     '((radian-enter-and-indent-sexp "RET")
+                       (radian-enter-and-indent-sexp "<return>"))))
+
+    (dolist (mode '(js2-mode json-mode python-mode web-mode))
+      (sp-local-pair mode "[" nil :post-handlers
+                     '((radian-enter-and-indent-sexp "RET")
+                       (radian-enter-and-indent-sexp "<return>"))))
+
+    (dolist (mode '(python-mode))
+      (sp-local-pair mode "(" nil :post-handlers
+                     '((radian-enter-and-indent-sexp "RET")
+                       (radian-enter-and-indent-sexp "<return>")))
+      (sp-local-pair mode "\"\"\"" "\"\"\"" :post-handlers
+                     '((radian-enter-and-indent-sexp "RET")
+                       (radian-enter-and-indent-sexp "<return>")))))
 #+END_SRC
 
 ** diff-hl-mode
