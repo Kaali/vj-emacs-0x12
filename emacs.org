@@ -582,12 +582,6 @@ Setup better defaults for Emacs keybindings:
   ;; Always reindent on newline
   (bind-key "RET" 'newline-and-indent)
 
-  ;; Use regex searches by default.
-  (bind-key "C-s" 'isearch-forward-regexp)
-  (bind-key "C-r" 'isearch-backward-regexp)
-  (bind-key "C-M-s" 'isearch-forward)
-  (bind-key "C-M-r" 'isearch-backward)
-
   ;; I want to use regexps by default with query-replace
   (bind-key "M-%" 'query-replace-regexp)
   (bind-key "C-M-%" 'query-replace)
@@ -1966,6 +1960,18 @@ nice tool for that.
            ("C-h C" . helpful-command)))
 #+END_SRC
 
+** isearch
+
+#+BEGIN_SRC emacs-lisp
+  (use-package isearch
+    :ensure nil
+    :config
+    (setq lazy-highlight-initial-delay 0)
+    :bind (("C-s" . isearch-forward-regexp)
+           ("C-r" . isearch-backward-regexp)
+           ("C-M-s" . isearch-forward)
+           ("C-M-r" . isearch-backward)))
+#+END_SRC
 * Emacs server
 #+BEGIN_SRC emacs-lisp
   (use-package server
