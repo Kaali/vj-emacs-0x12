@@ -708,27 +708,11 @@ Use [[https://github.com/magit/ssh-agency/blob/master/ssh-agency.el][ssh-agency]
     :mode "\\.ya?ml$")
 #+END_SRC
 
-** mmm
-
-#+BEGIN_SRC emacs-lisp
-  (use-package mmm-mode
-    :config
-    (setq mmm-global-mode 'maybe))
-#+END_SRC
-
 ** jinja2
 
 #+BEGIN_SRC emacs-lisp
-  (use-package jinja2-mode)
-
-  ;; Not working without demand, fix
-  (use-package mmm-jinja2
-    :requires mmm-mode
-    :mode ("\\.yml\\.j2\\'" . yaml-mode)
-    :config
-    (mmm-mode-on)
-  
-    (mmm-add-mode-ext-class 'yaml-mode "\\.yml\\.j2\\'" 'jinja2))
+  (use-package jinja2-mode
+    :mode ("\\.j2\\'" . jinja2-mode))
 #+END_SRC
 
 ** markdown
