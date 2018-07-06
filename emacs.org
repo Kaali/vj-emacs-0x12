@@ -53,6 +53,8 @@ available. Time code borrowed from [[https://github.com/jwiegley/dot-emacs/blob/
 #+BEGIN_SRC emacs-lisp
   (defconst emacs-start-time (current-time))
 
+  (defun display-startup-echo-area-message ())
+
   (add-hook 'after-init-hook
             `(lambda ()
                (let ((elapsed
