@@ -2098,7 +2098,7 @@ Try to guess buffer indentation settings with [[https://github.com/jscheid/dtrt-
 
 #+BEGIN_SRC emacs-lisp
   (use-package dtrt-indent
-    :diminish t
+    :diminish ""
     :hook (prog-mode . dtrt-indent-mode))
 #+END_SRC
 
