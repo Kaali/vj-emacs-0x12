@@ -2053,6 +2053,17 @@ Add support for ANSI control sequences. It should be better than the included
                                 (xterm-color-filter string))))))))
     )
 #+END_SRC
+
+** dtrt-indent
+
+Try to guess buffer indentation settings with [[https://github.com/jscheid/dtrt-indent][dtrt-indent]].
+
+#+BEGIN_SRC emacs-lisp
+  (use-package dtrt-indent
+    :diminish t
+    :hook (prog-mode . dtrt-indent-mode))
+#+END_SRC
+
 * Emacs server
 #+BEGIN_SRC emacs-lisp
   (use-package server
