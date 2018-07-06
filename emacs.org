@@ -1923,13 +1923,33 @@ the whole line when there is no region active. [[crux][crux]] could handle this
 with it's advices, but I want to defer it as it's really slow to load,
 but still have the functionality available.
 
+I'm replacing this with [[phi-rectangle][phi-rectangle]] for now. It has the same feature as this
+one with some nice extras.
+
 #+BEGIN_SRC emacs-lisp
   (use-package whole-line-or-region
+    :disabled t
     :unless noninteractive
     :demand t
     :diminish whole-line-or-region-local-mode
     :config
     (whole-line-or-region-global-mode 1))
+#+END_SRC
+
+** phi-rectangle
+
+[[https://github.com/zk-phi/phi-rectangle][phi-rectangle]] augments killing and yanking in a couple of important ways:
+
+1. Kills whole line if there is no region
+2. Supports [[multiple-cursors][multiple-cursors]]
+3. Yank chooses automatically between yank and yank-rectangle, so I don't have
+   to.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package phi-rectangle
+    :after multiple-cursors
+    :config
+    (phi-rectangle-mode 1))
 #+END_SRC
 
 ** selected
