@@ -633,7 +633,6 @@ to modify defs by providing validation and diffing capabilities.
 
 #+BEGIN_SRC emacs-lisp
   (use-package el-patch
-    :demand t
     :commands (el-patch-defmacro el-patch-defsubst el-patch-defvar
                el-patch-defconst el-patch-defcustom
                el-patch-define-minor-mode el-patch-feature))
