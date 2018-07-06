@@ -778,11 +778,51 @@ So my quick fix is to just override that function when running Emacs
 ** eshell
 
 #+BEGIN_SRC emacs-lisp
-  (use-package eshell
-    :preface
-    (defun vj--new-eshell () (interactive) (eshell t))
-    :bind (("C-x m" . eshell)
-           ("C-x M" . vj--new-eshell)))
+    (use-package eshell
+      :preface
+      (defun vj--new-eshell () (interactive) (eshell t))
+
+      ;; isearch things copied from jwiegley's emacs config
+      (defvar eshell-isearch-map
+        (let ((map (copy-keymap isearch-mode-map)))
+          (define-key map [(control ?m)] 'eshell-isearch-return)
+          (define-key map [return]       'eshell-isearch-return)
+          (define-key map [(control ?r)] 'eshell-isearch-repeat-backward)
+          (define-key map [(control ?s)] 'eshell-isearch-repeat-forward)
+          (define-key map [(control ?g)] 'eshell-isearch-abort)
+          (define-key map [backspace]    'eshell-isearch-delete-char)
+          (define-key map [delete]       'eshell-isearch-delete-char)
+          map)
+        "Keymap used in isearch in Eshell.")
+
+      (defun eshell-initialize ()
+        (defun eshell-spawn-external-command (beg end)
+          "Parse and expand any history references in current input."
+          (save-excursion
+            (goto-char end)
+            (when (looking-back "&!" beg)
+              (delete-region (match-beginning 0) (match-end 0))
+              (goto-char beg)
+              (insert "spawn "))))
+
+        (add-hook 'eshell-expand-input-functions 'eshell-spawn-external-command)
+
+        (use-package em-unix
+          :defer t
+          :ensure nil
+          :config
+          (unintern 'eshell/su nil)
+          (unintern 'eshell/sudo nil)))
+
+      ;; Replace default completion with a version that ivy is hooked to.
+      ;; Can't use company-mode here as it doesn't really work well with eshell.
+      (add-hook 'eshell-mode-hook
+                (lambda () 
+                  (define-key eshell-mode-map (kbd "<tab>")
+                    (lambda () (interactive) (pcomplete-std-complete)))))
+      :hook (eshell-first-time-mode-hook . eshell-initialize)
+      :bind (("C-x m" . eshell)
+             ("C-x M" . vj--new-eshell)))
 #+END_SRC
 
 ** dired
