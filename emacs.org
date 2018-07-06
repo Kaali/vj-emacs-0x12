@@ -839,14 +839,6 @@ Small dired customizations
     :after dired
     :config
     (setq-default dired-omit-files-p t))
-
-  (use-package dired+
-    :disabled t
-    :commands dired
-    :config
-    (toggle-diredp-find-file-reuse-dir 1)
-    (setq diredp-hide-details-initially-flag nil)
-    (setq diredp-hide-details-propagate-flag nil))
 #+END_SRC
 
 Add some colors with [[https://github.com/purcell/diredfl][direfl]]
