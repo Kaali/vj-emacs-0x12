@@ -461,16 +461,14 @@ Disable extra emacs cruft.
     (menu-bar-mode -1))
 #+END_SRC
 
-Setup a light theme. There have been research that dark text on a
-light background actually gives more focus for the eyes. I have always
-used dark themes everywhere, but maybe it's time to try a light one
-out, and see if it's too tiring.
+Setup a dark theme. Light theme makes the text crisper, but I cannot find
+light themes with good contrast while not being glaring.
 
 #+BEGIN_SRC emacs-lisp
   (use-package color-theme-sanityinc-tomorrow
     :demand t
     :config
-    (load-theme 'sanityinc-tomorrow-day t))
+    (load-theme 'sanityinc-tomorrow-night t))
 #+END_SRC
 
 Global settings related to Emacs UI.
