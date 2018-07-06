@@ -831,6 +831,7 @@ Small dired customizations
 #+BEGIN_SRC emacs-lisp
   (use-package dired
     :ensure nil
+    :commands dired
     :config
     (setq dired-auto-revert-buffer t))
 
