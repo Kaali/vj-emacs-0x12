@@ -412,11 +412,11 @@ Setup Mac keyboard to be close to Linux.
     (setq mac-pass-option-to-system nil
           mac-pass-control-to-system nil
           mac-pass-command-to-system nil
-          mac-command-key-is-meta t
+          mac-command-key-is-meta nil
           mac-option-key-is-meta nil
-          mac-command-modifier 'meta
+          mac-command-modifier 'control
           mac-option-modifier 'hyper
-          mac-control-modifier 'control))
+          mac-control-modifier 'meta))
 #+END_SRC
 
 Use macOS default browser for urls:
