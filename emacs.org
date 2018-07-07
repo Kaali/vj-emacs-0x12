@@ -1775,10 +1775,7 @@ Server Protocol library.
 
 #+BEGIN_SRC emacs-lisp
   (use-package lsp-mode
-    :defer 5
-    :config
-    (with-eval-after-load 'lsp-mode
-      (require 'lsp-flycheck)))
+    :defer 5)
 
   (use-package company-lsp
     :after (company lsp-mode))
