@@ -326,7 +326,8 @@ backup from Emacs so it's not necessary for that either.
         (auto-save-visited-mode t)
         (setq auto-save-timeout 30
               auto-save-interval 0
-              make-backup-files nil))
+              make-backup-files nil
+              create-lockfiles nil))
     (progn
       (setq delete-old-versions -1)
       (setq version-control t)
