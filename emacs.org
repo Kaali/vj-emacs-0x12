@@ -419,7 +419,8 @@ Setup Mac keyboard to be close to Linux.
           mac-option-key-is-meta nil
           mac-command-modifier 'control
           mac-option-modifier 'hyper
-          mac-control-modifier 'meta))
+          mac-control-modifier 'meta
+          mac-function-modifier 'meta))
 #+END_SRC
 
 Use macOS default browser for urls:
