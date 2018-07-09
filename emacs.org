@@ -286,7 +286,9 @@ investigate why.
     :unless (memq window-system '(w32))
     :config
     (setq exec-path-from-shell-arguments '("-l"))
-    (make-thread #'exec-path-from-shell-initialize))
+    (if (>= emacs-major-version 26)
+        (make-thread #'exec-path-from-shell-initialize)
+      (exec-path-from-shell-initialize)))
 #+END_SRC
 
 Delete selected text when backspacing:
