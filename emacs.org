@@ -1586,6 +1586,8 @@ Handle undo as a tree. More intuitive than emacs default for me.
   (use-package undo-tree
     :diminish undo-tree-mode
     :demand t
+    :bind (:map undo-tree-map
+                ("C-/" . nil))
     :config
     (global-undo-tree-mode)
     (setq undo-tree-auto-save-history nil))
