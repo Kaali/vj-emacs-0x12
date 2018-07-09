@@ -1884,7 +1884,10 @@ snippets, and a quick snippet creation mode: [[https://github.com/abo-abo/auto-y
 
   (use-package auto-yasnippet
     :after yasnippet
-    :commands (aya-create aya-expand aya-open-line aya-persist-snippet))
+    :commands (aya-create aya-expand aya-open-line aya-persist-snippet)
+    :bind (("C-c y a" . aya-create)
+           ("C-c y e" . aya-expand)
+           ("C-c y o" . aya-open-line)))
 #+END_SRC
 
 ** crux
