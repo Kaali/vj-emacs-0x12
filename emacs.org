@@ -591,6 +591,10 @@ Setup better defaults for Emacs keybindings:
   ;; Kill this buffer by default
   (bind-key "C-x k" 'kill-this-buffer)
   (bind-key "C-x K" 'kill-buffer)
+
+  ;; With control as meta, I need C-/ for completion because of muscle
+  ;; memory, and I never use C-z
+  (bind-key "C-z" 'undo)
 #+END_SRC
 
 I use join-line a lot:
