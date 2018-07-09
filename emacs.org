@@ -1616,7 +1616,8 @@ Use [[https://github.com/company-mode/company-mode][company-mode]] for auto comp
     :defer 5
     :diminish company-mode
     :hook (after-init . global-company-mode)
-    :bind ("M-/" . company-complete)
+    :bind (("M-/" . company-complete)
+           ("C-/" . company-complete))
     :config
     ; from https://github.com/jwiegley/dot-emacs/blob/2284be300ec20505d6a79f0f35a66b11efc0d41c/init.el#L761
     (eval-after-load "yasnippet"
