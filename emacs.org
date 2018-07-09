@@ -417,9 +417,9 @@ Setup Mac keyboard to be close to Linux.
           mac-pass-control-to-system nil
           mac-pass-command-to-system nil
           mac-command-key-is-meta nil
-          mac-option-key-is-meta nil
+          mac-option-key-is-meta t
           mac-command-modifier 'control
-          mac-option-modifier 'hyper
+          mac-option-modifier 'meta
           mac-control-modifier 'meta
           mac-function-modifier 'meta))
 #+END_SRC
