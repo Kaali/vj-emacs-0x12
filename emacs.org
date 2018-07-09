@@ -890,6 +890,7 @@ Projectile counsel support.
 
 #+BEGIN_SRC emacs-lisp
   (use-package counsel-projectile
+    :demand t
     :after (counsel projectile)
     :commands (counsel-projectile-find-file
                counsel-projectile-find-dir
@@ -1334,6 +1335,7 @@ Add =ivy-hydra= to enable augmented UI features in swiper/counsel.
 
 #+BEGIN_SRC emacs-lisp
   (use-package counsel
+    :demand t
     :after ivy
     :commands (counsel-minibuffer-history counsel-apropos
                counsel-bookmark counsel-describe-face
