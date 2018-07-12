@@ -1738,6 +1738,7 @@ Used for moving quicky between windows.
 
 #+BEGIN_SRC emacs-lisp
   (use-package ace-window
+    :disabled t
     :commands ace-window
     :bind (("C-x o" . ace-window)
            ("C-\\" . ace-window))
@@ -1748,6 +1749,30 @@ Used for moving quicky between windows.
     (aw-leading-char-face ((t (:foreground "3a3a3a" :weight bold :height 3.0)))))
 #+END_SRC
 
+** switch-window
+
+Used for moving visually between windows. I've been having problems with
+[[ace-window]] not showing the switch characters for all the windows. There is
+some discussion going on at [[https://github.com/abo-abo/ace-window/issues/131][Github]]. Trying out [[https://github.com/dimitri/switch-window][switch-window]] as an alternative
+for now.
+
+Sadly this mode doesn't show the contents.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package switch-window
+    :bind (("C-x o" . switch-window)
+           ("C-\\" . switch-window)
+           ("C-1" . switch-window-then-maximize)
+           ("C-2" . switch-window-then-split-below)
+           ("C-3" . switch-window-then-split-right)
+           ("C-0" . switch-window-then-delete))
+    :config
+    (setq switch-window-shortcut-style 'qwerty
+          switch-window-qwerty-shortcuts '("a" "s" "d" "f" "j" "k" "l" ";" "w" "e" "i" "o")
+          switch-window-increase 1
+          switch-window-threshold 2
+          switch-window-minibuffer-shortcut ?z))
+#+END_SRC
 ** visual-regexp
 
 [[https://github.com/benma/visual-regexp.el][visual-regexp]] for easier regexp replace.
