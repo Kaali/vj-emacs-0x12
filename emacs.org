@@ -666,6 +666,11 @@ Use [[https://github.com/jwiegley/emacs-async][emacs-async]] to compile packages
   (use-package magit
     :defer 5
     :after ivy
+    :preface
+    (defun vj--demand-magit-if-git-registered ()
+      (when (vc-git-registered (buffer-file-name))
+        (require 'magit)))
+    (add-to-list 'find-file-hook #'vj--demand-magit-if-git-registered)
     :config
     (setq
      magit-completing-read-function 'ivy-completing-read
