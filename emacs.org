@@ -1455,7 +1455,7 @@ Copied some of the smartparens configuration from [[https://github.com/raxod502/
     (require 'smartparens-config)
     (smartparens-global-mode t)
     (show-smartparens-global-mode t)
-    (sp-use-paredit-bindings)
+    (sp-use-smartparens-bindings)
     ;; Don't use Emacs matching paren blink as smartparens does something
     ;; similar.
     (setq blink-matching-paren nil)
