@@ -418,11 +418,11 @@ Setup Mac keyboard to be close to Linux.
     (setq mac-pass-option-to-system nil
           mac-pass-control-to-system nil
           mac-pass-command-to-system nil
-          mac-command-key-is-meta nil
-          mac-option-key-is-meta t
-          mac-command-modifier 'control
-          mac-option-modifier 'meta
-          mac-control-modifier 'meta
+          mac-command-key-is-meta t
+          mac-option-key-is-meta nil
+          mac-command-modifier 'meta
+          mac-option-modifier 'control
+          mac-control-modifier 'control
           mac-function-modifier 'meta))
 #+END_SRC
 
