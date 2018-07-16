@@ -1256,6 +1256,15 @@ Also install [[https://github.com/Sterlingg/json-snatcher][json-snatcher]] for g
     :hook (text-mode . auto-fill-mode))
 #+END_SRC
 
+** deadgrep
+
+Try out [[https://github.com/Wilfred/deadgrep][deadgrep]] for fast grepping with a easy to use UI.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package deadgrep
+    :bind ("M-s g" . deadgrep))
+#+END_SRC
+
 * Minor Modes
 ** prescient
 
