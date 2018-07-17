@@ -2033,9 +2033,11 @@ Control Emacs buffers with [[https://github.com/wasamasa/shackle][shackle]].
      shackle-rules '(("\\`\\*Flycheck" :regexp t :size 0.2 :noselect t :align bottom)
                      ("*Warnings*" :size 0.2 :noselect t :align bottom)
                      ("\\`\\*COMMIT_EDITMSG" :regexp t :size 0.5 :align right)
-                     (magit-diff-mode :select nil :align bottom :size 0.5)
+                     (magit-diff-mode :noselect t :align bottom :size 0.5)
                      (magit-commit-mode :ignore t)
-                     ("*edebug-trace*" :size 0.2 :align bottom)))
+                     ("*edebug-trace*" :size 0.2 :align bottom)
+                     ("*Messages*" :select t :size 0.4 :align t)
+                     (compilation-mode :noselect t :size 0.4 :align t)))
     (shackle-mode))
 #+END_SRC
 
