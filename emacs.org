@@ -105,6 +105,13 @@ is started with =-mm= command line parameter.
   (setq initial-frame-alist '((fullscreen . maximized)))
 #+END_SRC
 
+** Harden TLS
+
+#+BEGIN_SRC emacs-lisp
+  (require 'tls)
+  (setq tls-checktrust t)
+#+END_SRC
+
 ** Use custom file
 Use a specific custom file instead of saving things in =init.el= which
 is used to bootstrap =org-babel=.
