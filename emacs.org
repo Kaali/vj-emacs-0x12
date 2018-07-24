@@ -158,11 +158,22 @@ still works.
 #+BEGIN_SRC emacs-lisp
   (defun vj--setup-package-el (&optional _)
     (require 'package)
+    ;; Make package-installed-p only check the user package dir for org-mode
+    ;; to make it skip the bundled org-mode.
+    (defun vj--package-installed-p (orig-fn &rest args)
+      (if (eq (car args) 'org)
+          (if (file-expand-wildcards (concat package-user-dir "/org-[0-9]*")) t nil)
+        (apply orig-fn args)))
+    (advice-add 'package-installed-p :around #'vj--package-installed-p)
+
     (let* ((no-ssl (and (memq system-type '(windows-nt ms-dos))
                         (not (gnutls-available-p))))
            (proto (if no-ssl "http" "https")))
       (add-to-list 'package-archives (cons "melpa" (concat proto "://melpa.org/packages/")) t)
-      (add-to-list 'package-archives (cons "org" (concat proto "://orgmode.org/elpa/")) t)))
+      (add-to-list 'package-archives (cons "org" (concat proto "://orgmode.org/elpa/")) t)
+      (setq package-archive-priorities '(("org" . 3)
+                                         ("melpa" . 2)
+                                         ("gnu" . 1)))))
 
   (advice-add #'package-initialize :before #'vj--setup-package-el)
 
