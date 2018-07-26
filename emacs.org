@@ -2050,13 +2050,13 @@ also provide additional features such as highlighting symbols.
 
 #+BEGIN_SRC emacs-lisp
   (use-package symbol-overlay
-    :commands symbol-overlay-put
     :diminish symbol-overlay-mode
     :hook ((prog-mode-hook . symbol-overlay-mode)
            (html-mode-hook . symbol-overlay-mode)
            (css-mode-hook . symbol-overlay-mode))
     :bind (("M-n" . symbol-overlay-jump-next)
-           ("M-p" . symbol-overlay-jump-prev)))
+           ("M-p" . symbol-overlay-jump-prev)
+           ("C-c o" . symbol-overlay-put)))
 #+END_SRC
 
 ** shackle
