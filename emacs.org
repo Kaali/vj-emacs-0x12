@@ -905,9 +905,10 @@ Project management support.
   (use-package projectile
     :demand t
     :commands projectile-mode
+    :preface
+    (setq projectile-keymap-prefix (kbd "C-c p"))
     :config
     (setq
-     projectile-keymap-prefix (kbd "C-c p")
      projectile-completion-system 'ivy
      projectile-enable-caching nil
      projectile-indexing-method 'alien
