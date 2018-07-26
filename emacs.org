@@ -1671,19 +1671,8 @@ Use [[https://github.com/company-mode/company-mode][company-mode]] for auto comp
     :diminish company-mode
     :hook (after-init . global-company-mode)
     :bind (("M-/" . company-complete)
-           ("C-/" . company-complete))
+           ("C-/" . company-yasnippet))
     :config
-    ; from https://github.com/jwiegley/dot-emacs/blob/2284be300ec20505d6a79f0f35a66b11efc0d41c/init.el#L761
-    (eval-after-load "yasnippet"
-      '(progn
-         (defun company-mode/backend-with-yas (backend)
-           (if (and (listp backend) (member 'company-yasnippet backend))
-               backend
-             (append (if (consp backend) backend (list backend))
-                     '(:with company-yasnippet))))
-         (setq company-backends
-               (mapcar #'company-mode/backend-with-yas company-backends))))
-
     (setq company-minimum-prefix-length 2
           company-selection-wrap-around t
           company-show-numbers t
