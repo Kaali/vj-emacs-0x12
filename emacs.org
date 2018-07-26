@@ -1406,6 +1406,7 @@ Add =ivy-hydra= to enable augmented UI features in swiper/counsel.
     :bind (("C-h C-h" . counsel-M-x)
            ("M-s a" . counsel-ag)
            ("M-s g" . counsel-git-grep)
+           ("M-s f" . counsel-file-jump)
            ("M-i" . counsel-imenu)))
 #+END_SRC
 
