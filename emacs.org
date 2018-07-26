@@ -1285,7 +1285,7 @@ Try out [[https://github.com/Wilfred/deadgrep][deadgrep]] for fast grepping with
 
 #+BEGIN_SRC emacs-lisp
   (use-package deadgrep
-    :bind ("M-s g" . deadgrep))
+    :bind ("M-s d" . deadgrep))
 #+END_SRC
 
 * Minor Modes
@@ -1360,7 +1360,7 @@ Add =ivy-hydra= to enable augmented UI features in swiper/counsel.
     :after ivy
     :commands (swiper swiper-all)
     :bind (
-           ("C-M-s" . counsel-grep-or-swiper)
+           ("M-s s" . counsel-grep-or-swiper)
            ("C-c v" . ivy-push-view)
            ("C-c V" . ivy-pop-view)
            :map isearch-mode-map
@@ -1403,8 +1403,8 @@ Add =ivy-hydra= to enable augmented UI features in swiper/counsel.
            ([remap imenu]                    . counsel-imenu)
            ([remap recentf-open-files]       . counsel-recentf))
     :bind (("C-h C-h" . counsel-M-x)
-           ("C-c f" . counsel-ag)
-           ("C-c g" . counsel-git-grep)
+           ("M-s a" . counsel-ag)
+           ("M-s g" . counsel-git-grep)
            ("M-i" . counsel-imenu)))
 #+END_SRC
 
