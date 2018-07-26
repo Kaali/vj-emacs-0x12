@@ -951,8 +951,12 @@ Default to Python 3 on macOS. Requires installation from homebrew.
 
 Setup Anaconda mode for Python autocomplete and navigation.
 
+NOTE: Anaconda is disabled for now as I'm testing [[eglot]] with
+[[https://github.com/palantir/python-language-server][python-language-server]].
+
 #+BEGIN_SRC emacs-lisp
   (use-package anaconda-mode
+    :disabled t
     :after python
     :commands anaconda-mode
     :hook ((python-mode . anaconda-mode)
@@ -1098,6 +1102,7 @@ Requires [[https://github.com/sourcegraph/javascript-typescript-langserver][Java
     :config (setq js2-basic-offset 2))
 
   (use-package lsp-javascript-typescript
+    :disabled t
     :init
     (defun vj--lsp-javascript-typescript-enable ()
       (unless (file-remote-p default-directory)
@@ -1820,6 +1825,20 @@ Sadly this mode doesn't show the contents.
            ("C-c m" . vr/mc-mark)))
 #+END_SRC
 
+** eglot
+
+Try [[https://github.com/joaotavora/eglot][eglot]] for my LSP needs. It seems to be simpler than [[lsp-mode]]. Most
+important feature in eglot vs. lsp-mode is that it can handle LSP server
+shutdowns more gracefully (and can restart them automatically).
+
+Requires Emacs 26.1.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package eglot
+    :after (company company-quickhelp)
+    :commands eglot)
+#+END_SRC
+
 ** lsp-mode
 
 Try out [[https://github.com/emacs-lsp/lsp-mode][lsp-mode]] for language support. It's a Microsoft Language
@@ -1827,6 +1846,7 @@ Server Protocol library.
 
 #+BEGIN_SRC emacs-lisp
   (use-package lsp-mode
+    :disabled t
     :defer 5)
 
   (use-package company-lsp
@@ -2050,6 +2070,7 @@ Control Emacs buffers with [[https://github.com/wasamasa/shackle][shackle]].
     (setq
      shackle-default-rule '(:select t)
      shackle-rules '(("\\`\\*Flycheck" :regexp t :size 0.2 :noselect t :align bottom)
+                     ("\\`\\*Flymake" :regexp t :size 0.2 :noselect t :align bottom)
                      ("*Warnings*" :size 0.2 :noselect t :align bottom)
                      ("\\`\\*COMMIT_EDITMSG" :regexp t :size 0.5 :align right)
                      (magit-diff-mode :noselect t :align bottom :size 0.5)
