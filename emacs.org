@@ -1289,6 +1289,16 @@ Try out [[https://github.com/Wilfred/deadgrep][deadgrep]] for fast grepping with
     :bind ("M-s d" . deadgrep))
 #+END_SRC
 
+** treemacs
+
+Use [[https://github.com/Alexander-Miller/treemacs][treemacs]] as a project browser. I usually don't use tree browsers, but it's
+greate when exploring a project I'm not familiar with.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package treemacs
+    :commands treemacs)
+#+END_SRC
+
 * Minor Modes
 ** prescient
 
