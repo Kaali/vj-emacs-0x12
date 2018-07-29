@@ -850,6 +850,8 @@ Small dired customizations
   (use-package dired
     :ensure nil
     :commands dired
+    :bind (:map dired-mode-map
+                ("M-s f"))
     :config
     (setq dired-auto-revert-buffer t))
 
