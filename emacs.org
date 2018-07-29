@@ -1299,6 +1299,10 @@ greate when exploring a project I'm not familiar with.
 #+BEGIN_SRC emacs-lisp
   (use-package treemacs
     :commands treemacs)
+
+  (use-package treemacs-projectile
+    :requires treemacs
+    :commands treemacs-projectile)
 #+END_SRC
 
 * Minor Modes
