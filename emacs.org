@@ -1854,6 +1854,28 @@ Requires Emacs 26.1.
   (use-package eglot
     :after (company company-quickhelp)
     :commands eglot
+    :preface
+    ;; Patch to shutdown eglot, because of the yes-no advice is not enough
+    (with-eval-after-load 'projectile
+      (with-eval-after-load 'eglot
+        (el-patch-defun projectile-kill-buffers ()
+          "Kill all project buffers."
+          (interactive)
+          (let ((name (projectile-project-name))
+                (buffers (projectile-project-buffers)))
+            (if (yes-or-no-p
+                 (format "Are you sure you want to kill %d buffer(s) for '%s'? "
+                         (length buffers) name))
+                ;; we take care not to kill indirect buffers directly
+                ;; as we might encounter them after their base buffers are killed
+                (mapc (el-patch-swap
+                        #'kill-buffer
+                        (lambda (buffer)
+                          (ignore-errors
+                            (when-let* ((server (eglot--current-server)))
+                              (eglot-shutdown server)))
+                          (kill-buffer buffer)))
+                      (cl-remove-if 'buffer-base-buffer buffers)))))))
     :config
     (add-to-list 'eglot-server-programs '(typescript-mode . ("javascript-typescript-stdio"))))
 #+END_SRC
