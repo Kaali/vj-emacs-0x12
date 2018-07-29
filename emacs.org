@@ -556,12 +556,11 @@ out of date with magit.
 
   (defvar vj--projectile-mode-line)
   (put 'vj--projectile-mode-line 'risky-local-variable t)
-  (eval-after-load "projectile"
-    '(progn
-       (setq vj--projectile-mode-line
-             '(:propertize
-               (:eval (when (projectile-project-p)
-                        (concat " [" (projectile-project-name) "]")))))))
+  (with-eval-after-load 'projectile
+    (setq vj--projectile-mode-line
+          '(:propertize
+            (:eval (when (projectile-project-p)
+                     (concat " [" (projectile-project-name) "]"))))))
 
   (setq-default mode-line-format
                 '((:eval (vj--modeline-justify
@@ -1066,7 +1065,7 @@ project styles, it's convenient to use [[https://github.com/Sarcasm/flycheck-iro
 #+BEGIN_SRC emacs-lisp
   (use-package flycheck-irony
     :after (flycheck irony)
-    :config (eval-after-load 'flycheck '(add-to-list 'flycheck-checkers 'irony)))
+    :config (with-eval-after-load 'flycheck (add-to-list 'flycheck-checkers 'irony)))
 #+END_SRC
 
 There is also =irony-eldoc= for seeing function interfaces when you
@@ -2124,7 +2123,8 @@ Add autocomplete for Ansible.
   (use-package company-ansible
     :after company
     :config
-    (eval-after-load 'company '(add-to-list 'company-backends 'company-ansible)))
+    (with-eval-after-load 'company
+      (add-to-list 'company-backends 'company-ansible)))
 #+END_SRC
 
 ** macrostep
