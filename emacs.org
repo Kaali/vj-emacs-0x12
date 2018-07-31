@@ -1306,14 +1306,15 @@ greate when exploring a project I'm not familiar with.
 #+END_SRC
 
 * Minor Modes
-** smex
+** amx
 
-M-x replacement. Using it to augment =counsel-M-x=.
+M-x replacement. Using it to augment =counsel-M-x=. Fork of smex.
 
 #+BEGIN_SRC emacs-lisp
-  (use-package smex
+  (use-package amx
     :defer 5
-    :commands smex)
+    :commands amx
+    :bind ("M-X" . amx-major-mode-commands))
 #+END_SRC
 
 ** Ivy
