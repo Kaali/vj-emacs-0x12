@@ -46,12 +46,13 @@
                                   (line-number-at-pos (point-max)))))))
         (seq-uniq
          (mapcar (lambda (mark)
-                   (goto-char (marker-position mark))
-                   (let ((linum (line-number-at-pos))
-                         (line  (buffer-substring
-                                 (line-beginning-position)
-                                 (line-end-position))))
-                     (cons (format fmt linum line) (cons (point) (current-buffer)))))
+                   (when (marker-position mark)
+                     (goto-char (marker-position mark))
+                     (let ((linum (line-number-at-pos))
+                           (line  (buffer-substring
+                                   (line-beginning-position)
+                                   (line-end-position))))
+                       (cons (format fmt linum line) (cons (point) (current-buffer))))))
                  (if (mark t)
                      (cons (mark-marker) mark-ring)
                    mark-ring))
