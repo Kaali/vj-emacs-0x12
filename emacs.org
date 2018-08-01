@@ -1422,7 +1422,7 @@ Add my own Counsel extensions.
   (use-package my-counsel
     :after counsel
     :load-path "site-lisp/counsel/"
-    :bind ("C-c m" . counsel-all-mark-ring))
+    :bind ("C-c i" . counsel-all-mark-ring))
 #+END_SRC
 
 Ivy's switch buffer is quite bare after getting used to Helm. [[https://github.com/Yevgnen/ivy-rich][ivy-rich]]
