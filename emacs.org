@@ -2222,6 +2222,16 @@ Use [[https://github.com/wbolster/emacs-direnv][emacs-direnv]] to setup buffer e
     (direnv-mode))
 #+END_SRC
 
+** pos-tip
+
+Fix pos-tip behavior on macOS.
+
+#+BEGIN_SRC emacs-lisp
+  (with-eval-after-load 'pos-tip
+    (if (eq system-type 'darwin)
+        (setq pos-tip-use-relative-coordinates t)))
+#+END_SRC
+
 * Emacs server
 #+BEGIN_SRC emacs-lisp
   (use-package server
