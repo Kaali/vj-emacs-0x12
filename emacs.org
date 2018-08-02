@@ -2211,6 +2211,17 @@ Try to guess buffer indentation settings with [[https://github.com/jscheid/dtrt-
     :hook (prog-mode . dtrt-indent-mode))
 #+END_SRC
 
+** direnv
+
+Use [[https://github.com/wbolster/emacs-direnv][emacs-direnv]] to setup buffer environment using [[https://github.com/direnv/direnv][direnv]].
+
+#+BEGIN_SRC emacs-lisp
+  (use-package direnv
+    :diminish
+    :config
+    (direnv-mode))
+#+END_SRC
+
 * Emacs server
 #+BEGIN_SRC emacs-lisp
   (use-package server
