@@ -1691,8 +1691,11 @@ candidate.
 #+BEGIN_SRC emacs-lisp
   (use-package company-quickhelp
     :after company
+    :demand t
     :bind (:map company-active-map
-                ("C-c h" . company-quickhelp-manual-begin)))
+                ("C-c h" . company-quickhelp-manual-begin))
+    :config
+    (company-quickhelp-mode))
 #+END_SRC
 
 ** fringe-helper
