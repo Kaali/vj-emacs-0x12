@@ -1037,6 +1037,7 @@ can install =libclang= with:
     :hook ((c++-mode c-mode objc-mode) . irony-mode)
     :config
     (add-hook 'irony-mode-hook 'my-irony-mode-hook)
+    (require 'irony-cdb)
     (add-hook 'irony-mode-hook 'irony-cdb-autosetup-compile-options)
     (when (boundp 'w32-pipe-buffer-size)
       (setq irony-server-w32-pipe-buffer-size (* 64 1024))))
