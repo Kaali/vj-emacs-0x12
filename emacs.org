@@ -294,7 +294,6 @@ Mark-ring is navigable by typing =C-u C-SPC= and then repeating
 
 When executing shell commands from emacs, set =PATH= correctly. This
 slows down Emacs startup quite a lot depending on what the shell does.
-I have [[https://github.com/creationix/nvm][nvm]] installed, which slows it down quite a lot.
 
 For some reason I have to run it twice to get a final =PATH= should
 investigate why.
@@ -304,9 +303,7 @@ investigate why.
     :unless (memq window-system '(w32))
     :config
     (setq exec-path-from-shell-check-startup-files nil)
-    (if (>= emacs-major-version 26)
-        (make-thread #'exec-path-from-shell-initialize)
-      (exec-path-from-shell-initialize)))
+    (exec-path-from-shell-initialize))
 #+END_SRC
 
 Delete selected text when backspacing:
