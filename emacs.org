@@ -2051,6 +2051,7 @@ selections much easier on the fingers.
     :diminish selected-minor-mode
     :commands selected-minor-mode
     :bind (:map selected-keymap
+                ("q" . selected-off)
                 ("<tab>" . indent-region)
                 ("m" . apply-macro-to-region-lines))
     :config
