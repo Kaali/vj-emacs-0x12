@@ -2211,7 +2211,10 @@ Try to guess buffer indentation settings with [[https://github.com/jscheid/dtrt-
 #+BEGIN_SRC emacs-lisp
   (use-package dtrt-indent
     :diminish ""
-    :hook (prog-mode . dtrt-indent-mode))
+    :hook (prog-mode . dtrt-indent-mode)
+    :config
+    (add-to-list 'dtrt-indent-hook-mapping-list '(typescript-mode javascript typescript-indent-level)))
+
 #+END_SRC
 
 ** direnv
