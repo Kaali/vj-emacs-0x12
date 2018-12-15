@@ -1500,6 +1500,7 @@ Copied some of the smartparens configuration from [[https://github.com/raxod502/
            (sp-kill-hybrid-sexp nil)))))
     (define-key smartparens-strict-mode-map
       [remap kill-region] #'vj--sp-strict-kill-region-or-whole-line)
+    (define-key smartparens-mode-map (kbd "M-<backspace>") nil)
 
     (dolist (mode sp-lisp-modes)
       (let ((mode-hook (intern (format "%S-hook" mode))))
