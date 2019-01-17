@@ -2225,6 +2225,7 @@ Use [[https://github.com/wbolster/emacs-direnv][emacs-direnv]] to setup buffer e
 
 #+BEGIN_SRC emacs-lisp
   (use-package direnv
+    :if (not (eq system-type 'windows-nt))
     :diminish
     :config
     (direnv-mode))
