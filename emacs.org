@@ -2,6 +2,7 @@
 #+TITLE: Emacs configuration for 2018
 #+AUTHOR: Väinö Järvelä
 #+OPTIONS: toc:4 h:4
+#+PROPERTY: header-args :comments yes
 
 * Intro
 
