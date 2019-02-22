@@ -899,14 +899,12 @@ Project management support.
     :demand t
     :diminish
     :commands projectile-mode
-    :preface
-    (setq projectile-keymap-prefix (kbd "C-c p"))
     :config
+    (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
     (setq
      projectile-completion-system 'ivy
      projectile-enable-caching nil
-     projectile-indexing-method 'alien
-     projectile-mode-line nil)
+     projectile-indexing-method 'alien)
     (projectile-mode))
 #+END_SRC
 
