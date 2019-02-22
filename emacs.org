@@ -1339,6 +1339,8 @@ force loading of the packages.
           ivy-magic-tilde nil)
     :bind (
            ("C-c C-r" . ivy-resume)
+           ("C-c v" . ivy-push-view)
+           ("C-c V" . ivy-pop-view)
            :map ivy-minibuffer-map
                 ("<up>" . ivy-previous-line-or-history))
     :config
@@ -1358,8 +1360,6 @@ Add =ivy-hydra= to enable augmented UI features in swiper/counsel.
     :commands (swiper swiper-all)
     :bind (
            ("M-s s" . counsel-grep-or-swiper)
-           ("C-c v" . ivy-push-view)
-           ("C-c V" . ivy-pop-view)
            :map isearch-mode-map
            ("C-o" . swiper-from-isearch)
            ("C-M-s" . swiper-from-isearch)
