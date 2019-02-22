@@ -24,3 +24,4 @@ custom.el
 bookmarks
 server/server
 .historian
+.cache
