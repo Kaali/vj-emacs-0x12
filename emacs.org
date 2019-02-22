@@ -876,7 +876,9 @@ org-mode is excellent, I just use it too little.
 
 #+BEGIN_SRC emacs-lisp
   (use-package org
-    :bind (("C-c a" . org-agenda))
+    :bind (("C-c a" . org-agenda)
+           :map org-mode-map
+           ("C-'"))
     :mode ("\\.org$" . org-mode)
     :hook (org-mode . auto-fill-mode)
     :config
