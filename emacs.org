@@ -1252,7 +1252,7 @@ loaded.
 
 ** json
 
-Use a proper [[https://github.com/joshwnj/json-mode][json-mode]] instead of =j2-mode=. Prettier colors and a
+Use a proper [[https://github.com/joshwnj/json-mode][json-mode]] instead of =js2-mode=. Prettier colors and a
 formatter.
 
 #+BEGIN_SRC emacs-lisp
