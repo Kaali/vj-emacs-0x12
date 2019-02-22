@@ -904,6 +904,7 @@ Project management support.
 #+BEGIN_SRC emacs-lisp
   (use-package projectile
     :demand t
+    :diminish
     :commands projectile-mode
     :preface
     (setq projectile-keymap-prefix (kbd "C-c p"))
