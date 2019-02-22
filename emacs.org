@@ -1421,7 +1421,6 @@ makes it closer to Helm.
 
 #+BEGIN_SRC emacs-lisp
   (use-package ivy-rich
-    :demand t
     :after (ivy)
     :config
     (setq
@@ -1443,7 +1442,6 @@ Use [[https://github.com/PythonNut/historian.el][historian]] to get result match
 
 #+BEGIN_SRC emacs-lisp
   (use-package ivy-historian
-    :demand t
     :after ivy
     :config (ivy-historian-mode t))
 #+END_SRC
@@ -1678,7 +1676,6 @@ candidate.
 #+BEGIN_SRC emacs-lisp
   (use-package company-quickhelp
     :after company
-    :demand t
     :bind (:map company-active-map
                 ("C-c h" . company-quickhelp-manual-begin))
     :config
