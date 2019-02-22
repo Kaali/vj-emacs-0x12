@@ -1303,7 +1303,6 @@ M-x replacement. Using it to augment =counsel-M-x=. Fork of smex.
 
 #+BEGIN_SRC emacs-lisp
   (use-package amx
-    :defer 5
     :commands amx
     :bind ("M-X" . amx-major-mode-commands))
 #+END_SRC
