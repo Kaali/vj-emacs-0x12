@@ -1911,12 +1911,12 @@ Combine all the navigation tools under a single umbrella with
     :commands smart-jump-go
     :config
     (smart-jump-setup-default-registers)
-    ; Replace the default elisp registration as I don't have slime and it doesn't
-    ; work without it
+    ;; Replace the default elisp registration as I don't have slime and it doesn't
+    ;; work without it
     (smart-jump-register :modes '(emacs-lisp-mode lisp-interaction-mode))
-    ; Also add js2-mode mode, as the defaults requires rjsx-mode?
-    (smart-jump-register :modes '(js2-mode))
-    )
+    ;; Also add js2-mode mode, as the defaults requires rjsx-mode?
+    (with-eval-after-load 'js2-mode
+      (smart-jump-register :modes '(js2-mode))))
 #+END_SRC
 
 ** try
