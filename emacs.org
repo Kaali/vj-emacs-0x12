@@ -507,14 +507,6 @@ Global settings related to Emacs UI.
    indicate-empty-lines nil)
 #+END_SRC
 
-Make the fringe a bit smaller. Looks a lot nicer than the default wide
-one when using [[diff-hl]] in the fringe. But it also requires some care
-with some fringe bitmaps, which is why I include [[fringe-helper]].
-
-#+BEGIN_SRC emacs-lisp
-  (fringe-mode 4)
-#+END_SRC
-
 Show column number and buffer size in the modeline.
 
 #+BEGIN_SRC emacs-lisp
@@ -1701,19 +1693,9 @@ candidate.
     (company-quickhelp-mode))
 #+END_SRC
 
-** fringe-helper
-
-Customize fringe bitmaps with [[https://github.com/nschum/fringe-helper.el][fringe-helper]].
-
-#+BEGIN_SRC emacs-lisp
-  (use-package fringe-helper
-    :commands fringe-helper-define)
-#+END_SRC
-
 ** flycheck
 
-Flycheck is a nice on the fly syntax / compilation checker. Fringe
-copied from [[https://github.com/hlissner/doom-emacs][doom-emacs]].
+Flycheck is a nice on the fly syntax / compilation checker.
 
 #+BEGIN_SRC emacs-lisp
   (use-package flycheck
@@ -1723,15 +1705,7 @@ copied from [[https://github.com/hlissner/doom-emacs][doom-emacs]].
            (c++-mode-hook . (lambda () (setq flycheck-clang-language-standard "c++11"))))
     :commands (flycheck-mode flycheck-next-error flycheck-previous-error)
     :config
-    (setq flycheck-indication-mode 'right-fringe)
-    (fringe-helper-define 'flycheck-fringe-bitmap-double-arrow 'center
-      "...X...."
-      "..XX...."
-      ".XXX...."
-      "XXXX...."
-      ".XXX...."
-      "..XX...."
-      "...X...."))
+    (setq flycheck-indication-mode 'right-fringe))
 #+END_SRC
 
 ** whitespace
