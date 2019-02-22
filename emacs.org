@@ -987,7 +987,7 @@ indentation level 2.
     (add-hook 'c-mode-common-hook 'my-c-mode-setup))
 #+END_SRC
 
-**** RTags
+*** RTags
 
 =irony-mode= has not been a complete success for me, with a lot of
 timeouts or just not understanding other than basic method or function
@@ -1009,7 +1009,7 @@ support seems to be a bit lacking vs. separate tools such as
     (setq rtags-display-result-backend 'ivy))
 #+END_SRC
 
-**** Irony
+*** Irony
 
 For autocomplete use [[https://github.com/Sarcasm/irony-mode][irony-mode]], as it seems to be quite lightweight,
 but still quite feature complete. =company-mode= can do completion
@@ -1079,7 +1079,7 @@ by arity, but it's better than nothing.
     :hook (irony-mode . irony-eldoc))
 #+END_SRC
 
-**** CMake
+*** CMake
 For editing CMake files:
 
 #+BEGIN_SRC emacs-lisp
@@ -1172,14 +1172,14 @@ I don't like to have =checkdoc= warning in elisp with =flycheck=
     (setq-default flycheck-disabled-checkers '(emacs-lisp-checkdoc)))
 #+END_SRC
 
-**** edebug
+*** edebug
 Use tracing with edebug, hit =T=:
 
 #+BEGIN_SRC emacs-lisp
   (setq edebug-trace t)
 #+END_SRC
 
-**** eldoc
+** eldoc
 #+BEGIN_SRC emacs-lisp
   (use-package eldoc
     :diminish eldoc-mode
