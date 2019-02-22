@@ -1978,8 +1978,6 @@ snippets, and a quick snippet creation mode: [[https://github.com/abo-abo/auto-y
 ones I had custom functions, but can now use =crux= version of them,
 which should be better maintained.
 
-It's really slow to load though.
-
 #+BEGIN_SRC emacs-lisp
   (use-package crux
     :bind* (("C-o" . crux-smart-open-line)
