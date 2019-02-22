@@ -1377,6 +1377,7 @@ Add =ivy-hydra= to enable augmented UI features in swiper/counsel.
 #+BEGIN_SRC emacs-lisp
   (use-package counsel
     :demand t
+    :diminish counsel-mode
     :after ivy
     :commands (counsel-minibuffer-history counsel-apropos
                counsel-bookmark counsel-describe-face
@@ -1386,20 +1387,8 @@ Add =ivy-hydra= to enable augmented UI features in swiper/counsel.
                counsel-info-lookup-symbol counsel-imenu
                counsel-recentf)
     :config
+    (counsel-mode 1)
     (setq counsel-find-file-at-point t)
-    :bind (([remap apropos]                  . counsel-apropos)
-           ([remap bookmark-jump]            . counsel-bookmark)
-           ([remap describe-face]            . counsel-describe-face)
-           ([remap describe-function]        . counsel-describe-function)
-           ([remap describe-variable]        . counsel-describe-variable)
-           ([remap describe-bindings]        . counsel-descbinds)
-           ([remap execute-extended-command] . counsel-M-x)
-           ([remap find-file]                . counsel-find-file)
-           ([remap find-library]             . counsel-find-library)
-           ([remap yank-pop]                 . counsel-yank-pop)
-           ([remap info-lookup-symbol]       . counsel-info-lookup-symbol)
-           ([remap imenu]                    . counsel-imenu)
-           ([remap recentf-open-files]       . counsel-recentf))
     :bind (("C-h C-h" . counsel-M-x)
            ("M-s a" . counsel-ag)
            ("M-s g" . counsel-git-grep)
