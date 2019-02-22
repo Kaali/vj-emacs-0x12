@@ -1867,7 +1867,8 @@ Not really sure if I like them, but just trying them out here.
 [[https://github.com/jacktasia/dumb-jump][dumb-jump]] is a navigation tool, that uses some regex magic and the
 best available grepping tool to find symbols in a project. The idea is
 quite nice, as harddrives and greppers are so fast, that in many cases
-you don't actually need indexing.
+you don't actually need indexing. It's setup after smart-jump as that is the
+tool I use it from.
 
 #+BEGIN_SRC emacs-lisp
   (use-package dumb-jump
