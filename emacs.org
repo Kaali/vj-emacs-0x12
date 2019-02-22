@@ -1872,6 +1872,12 @@ you don't actually need indexing.
 #+BEGIN_SRC emacs-lisp
   (use-package dumb-jump
     :after smart-jump
+    :commands (dumb-jump-go
+               dumb-jump-quick-look
+               dumb-jump-go-other-window
+               dumb-jump-go-prefer-external
+               dumb-jump-go-prefer-external-other-window
+               dumb-jump-go-prompt)
     :config
     (setq dumb-jump-selector 'ivy))
 #+END_SRC
