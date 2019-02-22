@@ -677,7 +677,8 @@ Use [[https://github.com/jwiegley/emacs-async][emacs-async]] to compile packages
     :preface
     (defun vj--demand-magit-if-git-registered ()
       (when (vc-git-registered (buffer-file-name))
-        (require 'magit)))
+        (require 'magit)
+        (remove-hook 'find-file-hook #'vj--demand-magit-if-git-registered)))
     (add-to-list 'find-file-hook #'vj--demand-magit-if-git-registered)
     :config
     (setq
