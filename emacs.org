@@ -1373,6 +1373,7 @@ Add =ivy-hydra= to enable augmented UI features in swiper/counsel.
            ("C-o" . swiper-from-isearch)
            ("C-M-s" . swiper-from-isearch)
            :map swiper-map
+           ("C-'" . swiper-avy)
            ("M-c" . haba/swiper-mc-fixed))
     :config
     ;; https://github.com/abo-abo/swiper/issues/1304
@@ -1466,7 +1467,7 @@ Bundle of movement stuff.
   (use-package avy
     :demand t
     :config (avy-setup-default)
-    :bind* ("C-'" . avy-goto-char-timer))
+    :bind ("C-'" . avy-goto-char-timer))
 #+END_SRC
 
 ** smartparens
