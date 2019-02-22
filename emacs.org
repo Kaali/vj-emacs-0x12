@@ -672,7 +672,6 @@ Use [[https://github.com/jwiegley/emacs-async][emacs-async]] to compile packages
 
 #+BEGIN_SRC emacs-lisp
   (use-package magit
-    :after ivy
     :commands magit-status
     :preface
     (defun vj--demand-magit-if-git-registered ()
@@ -681,8 +680,9 @@ Use [[https://github.com/jwiegley/emacs-async][emacs-async]] to compile packages
         (remove-hook 'find-file-hook #'vj--demand-magit-if-git-registered)))
     (add-to-list 'find-file-hook #'vj--demand-magit-if-git-registered)
     :config
+    (with-eval-after-load 'ivy
+      (setq magit-completing-read-function 'ivy-completing-read))
     (setq
-     magit-completing-read-function 'ivy-completing-read
      magit-save-repository-buffers 'dontask
      magit-wip-after-save-local-mode-lighter nil
      magit-wip-after-apply-mode-lighter nil
