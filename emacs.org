@@ -672,8 +672,8 @@ Use [[https://github.com/jwiegley/emacs-async][emacs-async]] to compile packages
 
 #+BEGIN_SRC emacs-lisp
   (use-package magit
-    :defer 5
     :after ivy
+    :commands magit-status
     :preface
     (defun vj--demand-magit-if-git-registered ()
       (when (vc-git-registered (buffer-file-name))
@@ -1239,7 +1239,7 @@ loaded.
 
 #+BEGIN_SRC emacs-lisp
   (use-package wgrep
-    :defer 5)
+    :commands wgrep-change-to-wgrep-mode)
 #+END_SRC
 
 ** json
@@ -1458,7 +1458,7 @@ Bundle of movement stuff.
 
 #+BEGIN_SRC emacs-lisp
   (use-package avy
-    :demand t
+    :commands avy-goto-char-timer
     :config (avy-setup-default)
     :bind ("C-'" . avy-goto-char-timer))
 #+END_SRC
@@ -1473,7 +1473,6 @@ Copied some of the smartparens configuration from [[https://github.com/raxod502/
 
 #+BEGIN_SRC emacs-lisp
   (use-package smartparens
-    :defer 5
     :diminish smartparens-mode
     :config
     (require 'smartparens-config)
@@ -1543,7 +1542,7 @@ the status when =magit= refreshes.
 
 #+BEGIN_SRC emacs-lisp
   (use-package diff-hl
-    :defer 5
+    :after magit
     :hook (magit-post-refresh . diff-hl-magit-post-refresh)
     :config
     (global-diff-hl-mode))
@@ -1585,7 +1584,6 @@ https://github.com/jwiegley/dot-emacs/blob/8e669ab1aa420486d93276db2de8fb0c0948c
 #+BEGIN_SRC emacs-lisp
   (use-package multiple-cursors
     :after (selected phi-search)
-    :defer 5
     :bind (("C-<" . mc/mark-previous-like-this)
            ("C->" . mc/mark-next-like-this)
            ("C-*" . mc/mark-all-like-this)
@@ -1616,8 +1614,7 @@ Use [[https://github.com/zk-phi/phi-search][phi-search]] as an isearch replaceme
 isearch doesn't work there. Not yet going to replace isearch though.
 
 #+BEGIN_SRC emacs-lisp
-  (use-package phi-search
-    :defer 5)
+  (use-package phi-search)
 
   (use-package phi-search-mc
     :after (phi-search multiple-cursors)
@@ -1665,7 +1662,6 @@ Use [[https://github.com/company-mode/company-mode][company-mode]] for auto comp
 
 #+BEGIN_SRC emacs-lisp
   (use-package company
-    :defer 5
     :diminish company-mode
     :hook (after-init . global-company-mode)
     :bind (("M-/" . company-complete)
@@ -1727,7 +1723,6 @@ Show a help window with modal commands.
 #+BEGIN_SRC emacs-lisp
   (use-package which-key
     :diminish ""
-    :defer 5
     :commands which-key-mode
     :config (which-key-mode))
 #+END_SRC
@@ -1895,7 +1890,6 @@ Combine all the navigation tools under a single umbrella with
 
 #+BEGIN_SRC emacs-lisp
   (use-package smart-jump
-    :defer 5
     :commands smart-jump-go
     :config
     (smart-jump-setup-default-registers)
@@ -1988,7 +1982,6 @@ It's really slow to load though.
 
 #+BEGIN_SRC emacs-lisp
   (use-package crux
-    :defer 5
     :bind* (("C-o" . crux-smart-open-line)
             ("C-S-o" . crux-smart-open-line-above)
             ("C-a" . crux-move-beginning-of-line)))
@@ -2038,7 +2031,6 @@ selections much easier on the fingers.
 
 #+BEGIN_SRC emacs-lisp
   (use-package selected
-    :defer 5
     :diminish selected-minor-mode
     :commands selected-minor-mode
     :bind (:map selected-keymap
