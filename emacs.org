@@ -491,7 +491,7 @@ light themes with good contrast while not being glaring.
   (use-package color-theme-sanityinc-tomorrow
     :demand t
     :config
-    (load-theme 'sanityinc-tomorrow-night t))
+    (load-theme 'sanityinc-tomorrow-day t))
 #+END_SRC
 
 Global settings related to Emacs UI.
