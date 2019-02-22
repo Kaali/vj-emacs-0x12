@@ -2109,6 +2109,7 @@ Add autocomplete for Ansible.
 
 #+BEGIN_SRC emacs-lisp
   (use-package company-ansible
+    :disabled t
     :after company
     :config
     (with-eval-after-load 'company
