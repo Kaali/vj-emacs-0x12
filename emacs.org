@@ -522,7 +522,7 @@ Emacs slow down a lot. Especially on Windows.
 Implementation is based on [[https://www.emacswiki.org/emacs/AlarmBell][AlarmBell Emacs Wiki]].
 
 #+BEGIN_SRC emacs-lisp
-  (setq visual-bell 1)
+  (setq visible-bell 1)
   (setq ring-bell-function
         (lambda ()
           (unless (memq this-command
