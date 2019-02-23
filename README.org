@@ -1,1 +1,15 @@
-emacs.org
+* My Emacs configuration
+
+Not a vanilla Emacs, and not a total conversion.
+
+Configuration is heavily based on using use-package and tries to load
+as fast as possible. Which is why there is a lot of stuff related to
+packaging in the beginning of init.el.
+
+Keywords:
+- ivy / counsel
+- projectile
+- company-mode
+- shackle
+- multiple-cursors
+- eglot
