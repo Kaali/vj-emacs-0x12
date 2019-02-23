@@ -489,12 +489,9 @@
 (use-package counsel-projectile
   :demand t
   :after (counsel projectile)
-  :bind (([remap projectile-find-file]        . counsel-projectile-find-file)
-         ([remap projectile-find-dir]         . counsel-projectile-find-dir)
-         ([remap projectile-switch-to-buffer] . counsel-projectile-switch-to-buffer)
-         ([remap projectile-grep]             . counsel-projectile-grep)
-         ([remap projectile-ag]               . counsel-projectile-ag)
-         ("C-;" . counsel-projectile)))
+  :bind (("C-;" . counsel-projectile))
+  :config
+  (counsel-projectile-mode t))
 
 (use-package python
   :mode ("\\.py$" . python-mode)
