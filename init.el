@@ -76,9 +76,7 @@
       (apply orig-fn args)))
   (advice-add 'package-installed-p :around #'vj--package-installed-p)
 
-  (let* ((no-ssl (and (memq system-type '(windows-nt ms-dos))
-                      (not (gnutls-available-p))))
-         (proto (if no-ssl "http" "https")))
+  (let* ((proto (if (gnutls-available-p) "https" "http")))
     (add-to-list 'package-archives (cons "melpa" (concat proto "://melpa.org/packages/")) t)
     (add-to-list 'package-archives (cons "org" (concat proto "://orgmode.org/elpa/")) t)
     (setq package-archive-priorities '(("org" . 3)
