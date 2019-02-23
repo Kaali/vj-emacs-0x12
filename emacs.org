@@ -901,8 +901,9 @@ Project management support.
     :demand t
     :diminish
     :commands projectile-mode
+    :bind-keymap
+    ("C-c p" . projectile-command-map)
     :config
-    (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
     (setq
      projectile-completion-system 'ivy
      projectile-enable-caching nil
