@@ -831,6 +831,7 @@
   (add-hook 'isearch-mode-mode #'phi-search-from-isearch-mc/setup-keys))
 
 (use-package undo-tree
+  :disabled
   :diminish undo-tree-mode
   :demand t
   :bind (:map undo-tree-map
