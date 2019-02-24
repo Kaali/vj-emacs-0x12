@@ -1141,7 +1141,7 @@ The buffer are killed according to the value of
     (setq pos-tip-use-relative-coordinates t)))
 
 (use-package server
-  :unless noninteractive
+  :unless (or noninteractive is-windows)
   :no-require
   :hook (after-init . server-start))
 
