@@ -846,15 +846,16 @@
 
 (use-package company
   :diminish company-mode
-  :hook (after-init . global-company-mode)
   :bind (("M-/" . company-complete)
          ("C-/" . company-yasnippet))
   :config
+  (delete 'company-eclim company-backends)
   (setq company-minimum-prefix-length 2
         company-selection-wrap-around t
         company-show-numbers t
         company-tooltip-align-annotations t
-        company-require-match nil))
+        company-require-match nil)
+  (global-company-mode t))
 
 (use-package company-dabbrev
   :ensure nil
