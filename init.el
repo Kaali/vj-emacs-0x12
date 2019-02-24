@@ -431,7 +431,7 @@
   ;; Replace default completion with a version that ivy is hooked to.
   ;; Can't use company-mode here as it doesn't really work well with eshell.
   (add-hook 'eshell-mode-hook
-            (lambda () 
+            (lambda ()
               (define-key eshell-mode-map (kbd "<tab>")
                 (lambda () (interactive) (pcomplete-std-complete)))))
   :hook (eshell-first-time-mode-hook . eshell-initialize)
