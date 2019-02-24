@@ -68,14 +68,15 @@
                     (not (file-exists-p (concat (file-name-as-directory fdir) "dir"))))
           (add-to-list 'Info-directory-list fdir))))))
 
+(defun vj--package-installed-p (orig-fn &rest args)
+  (if (eq (car args) 'org)
+      (if (file-expand-wildcards (concat package-user-dir "/org-[0-9]*")) t nil)
+    (apply orig-fn args)))
+
 (defun vj--setup-package-el (&optional _)
   (require 'package)
   ;; Make package-installed-p only check the user package dir for org-mode
   ;; to make it skip the bundled org-mode.
-  (defun vj--package-installed-p (orig-fn &rest args)
-    (if (eq (car args) 'org)
-        (if (file-expand-wildcards (concat package-user-dir "/org-[0-9]*")) t nil)
-      (apply orig-fn args)))
   (advice-add 'package-installed-p :around #'vj--package-installed-p)
 
   (let* ((proto (if (gnutls-available-p) "https" "http")))
@@ -377,8 +378,8 @@
         ediff-split-window-function 'split-window-horizontally)
   (add-hook 'ediff-load-hook
             (lambda ()
-              (when (>= emacs-major-version 26)
-                (defun ediff-arrange-autosave-in-merge-jobs (merge-buffer-file)))
+              (defun ediff-arrange-autosave-in-merge-jobs (_))
+              (defvar ediff-saved-window-configuration)
               (add-hook 'ediff-before-setup-hook
                         (lambda ()
                           (setq ediff-saved-window-configuration (current-window-configuration))))
@@ -457,6 +458,7 @@
   :hook (dired-mode . dired-collapse-mode))
 
 (use-package org
+  :functions (org-mode org-agenda-mode)
   :bind (("C-c a" . org-agenda)
          :map org-mode-map
          ("C-'"))
@@ -748,6 +750,17 @@
   :bind (("M-[" . er/contract-region)
          ("M-]" . er/expand-region)))
 
+(use-package selected
+  :diminish selected-minor-mode
+  :demand t
+  :defines selected-keymap
+  :bind (:map selected-keymap
+              ("q" . selected-off)
+              ("<tab>" . indent-region)
+              ("m" . apply-macro-to-region-lines))
+  :config
+  (selected-global-mode t))
+
 (use-package multiple-cursors
   :after (selected phi-search)
   :bind (("C-<" . mc/mark-previous-like-this)
@@ -978,16 +991,6 @@ The buffer are killed according to the value of
   :after multiple-cursors
   :config
   (phi-rectangle-mode 1))
-
-(use-package selected
-  :diminish selected-minor-mode
-  :demand t
-  :bind (:map selected-keymap
-              ("q" . selected-off)
-              ("<tab>" . indent-region)
-              ("m" . apply-macro-to-region-lines))
-  :config
-  (selected-global-mode t))
 
 (use-package symbol-overlay
   :diminish symbol-overlay-mode
