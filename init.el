@@ -761,6 +761,7 @@
 
 (use-package multiple-cursors
   :after (selected phi-search)
+  :demand t
   :bind (("C-<" . mc/mark-previous-like-this)
          ("C->" . mc/mark-next-like-this)
          ("C-*" . mc/mark-all-like-this)
@@ -987,6 +988,7 @@ The buffer are killed according to the value of
 
 (use-package phi-rectangle
   :after multiple-cursors
+  :demand t
   :config
   (phi-rectangle-mode 1))
 
