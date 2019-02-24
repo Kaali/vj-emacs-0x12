@@ -53,7 +53,9 @@
   (unless (file-directory-p package-user-dir)
     (make-directory package-user-dir t))
 
-  (setq load-path (append load-path (directory-files package-user-dir t "^[^.]" t)))
+  (setq load-path (append load-path
+                          (directory-files package-user-dir t "^[^.]" t)
+                          '("~/.emacs.d/site-lisp")))
 
   ;; Add packages to info, required because we haven't run
   ;; package-initialize
@@ -172,20 +174,10 @@
               c-default-style '((java-mode . "java") (awk-mode . "awk") (other . "bsd")))
 
 (when is-macos
-  (setq mac-pass-option-to-system nil
-        mac-pass-control-to-system nil
-        mac-pass-command-to-system nil
-        mac-command-key-is-meta t
-        mac-option-key-is-meta nil
-        mac-command-modifier 'meta
-        mac-option-modifier 'control
-        mac-control-modifier 'control
-        mac-function-modifier 'meta
-        browse-url-browser-function 'browse-url-default-macosx-browser
-        ns-use-native-fullscreen nil))
+  (require 'macos))
 
-(when (boundp 'w32-pipe-read-delay)
-  (setq w32-pipe-read-delay 0))
+(when is-windows
+  (require 'windows))
 
 (put 'narrow-to-region 'disabled nil)
 
