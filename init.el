@@ -1022,14 +1022,6 @@ The buffer are killed according to the value of
           ("C-S-o" . crux-smart-open-line-above)
           ("C-a" . crux-move-beginning-of-line)))
 
-(use-package whole-line-or-region
-  :disabled t
-  :unless noninteractive
-  :demand t
-  :diminish whole-line-or-region-local-mode
-  :config
-  (whole-line-or-region-global-mode 1))
-
 (use-package phi-rectangle
   :after multiple-cursors
   :config
