@@ -146,7 +146,11 @@
 
       auto-save-timeout 30
       auto-save-interval 0
-      make-backup-files nil
+      make-backup-files t
+      version-control t
+      backup-by-copying t
+      delete-old-versions t
+      kept-new-versions 6
       create-lockfiles nil
 
       compilation-scroll-output 'first-error
