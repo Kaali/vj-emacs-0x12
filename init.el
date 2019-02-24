@@ -534,38 +534,36 @@
 
 (use-package ibuffer
   :commands ibuffer
-  :bind ("C-x C-b" . ibuffer))
-
-(use-package ibuffer-vc
-  :after ibuffer
-  :commands ibuffer-vc-set-filter-groups-by-vc-root
+  :bind ("C-x C-b" . ibuffer)
   :config
-  (setq ibuffer-formats
-      '((mark modified read-only vc-status-mini " "
-              (name 18 18 :left :elide)
-              " "
-              (size 9 -1 :right)
-              " "
-              (mode 16 16 :left :elide)
-              " "
-              (vc-status 16 16 :left)
-              " "
-              filename-and-process))
-      ibuffer-show-empty-filter-groups nil)
-  :hook (ibuffer . (lambda ()
-                     (setq ibuffer-filter-groups
-                           (append
-                            '(
-                              ("Emacs"
-                               (or
-                                (name . "^\\*scratch\\*$")
-                                (name . "^\\*Messages\\*$")))
-                              ("Special buffers"
-                               (name . "^\\*.*\\*$")))
-                            (ibuffer-vc-generate-filter-groups-by-vc-root)))
-                     (unless (eq ibuffer-sorting-mode 'alphabetic)
-                       (ibuffer-do-sort-by-filename/process))
-                     (ibuffer-update nil t))))
+  (use-package ibuffer-vc
+    :config
+    (setq ibuffer-formats
+          '((mark modified read-only vc-status-mini " "
+                  (name 18 18 :left :elide)
+                  " "
+                  (size 9 -1 :right)
+                  " "
+                  (mode 16 16 :left :elide)
+                  " "
+                  (vc-status 16 16 :left)
+                  " "
+                  filename-and-process))
+          ibuffer-show-empty-filter-groups nil)
+    :hook (ibuffer . (lambda ()
+                       (setq ibuffer-filter-groups
+                             (append
+                              '(
+                                ("Emacs"
+                                 (or
+                                  (name . "^\\*scratch\\*$")
+                                  (name . "^\\*Messages\\*$")))
+                                ("Special buffers"
+                                 (name . "^\\*.*\\*$")))
+                              (ibuffer-vc-generate-filter-groups-by-vc-root)))
+                       (unless (eq ibuffer-sorting-mode 'alphabetic)
+                         (ibuffer-do-sort-by-filename/process))
+                       (ibuffer-update nil t)))))
 
 (use-package wgrep
   :commands wgrep-change-to-wgrep-mode)
