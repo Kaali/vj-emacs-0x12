@@ -879,8 +879,7 @@
          (c++-mode-hook . (lambda () (setq flycheck-clang-language-standard "c++11"))))
   :commands (flycheck-mode flycheck-next-error flycheck-previous-error)
   :config
-  (setq-default flycheck-disabled-checkers '(emacs-lisp-checkdoc))
-  (setq flycheck-indication-mode 'right-fringe))
+  (setq-default flycheck-disabled-checkers '(emacs-lisp-checkdoc)))
 
 (use-package whitespace
   :diminish global-whitespace-mode
