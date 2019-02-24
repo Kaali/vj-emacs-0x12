@@ -767,25 +767,22 @@
     (forward-line -1)
     (indent-according-to-mode))
 
+  (defun vj--sp-enter-and-indent-pair (mode open close)
+    (sp-local-pair mode open close :post-handlers
+                   '((radian-enter-and-indent-sexp "RET")
+                     (radian-enter-and-indent-sexp "<return>"))))
+
   (dolist (mode '(c-mode c++-mode css-mode objc-mode java-mode
                          js2-mode json-mode
                          python-mode sh-mode web-mode))
-    (sp-local-pair mode "{" nil :post-handlers
-                   '((radian-enter-and-indent-sexp "RET")
-                     (radian-enter-and-indent-sexp "<return>"))))
+    (vj--sp-enter-and-indent-pair mode "{" nil))
 
   (dolist (mode '(js2-mode json-mode python-mode web-mode))
-    (sp-local-pair mode "[" nil :post-handlers
-                   '((radian-enter-and-indent-sexp "RET")
-                     (radian-enter-and-indent-sexp "<return>"))))
+    (vj--sp-enter-and-indent-pair mode "[" nil))
 
   (dolist (mode '(python-mode))
-    (sp-local-pair mode "(" nil :post-handlers
-                   '((radian-enter-and-indent-sexp "RET")
-                     (radian-enter-and-indent-sexp "<return>")))
-    (sp-local-pair mode "\"\"\"" "\"\"\"" :post-handlers
-                   '((radian-enter-and-indent-sexp "RET")
-                     (radian-enter-and-indent-sexp "<return>")))))
+    (vj--sp-enter-and-indent-pair mode "(" nil)
+    (vj--sp-enter-and-indent-pair mode "\"\"\"" "\"\"\"")))
 
 (use-package diff-hl
   :after magit
