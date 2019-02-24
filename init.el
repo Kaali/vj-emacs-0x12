@@ -86,7 +86,7 @@
 (advice-add #'package-initialize :before #'vj--setup-package-el)
 
 (eval-when-compile
-  (package-initialize)
+  (package-initialize 'noactivate)
   (unless (package-installed-p 'use-package)
     (package-refresh-contents)
     (package-install 'use-package)))
