@@ -478,7 +478,7 @@
 (use-package projectile
   :demand t
   :diminish
-  :bind-keymap                          ;
+  :bind-keymap
   ("C-c p" . projectile-command-map)
   :config
   (setq projectile-completion-system 'ivy
