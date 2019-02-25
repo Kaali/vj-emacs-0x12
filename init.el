@@ -33,9 +33,10 @@
 (defun display-startup-echo-area-message ())
 (setq initial-frame-alist '((fullscreen . maximized)))
 
-(setq custom-file "~/.emacs.d/custom.el")
+
+(setq custom-file (expand-file-name "custom.el" user-emacs-directory))
 (load custom-file t)
-(load "~/.emacs.d/private.el")
+(load (expand-file-name "private.el" user-emacs-directory))
 
 ;; Make sure that TLS trust is checked
 (require 'tls)
@@ -46,7 +47,7 @@
 
 (eval-and-compile
   (setq load-prefer-newer t
-        package-user-dir "~/.emacs.d/elpa"
+        package-user-dir (expand-file-name "elpa" user-emacs-directory)
         package--init-file-ensured t
         package-enable-at-startup nil)
 
@@ -55,7 +56,7 @@
 
   (setq load-path (append load-path
                           (directory-files package-user-dir t "^[^.]" t)
-                          '("~/.emacs.d/site-lisp")))
+                          `(,(expand-file-name "site-lisp" user-emacs-directory))))
 
   ;; Add packages to info, required because we haven't run
   ;; package-initialize
