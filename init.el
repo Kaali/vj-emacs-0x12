@@ -150,6 +150,7 @@
 
       auto-save-timeout 30
       auto-save-interval 0
+      auto-save-file-name-transforms `((".*" ,(no-littering-expand-var-file-name "auto-save/") t))
       make-backup-files t
       version-control t
       backup-by-copying t
