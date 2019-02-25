@@ -807,6 +807,10 @@
 
 (use-package recentf
   :config
+  (setq recentf-exclude (append recentf-exclude
+                                `(,no-littering-var-directory)
+                                `(,no-littering-etc-directory)
+                                `(,package-user-dir)))
   (setq recentf-max-saved-items 500
         recentf-max-menu-items 15
         recentf-auto-cleanup 'never)
