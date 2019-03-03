@@ -822,7 +822,10 @@
   :diminish company-mode
   :bind (("M-/" . company-complete))
   :config
-  (delete 'company-eclim company-backends)
+  (setq company-backends
+        '(company-bbdb company-cmake company-capf company-files
+                       (company-dabbrev-code company-gtags company-etags company-keywords)
+                       company-oddmuse company-dabbrev))
   (setq company-minimum-prefix-length 2
         company-selection-wrap-around t
         company-show-numbers t
