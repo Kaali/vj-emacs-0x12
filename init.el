@@ -820,8 +820,7 @@
 
 (use-package company
   :diminish company-mode
-  :bind (("M-/" . company-complete)
-         ("C-/" . company-yasnippet))
+  :bind (("M-/" . company-complete))
   :config
   (delete 'company-eclim company-backends)
   (setq company-minimum-prefix-length 2
