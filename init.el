@@ -172,6 +172,9 @@
       uniquify-buffer-name-style 'forward
       uniquify-min-dir-content 2)
 
+(customize-set-variable 'help-at-pt-display-when-idle t)
+(customize-set-variable 'help-at-pt-timer-delay 0.1)
+
 (setq-default indent-tabs-mode nil
               c-basic-offset 4
               c-default-style '((java-mode . "java") (awk-mode . "awk") (other . "bsd")))
