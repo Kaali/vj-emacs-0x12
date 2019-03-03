@@ -833,9 +833,15 @@
   :bind (("M-/" . company-complete))
   :config
   (setq company-backends
-        '(company-bbdb company-cmake company-capf company-files
-                       (company-dabbrev-code company-gtags company-etags company-keywords)
-                       company-oddmuse company-dabbrev))
+        '(company-bbdb
+          company-cmake
+          company-css
+          company-nxml
+          company-elisp
+          company-capf
+          company-files
+          (company-dabbrev-code company-gtags company-etags company-keywords)
+          company-oddmuse company-dabbrev))
   (setq company-minimum-prefix-length 2
         company-selection-wrap-around t
         company-show-numbers t
