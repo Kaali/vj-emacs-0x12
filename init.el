@@ -946,6 +946,10 @@ The buffer are killed according to the value of
   (with-eval-after-load 'eglot
     (add-to-list 'eglot-server-programs '(typescript-mode . ("javascript-typescript-stdio"))))
   :config
+  (advice-add 'eglot-eldoc-function :around
+            (lambda (oldfun)
+              (let ((help (help-at-pt-kbd-string)))
+                (if help (message "%s" help) (funcall oldfun)))))
   (require 'company))
 
 (use-package dumb-jump
