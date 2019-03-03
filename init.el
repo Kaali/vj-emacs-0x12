@@ -887,7 +887,6 @@
          ("C-c m" . vr/mc-mark)))
 
 (use-package eglot
-  :after (company company-quickhelp)
   :commands eglot
   :preface
   ;; Patch to shutdown eglot, because of the yes-no advice is not enough
@@ -924,7 +923,9 @@ The buffer are killed according to the value of
                             (eglot-shutdown server)))
                     (kill-buffer buffer))))))))))
   (with-eval-after-load 'eglot
-    (add-to-list 'eglot-server-programs '(typescript-mode . ("javascript-typescript-stdio")))))
+    (add-to-list 'eglot-server-programs '(typescript-mode . ("javascript-typescript-stdio"))))
+  :config
+  (require 'company))
 
 (use-package dumb-jump
   :after smart-jump
