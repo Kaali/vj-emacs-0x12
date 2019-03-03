@@ -54,9 +54,9 @@
   (unless (file-directory-p package-user-dir)
     (make-directory package-user-dir t))
 
-  (setq load-path (append load-path
+  (setq load-path (append `(,(expand-file-name "site-lisp" user-emacs-directory))
                           (directory-files package-user-dir t "^[^.]" t)
-                          `(,(expand-file-name "site-lisp" user-emacs-directory))))
+                          load-path))
 
   ;; Add packages to info, required because we haven't run
   ;; package-initialize
