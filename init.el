@@ -201,9 +201,11 @@
   "Return the first available font."
   (seq-find (lambda (x) (find-font (font-spec :name x))) fonts))
 
-(when is-windows
-  (setq inhibit-compacting-font-caches t))
-(set-frame-font (font-candidate "Noto Mono-11" "Input-13" "DejaVu Sans Mono-9" "Consolas-9") nil t)
+(if is-windows
+    (progn
+      (setq inhibit-compacting-font-caches t)
+      (set-frame-font (font-candidate "Noto Mono-11" "Input-13" "DejaVu Sans Mono-9" "Consolas-9") nil t))
+  (set-frame-font (font-candidate "Noto Mono-16" "Input-13" "DejaVu Sans Mono-9" "Consolas-9") nil t))
 (set-face-attribute 'default (selected-frame))
 
 (tool-bar-mode -1)
