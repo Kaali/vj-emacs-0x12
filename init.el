@@ -488,6 +488,16 @@
         projectile-indexing-method 'alien)
   (projectile-mode))
 
+(use-package project
+  :ensure nil
+  :demand t
+  :config
+  (defun projectile-project-find-function (dir)
+    (let* ((root (projectile-project-root dir)))
+      (and root (cons 'transient root))))
+  (with-eval-after-load 'projectile
+    (add-to-list 'project-find-functions 'projectile-project-find-function)))
+
 (use-package counsel-projectile
   :demand t
   :after (counsel projectile)
