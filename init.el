@@ -240,7 +240,8 @@
                         abort-recursive-edit
                         exit-minibuffer
                         keyboard-quit))
-          (ding))))
+          (invert-face 'mode-line)
+          (run-with-timer 0.1 nil #'invert-face 'mode-line))))
 
 (defun vj--modeline-justify (left right)
   (let* ((l (format-mode-line left))
