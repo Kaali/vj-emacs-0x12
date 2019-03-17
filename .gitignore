@@ -26,3 +26,4 @@ server/server
 .historian
 .cache
 *.elc
+flycheck_*.el
