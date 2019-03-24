@@ -1142,6 +1142,11 @@ The buffer are killed according to the value of
 (use-package dockerfile-mode
   :mode "\\Dockerfile.*$")
 
+(use-package reformatter
+  :config
+  (reformatter-define python-format
+      :program "yapf"))
+
 (use-package server
   :unless (or noninteractive is-windows)
   :no-require
