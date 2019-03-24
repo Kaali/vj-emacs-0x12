@@ -1133,6 +1133,9 @@ The buffer are killed according to the value of
   (when is-macos
     (setq pos-tip-use-relative-coordinates t)))
 
+(use-package dockerfile-mode
+  :mode "\\Dockerfile.*$")
+
 (use-package server
   :unless (or noninteractive is-windows)
   :no-require
