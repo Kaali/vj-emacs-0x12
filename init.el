@@ -348,6 +348,9 @@
   (magit-wip-before-change-mode)
   :bind ("C-x g" . magit-status))
 
+(use-package forge
+  :after magit)
+
 (use-package gitconfig-mode
   :mode ("/\\.gitconfig\\'"
          "/\\.git/config\\'"
