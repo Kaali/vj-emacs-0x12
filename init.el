@@ -968,7 +968,6 @@ The buffer are killed according to the value of
   (setq dumb-jump-selector 'ivy))
 
 (use-package smart-jump
-  :commands smart-jump-go
   :config
   (smart-jump-setup-default-registers)
   ;; Replace the default elisp registration as I don't have slime and it doesn't
