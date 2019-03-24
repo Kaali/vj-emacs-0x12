@@ -911,8 +911,15 @@
          ("C-c q" . vr/query-replace)
          ("C-c m" . vr/mc-mark)))
 
+(use-package eldoc-box
+  :commands eldoc-box-eglot-help-at-point
+  :custom-face
+  (eldoc-box-body ((t (:background "white smoke")))))
+
 (use-package eglot
   :commands eglot
+  :bind (:map eglot-mode-map
+              ("C-c h" . eldoc-box-eglot-help-at-point))
   :preface
   ;; Patch to shutdown eglot, because of the yes-no advice is not enough
   (with-eval-after-load 'projectile
