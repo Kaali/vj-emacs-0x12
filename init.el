@@ -1161,6 +1161,10 @@ The buffer are killed according to the value of
   :config
   (hl-todo-mode))
 
+(use-package goto-line-preview
+  :config
+  (global-set-key [remap goto-line] 'goto-line-preview))
+
 (use-package server
   :unless (or noninteractive is-windows)
   :no-require
