@@ -351,6 +351,12 @@
 (use-package forge
   :after magit)
 
+(use-package magit-todos
+  :after magit
+  :diminish magit-todos-mode
+  :config
+  (magit-todos-mode))
+
 (use-package gitconfig-mode
   :mode ("/\\.gitconfig\\'"
          "/\\.git/config\\'"
@@ -1146,6 +1152,10 @@ The buffer are killed according to the value of
   :config
   (reformatter-define python-format
       :program "yapf"))
+
+(use-package hl-todo
+  :config
+  (hl-todo-mode))
 
 (use-package server
   :unless (or noninteractive is-windows)
