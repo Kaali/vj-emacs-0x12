@@ -859,7 +859,8 @@
         company-selection-wrap-around t
         company-show-numbers t
         company-tooltip-align-annotations t
-        company-require-match nil)
+        company-require-match nil
+        company-idle-delay nil)
   (global-company-mode t))
 
 (use-package company-dabbrev
