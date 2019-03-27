@@ -841,6 +841,9 @@
         recentf-auto-cleanup 'never)
   (recentf-mode t))
 
+(use-package hippie-exp
+  :bind ("C-M-/" . hippie-expand))
+
 (use-package company
   :diminish company-mode
   :bind (("M-/" . company-complete))
