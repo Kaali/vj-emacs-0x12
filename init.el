@@ -971,7 +971,31 @@ The buffer are killed according to the value of
             (lambda (oldfun)
               (let ((help (help-at-pt-kbd-string)))
                 (if help (message "%s" help) (funcall oldfun)))))
-  (require 'company))
+  (require 'company)
+
+  (when (and (boundp 'vj-mspy-dotnet-path)
+             (boundp 'vj-mspy-path))
+    (defun vj--get-python-version ()
+      (with-temp-buffer
+        (call-process (executable-find python-shell-interpreter) nil t nil "-c" "import sys; print(\"%s.%s\" % (sys.version_info[0], sys.version_info[1]))")
+        (car (split-string (buffer-string) "\n"))))
+
+    (defclass eglot-pyls (eglot-lsp-server) ()
+      :documentation
+      "Microsoft's Python Language Server.")
+
+    (cl-defmethod eglot-initialization-options ((server eglot-pyls))
+      "Passes through required pyls initialization options."
+      `(:interpreter (:properties
+                      (:DatabasePath ,(concat no-littering-var-directory "mspyls/db/")
+                       :InterpreterPath ,(executable-find python-shell-interpreter)
+                       :Version ,(vj--get-python-version)))
+        :displayOptions (:preferredFormat "plaintext")))
+
+    (add-to-list 'eglot-server-programs
+                 `(python-mode eglot-pyls
+                               ,vj-mspy-dotnet-path
+                               ,vj-mspy-path))))
 
 (use-package dumb-jump
   :after smart-jump
