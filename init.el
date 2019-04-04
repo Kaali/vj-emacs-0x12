@@ -1014,9 +1014,9 @@ The buffer are killed according to the value of
   ;; Replace the default elisp registration as I don't have slime and it doesn't
   ;; work without it
   (smart-jump-register :modes '(emacs-lisp-mode lisp-interaction-mode))
-  ;; Also add js2-mode mode, as the defaults requires rjsx-mode?
+  ;; Also add js2-mode mode, as the default requires rjsx-mode which I don't have
   (with-eval-after-load 'js2-mode
-    (smart-jump-register :modes '(js2-mode))))
+    (smart-jump-register :modes 'js2-mode)))
 
 (use-package try
   :commands try
