@@ -1016,6 +1016,10 @@ The buffer are killed according to the value of
   (smart-jump-register :modes '(emacs-lisp-mode lisp-interaction-mode))
   ;; Also add js2-mode mode, as the default requires rjsx-mode which I don't have
   (with-eval-after-load 'js2-mode
+    (use-package xref-js2
+      :config
+      (add-hook 'js2-mode-hook (lambda ()
+                                 (add-hook 'xref-backend-functions #'xref-js2-xref-backend nil t))))
     (smart-jump-register :modes 'js2-mode)))
 
 (use-package try
