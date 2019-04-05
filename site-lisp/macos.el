@@ -5,6 +5,7 @@
       mac-option-modifier 'control
       mac-control-modifier 'control
       mac-function-modifier 'meta
+      mac-mouse-wheel-smooth-scroll nil
       browse-url-browser-function 'browse-url-default-macosx-browser)
 
 (provide 'macos)
