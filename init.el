@@ -931,6 +931,25 @@
   :bind (:map eglot-mode-map
               ("C-c h" . eldoc-box-eglot-help-at-point))
   :preface
+  ;; Patch to ignore format-markup errors. Fixes MS Python language server which
+  ;; can send empty values.
+  (with-eval-after-load 'eglot
+    (el-patch-defun eglot--format-markup (markup)
+     "Format MARKUP according to LSP's spec."
+     (pcase-let ((`(,string ,mode)
+                  (if (stringp markup) (list (string-trim markup)
+                                             (intern "gfm-view-mode"))
+                    (list (plist-get markup :value)
+                          major-mode))))
+       (el-patch-swap
+         (with-temp-buffer
+           (insert string)
+           (ignore-errors (funcall mode)) (font-lock-ensure) (buffer-string))
+         (when string
+           (with-temp-buffer
+             (insert string)
+             (ignore-errors (funcall mode)) (font-lock-ensure) (buffer-string)))))))
+
   ;; Patch to shutdown eglot, because of the yes-no advice is not enough
   (with-eval-after-load 'projectile
     (with-eval-after-load 'eglot
