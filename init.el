@@ -1189,7 +1189,7 @@ The buffer are killed according to the value of
 
 (use-package hl-todo
   :config
-  (hl-todo-mode))
+  (global-hl-todo-mode))
 
 (use-package goto-line-preview
   :config
