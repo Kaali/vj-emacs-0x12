@@ -634,7 +634,6 @@
         ivy-initial-inputs-alist nil
         ; allow regexp in any order
         ivy-re-builders-alist '((t . ivy--regex-ignore-order))
-        ivy-dynamic-exhibit-delay-ms 200
         ivy-use-selectable-prompt t
         ivy-format-function #'ivy-format-function-line
         ivy-magic-tilde nil)
