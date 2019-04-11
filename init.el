@@ -208,7 +208,7 @@
     (progn
       (setq inhibit-compacting-font-caches t)
       (set-frame-font (font-candidate "Noto Mono-11" "Input-13" "DejaVu Sans Mono-9" "Consolas-9") nil t))
-  (set-frame-font (font-candidate "Noto Mono-16" "Input-13" "DejaVu Sans Mono-9" "Consolas-9") nil t))
+  (set-frame-font (font-candidate "Noto Mono-15" "Input-13" "DejaVu Sans Mono-9" "Consolas-9") nil t))
 (set-face-attribute 'default (selected-frame))
 
 (tool-bar-mode -1)
