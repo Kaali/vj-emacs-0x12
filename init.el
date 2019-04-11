@@ -1211,7 +1211,12 @@ The buffer are killed according to the value of
 
 (use-package goto-line-preview
   :config
-  (global-set-key [remap goto-line] 'goto-line-preview))
+  (global-set-key [remap goto-line] 'goto-line-preview)
+  (when (fboundp 'display-line-numbers-mode)
+    (defun sanityinc/with-display-line-numbers (f &rest args)
+      (let ((display-line-numbers t))
+        (apply f args)))
+    (advice-add 'goto-line-preview :around #'sanityinc/with-display-line-numbers)))
 
 (use-package server
   :unless (or noninteractive is-windows)
