@@ -1010,6 +1010,24 @@ The buffer are killed according to the value of
                        :Version ,(vj--get-python-version)))
         :displayOptions (:preferredFormat "plaintext")))
 
+    (cl-defmethod jsonrpc-connection-ready-p ((server eglot-pyls) what)
+      "mspls isn't ready until indexing done."
+      (and (cl-call-next-method)
+           (pcase-let ((`(,id ,message ,done) (eglot--spinner server)))
+             done)))
+
+    (cl-defmethod eglot-handle-notification
+      ((server eglot-pyls) (_method (eql python/reportProgress))
+       progress)
+      "Handle notification python/reportProgress"
+      (setf (eglot--spinner server) (list nil progress nil)))
+
+    (cl-defmethod eglot-handle-notification
+      ((server eglot-pyls) (_method (eql python/endProgress))
+       &rest _any)
+      "Handle notification python/endProgress"
+      (setf (eglot--spinner server) (list nil "" t)))
+
     (add-to-list 'eglot-server-programs
                  `(python-mode eglot-pyls
                                ,vj-mspy-dotnet-path
