@@ -1236,6 +1236,9 @@ The buffer are killed according to the value of
         (apply f args)))
     (advice-add 'goto-line-preview :around #'sanityinc/with-display-line-numbers)))
 
+(use-package goto-last-change
+  :bind ("C-x C-/" . goto-last-change))
+
 (use-package server
   :unless (or noninteractive is-windows)
   :no-require
