@@ -1244,6 +1244,9 @@ The buffer are killed according to the value of
   :no-require
   :hook (after-init . server-start))
 
+(use-package csharp-mode
+  :mode "\\.cs\\'")
+
 (let ((elapsed
        (float-time
         (time-subtract (current-time) emacs-start-time))))
