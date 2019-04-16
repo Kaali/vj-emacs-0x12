@@ -1259,6 +1259,9 @@ The buffer are killed according to the value of
 (use-package cython-mode
   :mode ("\\.pyx\\'" "\\.pxs\\'" "\\.pxi\\'"))
 
+(use-package protobuf-mode
+  :mode "\\.proto\\'")
+
 (let ((elapsed
        (float-time
         (time-subtract (current-time) emacs-start-time))))
