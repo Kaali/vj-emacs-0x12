@@ -1256,6 +1256,9 @@ The buffer are killed according to the value of
               (setq tab-width 4)
               (setq indent-tabs-mode t))))
 
+(use-package cython-mode
+  :mode ("\\.pyx\\'" "\\.pxs\\'" "\\.pxi\\'"))
+
 (let ((elapsed
        (float-time
         (time-subtract (current-time) emacs-start-time))))
