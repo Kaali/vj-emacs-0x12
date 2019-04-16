@@ -1247,6 +1247,15 @@ The buffer are killed according to the value of
 (use-package csharp-mode
   :mode "\\.cs\\'")
 
+(use-package go-mode
+  :mode "\\.go\\'"
+  :config
+  (add-hook 'go-mode-hook
+            (lambda ()
+              (set (make-local-variable 'whitespace-style) '(face empty trailing lines-tail))
+              (setq tab-width 4)
+              (setq indent-tabs-mode t))))
+
 (let ((elapsed
        (float-time
         (time-subtract (current-time) emacs-start-time))))
