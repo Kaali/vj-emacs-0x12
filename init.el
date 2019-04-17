@@ -949,39 +949,6 @@
              (insert string)
              (ignore-errors (funcall mode)) (font-lock-ensure) (buffer-string)))))))
 
-  ;; Patch to shutdown eglot, because of the yes-no advice is not enough
-  (with-eval-after-load 'projectile
-    (with-eval-after-load 'eglot
-      (el-patch-defun projectile-kill-buffers ()
-        "Kill project buffers.
-
-The buffer are killed according to the value of
-`projectile-kill-buffers-filter'."
-        (interactive)
-        (let* ((project (projectile-ensure-project (projectile-project-root)))
-               (project-name (projectile-project-name project))
-               (buffers (projectile-project-buffers project)))
-          (when (yes-or-no-p
-                 (format "Are you sure you want to kill %s buffers for '%s'? "
-                         (length buffers) project-name))
-            (dolist (buffer buffers)
-              (when (and
-                     ;; we take care not to kill indirect buffers directly
-                     ;; as we might encounter them after their base buffers are killed
-                     (not (buffer-base-buffer buffer))
-                     (if (functionp projectile-kill-buffers-filter)
-                         (funcall projectile-kill-buffers-filter buffer)
-                       (pcase projectile-kill-buffers-filter
-                         ('kill-all t)
-                         ('kill-only-files (buffer-file-name buffer))
-                         (_ (user-error "Invalid projectile-kill-buffers-filter value: %S" projectile-kill-buffers-filter)))))
-                (el-patch-swap
-                  (kill-buffer buffer)
-                  (progn
-                    (ignore-errors
-                          (when-let* ((server (eglot--current-server)))
-                            (eglot-shutdown server)))
-                    (kill-buffer buffer))))))))))
   (with-eval-after-load 'eglot
     (add-to-list 'eglot-server-programs '(typescript-mode . ("javascript-typescript-stdio"))))
   :config
