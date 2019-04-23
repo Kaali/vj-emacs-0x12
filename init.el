@@ -1237,6 +1237,9 @@
 (use-package protobuf-mode
   :mode "\\.proto\\'")
 
+(use-package typescript-mode
+  :mode "\\.ts\\'")
+
 (let ((elapsed
        (float-time
         (time-subtract (current-time) emacs-start-time))))
