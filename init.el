@@ -741,11 +741,13 @@
                      (radian-enter-and-indent-sexp "<return>"))))
 
   (dolist (mode '(c-mode c++-mode css-mode objc-mode java-mode
-                         js2-mode json-mode
-                         python-mode sh-mode web-mode))
+                         js2-mode json-mode typescript-mode
+                         python-mode sh-mode web-mode
+                         csharp-mode go-mode))
     (vj--sp-enter-and-indent-pair mode "{" nil))
 
-  (dolist (mode '(js2-mode json-mode python-mode web-mode))
+  (dolist (mode '(js2-mode json-mode python-mode web-mode typescript-mode
+                           go-mode csharp-mode))
     (vj--sp-enter-and-indent-pair mode "[" nil))
 
   (dolist (mode '(python-mode))
