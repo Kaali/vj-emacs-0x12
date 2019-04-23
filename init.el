@@ -543,6 +543,7 @@
   :config (setq js2-basic-offset 2))
 
 (use-package js2-refactor
+  :diminish
   :after js2-mode
   :hook (js2-mode . js2-refactor-mode))
 
