@@ -388,6 +388,10 @@
 (use-package markdown-mode
   :mode "\\.md$")
 
+(use-package poly-markdown
+  :after markdown-mode
+  :hook (markdown-mode . poly-markdown-mode))
+
 (use-package ediff
   :ensure nil
   :config
