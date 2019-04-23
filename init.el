@@ -243,34 +243,17 @@
           (invert-face 'mode-line)
           (run-with-timer 0.1 nil #'invert-face 'mode-line))))
 
-(defun vj--modeline-justify (left right)
-  (let* ((l (format-mode-line left))
-         (r (format-mode-line right))
-         (width (max 0 (- (window-total-width) (string-width l) (string-width r))))
-         (fill (make-string width ? )))
-    (concat l fill r)))
+(use-package doom-modeline
+  :config
+  (doom-modeline-def-modeline 'main
+    '(bar workspace-name window-number evil-state god-state ryo-modal xah-fly-keys matches buffer-info remote-host buffer-position parrot selection-info)
+    '(misc-info persp-name lsp irc mu4e github debug fancy-battery minor-modes major-mode process vcs checker))
 
-(defvar vj--projectile-mode-line)
-(put 'vj--projectile-mode-line 'risky-local-variable t)
-(with-eval-after-load 'projectile
-  (setq vj--projectile-mode-line
-        '(:propertize
-          (:eval (when (projectile-project-p)
-                   (concat " [" (projectile-project-name) "]"))))))
-
-(setq-default mode-line-format
-              '((:eval (vj--modeline-justify
-                        '("%e"
-                          mode-line-front-space
-                          mode-line-modified
-                          "%4l:%c"
-                          vj--projectile-mode-line
-                          " %[" mode-line-buffer-identification "%]")
-                        '(" "
-                          mode-line-modes
-                          mode-line-misc-info
-                          mode-line-end-spaces)))))
-
+  (setq
+   doom-modeline-height 20
+   doom-modeline-icon nil
+   doom-modeline-env-version nil)
+  (doom-modeline-mode t))
 
 (defun vj/zap-up-to-char (arg char)
   "Zap up to a character."
