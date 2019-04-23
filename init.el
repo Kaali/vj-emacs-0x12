@@ -1193,7 +1193,10 @@
 (use-package reformatter
   :config
   (reformatter-define python-format
-      :program "yapf"))
+    :program "yapf")
+  (reformatter-define js2-format
+    :program "prettier"
+    :args '("--stdin" "--stdin-filepath" "tmp.js")))
 
 (use-package hl-todo
   :config
