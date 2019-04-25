@@ -245,10 +245,6 @@
 
 (use-package doom-modeline
   :config
-  (doom-modeline-def-modeline 'main
-    '(bar workspace-name window-number evil-state god-state ryo-modal xah-fly-keys matches buffer-info remote-host buffer-position parrot selection-info)
-    '(misc-info persp-name lsp irc mu4e github debug fancy-battery minor-modes major-mode process vcs checker))
-
   (setq
    doom-modeline-height 20
    doom-modeline-icon nil
