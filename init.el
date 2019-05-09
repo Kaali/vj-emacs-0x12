@@ -906,6 +906,9 @@
          ("C-c q" . vr/query-replace)
          ("C-c m" . vr/mc-mark)))
 
+(use-package flymake-eslint
+  :hook (js2-mode . flymake-eslint-enable))
+
 (use-package eldoc-box
   :commands eldoc-box-eglot-help-at-point
   :custom-face
