@@ -497,7 +497,7 @@
 (use-package counsel-projectile
   :demand t
   :after (counsel projectile)
-  :bind (("C-;" . counsel-projectile))
+  :bind (("C-M-;" . counsel-projectile))
   :config
   (counsel-projectile-mode t))
 
@@ -625,8 +625,10 @@
          ("C-c C-r" . ivy-resume)
          ("C-c v" . ivy-push-view)
          ("C-c V" . ivy-pop-view)
+         :map ivy-mode-map
+         ("C-;" . ivy-switch-buffer)
          :map ivy-minibuffer-map
-              ("<up>" . ivy-previous-line-or-history))
+         ("<up>" . ivy-previous-line-or-history))
   :config
   (ivy-mode 1))
 
