@@ -325,6 +325,7 @@
   (magit-wip-after-save-mode)
   (magit-wip-after-apply-mode)
   (magit-wip-before-change-mode)
+  (add-hook 'git-commit-setup-hook 'git-commit-turn-on-flyspell)
   :bind ("C-x g" . magit-status))
 
 (use-package forge
