@@ -1250,6 +1250,8 @@
 (use-package typescript-mode
   :mode ("\\.ts\\'" "\\.tsx\\'"))
 
+(use-package swift-mode)
+
 (let ((elapsed
        (float-time
         (time-subtract (current-time) emacs-start-time))))
