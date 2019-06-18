@@ -274,7 +274,20 @@
 (bind-key "M-z" 'vj/zap-up-to-char)
 (bind-key* "C-M-SPC" 'cycle-spacing)
 
+(add-hook 'prog-mode-hook 'flyspell-prog-mode)
+
 ;;; Packages
+
+(use-package flyspell
+  :ensure nil
+  :init
+  (unbind-key "C-;" flyspell-mode-map))
+
+(use-package flyspell-correct-ivy
+  :after flyspell
+  :bind ("C-c $" . flyspell-correct-wrapper)
+  :init
+  (setq flyspell-correct-interface #'flyspell-correct-ivy))
 
 (use-package savehist
   :ensure nil
