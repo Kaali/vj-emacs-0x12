@@ -546,7 +546,48 @@
 (use-package js2-refactor
   :diminish
   :after js2-mode
-  :hook (js2-mode . js2-refactor-mode))
+  :bind (:map js2-mode-map
+              ("<C-S-up>" . js2r-move-line-up)
+              ("<C-S-down>" . js2r-move-line-down))
+  :hook (js2-mode . js2-refactor-mode)
+  :config
+  (with-eval-after-load 'transient
+    (define-transient-command js2-refactor-transient ()
+      "Invoke js2-refactor"
+      ["Actions"
+       [("e" "Extract" js2-refactor-extract-transient)
+        ("s" "Split" js2-refactor-split-transient)
+        ("c" "Convenience" js2-refactor-convenience-transient)
+        ("v" "Variable" js2-refactor-variable-transient)]])
+
+    (define-transient-command js2-refactor-variable-transient ()
+      "Variable"
+      ["Actions"
+       [("u" "Inline" js2r-inline-var)
+        ("r" "Rename" js2r-rename-var)]])
+
+    (define-transient-command js2-refactor-convenience-transient ()
+      "Convenience"
+      ["Actions"
+       [("t" "String to template" js2r-string-to-template)
+        ("l" "Log this" js2r-log-this)]])
+
+    (define-transient-command js2-refactor-split-transient ()
+      "Split"
+      ["Actions"
+       [("v" "Var declaration" js2r-split-var-declaration)
+        ("s" "String" js2r-split-string)]])
+
+    (define-transient-command js2-refactor-extract-transient ()
+      "Extract"
+      ["Actions"
+       [("f" "Function" js2r-extract-function)
+        ("m" "Method" js2r-extract-method)
+        ("v" "Variable" js2r-extract-var)
+        ("l" "Let" js2r-extract-let)
+        ("c" "Const" js2r-extract-const)]])
+    
+    (bind-keys :map js2-mode-map ("C-c <C-m>" . js2-refactor-transient))))
 
 (use-package edebug
   :ensure nil
