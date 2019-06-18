@@ -281,7 +281,7 @@
 
 (use-package flyspell
   :ensure nil
-  :init
+  :config
   (unbind-key "C-;" flyspell-mode-map))
 
 (use-package flyspell-correct-ivy
