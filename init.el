@@ -967,6 +967,18 @@
                 (if help (message "%s" help) (funcall oldfun)))))
   (require 'company)
 
+  (when (boundp 'vj-gopls-path)
+    (defclass eglot-gopls (eglot-lsp-server) ()
+      :documentation
+      "Gopls Language Server")
+
+    (cl-defmethod eglot-initialization-options ((server eglot-gopls))
+      "Setup gopls."
+      `(:gopls (:usePlaceholders t)))
+
+    (add-to-list 'eglot-server-programs
+                 `(go-mode eglot-gopls vj-gopls-path)))
+
   (when (and (boundp 'vj-mspy-dotnet-path)
              (boundp 'vj-mspy-path))
     (defun vj--get-python-version ()
