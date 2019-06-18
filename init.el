@@ -1186,7 +1186,13 @@
     :program "yapf")
   (reformatter-define js2-format
     :program "prettier"
-    :args '("--stdin" "--stdin-filepath" "tmp.js")))
+    :args '("--stdin" "--stdin-filepath" "tmp.js"))
+  (reformatter-define html-format
+    :program "prettier"
+    :args '("--stdin" "--stdin-filepath" "tmp.html"))
+  (reformatter-define ts-format
+    :program "prettier"
+    :args '("--stdin" "--stdin-filepath" "tmp.ts")))
 
 (use-package hl-todo
   :config
