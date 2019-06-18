@@ -174,6 +174,7 @@
 
 (customize-set-variable 'help-at-pt-display-when-idle t)
 (customize-set-variable 'help-at-pt-timer-delay 0.1)
+(customize-set-variable 'css-indent-offset 2)
 
 (setq-default indent-tabs-mode nil
               c-basic-offset 4
