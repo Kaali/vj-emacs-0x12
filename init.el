@@ -1247,7 +1247,7 @@
   :mode "\\.proto\\'")
 
 (use-package typescript-mode
-  :mode "\\.ts\\'")
+  :mode ("\\.ts\\'" "\\.tsx\\'"))
 
 (let ((elapsed
        (float-time
