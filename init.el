@@ -596,7 +596,16 @@
 
 (use-package eldoc
   :diminish eldoc-mode
-  :hook ((c-mode-common emacs-lisp-mode lisp-interaction-mode-hook) . eldoc-mode))
+  :hook ((c-mode-common emacs-lisp-mode lisp-interaction-mode-hook) . eldoc-mode)
+  :config
+  (defun vj-eldoc-message (format-string &rest args)
+    "Call eldoc-minibuffer-message as long as the resulting message is not empty.
+It is there to stop eldoc from deleting some other messages
+prematurely even if it doesn't have anything to say.
+"
+    (unless (string-empty-p (apply #'format format-string args))
+      (apply #'eldoc-minibuffer-message format-string args)))
+  (setq eldoc-message-function #'vj-eldoc-message))
 
 (use-package lua-mode
   :mode "\\.lua$"
