@@ -603,7 +603,7 @@
 It is there to stop eldoc from deleting some other messages
 prematurely even if it doesn't have anything to say.
 "
-    (unless (string-empty-p (apply #'format format-string args))
+    (unless (and format-string (string-empty-p (apply #'format format-string args)))
       (apply #'eldoc-minibuffer-message format-string args)))
   (setq eldoc-message-function #'vj-eldoc-message))
 
