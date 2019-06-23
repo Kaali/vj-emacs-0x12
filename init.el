@@ -1018,7 +1018,7 @@
       `(:gopls (:usePlaceholders t)))
 
     (add-to-list 'eglot-server-programs
-                 `(go-mode eglot-gopls vj-gopls-path)))
+                 `(go-mode eglot-gopls ,vj-gopls-path)))
 
   (when (and (boundp 'vj-mspy-dotnet-path)
              (boundp 'vj-mspy-path))
