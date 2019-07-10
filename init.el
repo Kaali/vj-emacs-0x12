@@ -1080,6 +1080,13 @@ prematurely even if it doesn't have anything to say.
                                ,vj-mspy-dotnet-path
                                ,vj-mspy-path))))
 
+(use-package lsp-mode
+  :commands lsp
+  :hook (go-mode . lsp)
+  :config
+  (use-package company-lsp))
+
+
 (use-package dumb-jump
   :after smart-jump
   :commands (dumb-jump-go
