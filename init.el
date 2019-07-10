@@ -383,11 +383,19 @@
   :mode ("\\.j2\\'" . jinja2-mode))
 
 (use-package markdown-mode
-  :mode "\\.md$")
+  :mode "\\.md$"
+  :config
+  (setq markdown-command
+      (concat
+       "pandoc"
+       " --from=markdown --to=html"
+       " --standalone --mathjax --highlight-style=pygments")))
 
 (use-package poly-markdown
   :after markdown-mode
   :hook (markdown-mode . poly-markdown-mode))
+
+(use-package pandoc-mode)
 
 (use-package ediff
   :ensure nil
