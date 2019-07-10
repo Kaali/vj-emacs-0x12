@@ -730,7 +730,9 @@ prematurely even if it doesn't have anything to say.
          ("M-s a" . counsel-ag)
          ("M-s g" . counsel-git-grep)
          ("M-s f" . counsel-file-jump)
-         ("M-i" . counsel-imenu)))
+         ("M-i" . counsel-imenu)
+         :map minibuffer-local-map
+         ("C-r" . counsel-minibuffer-history)))
 
 (use-package my-counsel
   :after counsel
