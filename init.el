@@ -687,7 +687,6 @@ prematurely even if it doesn't have anything to say.
         ; allow regexp in any order
         ivy-re-builders-alist '((t . ivy--regex-ignore-order))
         ivy-use-selectable-prompt t
-        ivy-format-function #'ivy-format-function-line
         ivy-magic-tilde nil)
   :bind (
          ("C-c C-r" . ivy-resume)
