@@ -1,6 +1,6 @@
 ;;; -*- lexical-binding: t; -*-
 ;; Disable package initialize at startup. The commented line below is
-;; required for really disabling it.
+;; required for really disabling it onn Emacs <27.
 ;; (package-initialize)
 
 (when (< emacs-major-version 26)
@@ -39,8 +39,9 @@
 (load (expand-file-name "private.el" user-emacs-directory))
 
 ;; Make sure that TLS trust is checked
-(require 'tls)
-(setq tls-checktrust t)
+(when (< emacs-major-version 27)
+ (require 'tls)
+ (setq tls-checktrust t))
 
 
 ;;; Packaging
@@ -232,7 +233,10 @@
    (lambda ()
      (not (and buffer-auto-save-file-name
                auto-save-visited-file-name)))))
-(add-hook 'focus-out-hook #'save-some-buffers-without-prompt)
+
+(if (< emacs-major-version 27)
+    (add-hook 'focus-out-hook #'save-some-buffers-without-prompt)
+  (add-function :after after-focus-change-function #'save-some-buffers-without-prompt))
 
 (setq ring-bell-function
       (lambda ()
