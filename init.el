@@ -755,8 +755,7 @@ prematurely even if it doesn't have anything to say.
   :after (ivy)
   :config
   (setq ivy-virtual-abbreviate 'full
-        ivy-rich-path-style 'abbrev
-        ivy-format-function #'ivy-format-function-line)
+        ivy-rich-path-style 'abbrev)
   (ivy-rich-mode 1))
 
 (use-package ivy-xref
