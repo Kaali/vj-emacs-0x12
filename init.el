@@ -1337,6 +1337,11 @@ prematurely even if it doesn't have anything to say.
 
 (use-package swift-mode)
 
+(use-package highlight-indent-guides
+  :hook (python-mode . highlight-indent-guides-mode)
+  :config
+  (setq highlight-indent-guides-method 'character))
+
 (let ((elapsed
        (float-time
         (time-subtract (current-time) emacs-start-time))))
