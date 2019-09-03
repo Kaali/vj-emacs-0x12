@@ -1080,12 +1080,18 @@ prematurely even if it doesn't have anything to say.
                                ,vj-mspy-dotnet-path
                                ,vj-mspy-path))))
 
+(use-package lsp-python-ms
+  :config
+  (setq lsp-python-ms-nupkg-channel "daily"))
+
 (use-package lsp-mode
   :commands lsp
-  :hook (go-mode . lsp)
+  :requires lsp-python-ms
+  :hook ((go-mode . lsp)
+         (js2-mode . lsp)
+         (python-mode . (lambda () (require 'lsp-python-ms) (lsp))))
   :config
   (use-package company-lsp))
-
 
 (use-package dumb-jump
   :after smart-jump
