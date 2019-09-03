@@ -250,12 +250,9 @@
 
 (use-package doom-modeline
   :config
-  (doom-modeline-def-segment bar
-    "Kill the bar."
-    "")
   (setq
-   doom-modeline-height 20
-   doom-modeline-icon nil
+   doom-modeline-height 25
+   doom-modeline-icon t
    doom-modeline-env-version nil)
   (doom-modeline-mode t))
 
