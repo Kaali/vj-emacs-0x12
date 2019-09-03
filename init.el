@@ -704,7 +704,7 @@ prematurely even if it doesn't have anything to say.
          :map ivy-mode-map
          ("C-;" . ivy-switch-buffer)
          :map ivy-minibuffer-map
-         ("<up>" . ivy-previous-line-or-history))
+         ("<up>" . ivy-previous-line))
   :config
   (ivy-mode 1))
 
