@@ -1087,9 +1087,9 @@ prematurely even if it doesn't have anything to say.
 (use-package lsp-mode
   :commands lsp
   :requires lsp-python-ms
-  :hook ((go-mode . lsp)
-         (js2-mode . lsp)
-         (python-mode . (lambda () (require 'lsp-python-ms) (lsp))))
+  :hook ((go-mode . lsp-deferred)
+         (js2-mode . lsp-deferred)
+         (python-mode . (lambda () (require 'lsp-python-ms) (lsp-deferred))))
   :config
   (use-package company-lsp))
 
