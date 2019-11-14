@@ -686,13 +686,13 @@ prematurely even if it doesn't have anything to say.
 (use-package ivy
   :diminish ""
   :demand t
+  :custom
+  (ivy-initial-inputs-alist nil)
   :init
   (setq ivy-use-virtual-buffers t
         ivy-height 20
         ivy-fixed-height-minibuffer t
         ivy-count-format "%d/%d "
-        ; don't use an initial input for ivy
-        ivy-initial-inputs-alist nil
         ; allow regexp in any order
         ivy-re-builders-alist '((t . ivy--regex-ignore-order))
         ivy-use-selectable-prompt t
