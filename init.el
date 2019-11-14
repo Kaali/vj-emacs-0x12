@@ -393,6 +393,7 @@
        " --standalone --mathjax --highlight-style=pygments")))
 
 (use-package poly-markdown
+  :disabled t
   :after markdown-mode
   :hook (markdown-mode . poly-markdown-mode))
 
