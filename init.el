@@ -1260,8 +1260,6 @@ prematurely even if it doesn't have anything to say.
   :diminish ""
   :hook (prog-mode . dtrt-indent-mode)
   :config
-  (with-eval-after-load 'python
-    (setq python-indent-guess-indent-offset nil))
   (add-to-list 'dtrt-indent-hook-mapping-list '(typescript-mode javascript typescript-indent-level)))
 
 (use-package direnv
