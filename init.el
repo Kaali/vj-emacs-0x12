@@ -937,12 +937,18 @@ prematurely even if it doesn't have anything to say.
   (setq company-dabbrev-downcase nil
         company-dabbrev-ignore-case nil))
 
+(use-package company-box
+  :diminish
+  :defines company-box-enable-icon
+  :after company
+  :hook (company-mode . company-box-mode)
+  :config (setq company-box-enable-icon nil))
+
 (use-package company-quickhelp
   :after company
   :bind (:map company-active-map
               ("C-c h" . company-quickhelp-manual-begin))
-  :config
-  (company-quickhelp-mode))
+  :hook (global-company-mode . company-quickhelp-mode))
 
 (use-package flycheck
   :diminish global-flycheck-mode
