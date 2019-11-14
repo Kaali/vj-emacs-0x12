@@ -1172,9 +1172,9 @@ prematurely even if it doesn't have anything to say.
 
 (use-package symbol-overlay
   :diminish symbol-overlay-mode
-  :hook ((prog-mode-hook . symbol-overlay-mode)
-         (html-mode-hook . symbol-overlay-mode)
-         (css-mode-hook . symbol-overlay-mode))
+  :hook ((prog-mode . symbol-overlay-mode)
+         (html-mode . symbol-overlay-mode)
+         (css-mode . symbol-overlay-mode))
   :bind (("M-n" . symbol-overlay-jump-next)
          ("M-p" . symbol-overlay-jump-prev)
          ("C-c o" . symbol-overlay-put)))
