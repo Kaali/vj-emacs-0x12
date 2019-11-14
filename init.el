@@ -1276,6 +1276,9 @@ prematurely even if it doesn't have anything to say.
 (use-package dockerfile-mode
   :mode "\\Dockerfile.*$")
 
+(use-package docker-tramp
+  :ensure t)
+
 (use-package reformatter
   :config
   (reformatter-define python-format
