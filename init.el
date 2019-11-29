@@ -1098,7 +1098,11 @@ prematurely even if it doesn't have anything to say.
          (js2-mode . lsp-deferred)
          (python-mode . (lambda () (require 'lsp-python-ms) (lsp-deferred))))
   :config
-  (use-package company-lsp))
+  (use-package company-lsp)
+  (defun lsp-go-mode-setup ()
+    (add-hook 'before-save-hook #'lsp-organize-imports)
+    (add-hook 'before-save-hook #'lsp-format-buffer))
+  (add-hook 'go-mode-hook #'lsp-go-mode-setup))
 
 (use-package dumb-jump
   :after smart-jump
