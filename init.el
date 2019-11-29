@@ -1302,7 +1302,10 @@ prematurely even if it doesn't have anything to say.
     :args '("--stdin" "--stdin-filepath" "tmp.html"))
   (reformatter-define ts-format
     :program "prettier"
-    :args '("--stdin" "--stdin-filepath" "tmp.ts")))
+    :args '("--stdin" "--stdin-filepath" "tmp.ts"))
+  (reformatter-define html-format
+    :program "prettier"
+    :args '("--stdin" "--stdin-filepath" "tmp.html")))
 
 (use-package hl-todo
   :config
