@@ -351,7 +351,8 @@
         magit-wip-after-apply-mode-lighter nil
         magit-wip-before-change-mode-lighter nil
         magit-no-message '("Turning on magit-auto-revert-mode...")
-        git-commit-summary-max-length 50)
+        git-commit-summary-max-length 50
+        magit-blame-echo-style 'headings)
   (magit-wip-after-save-mode)
   (magit-wip-after-apply-mode)
   (magit-wip-before-change-mode)
