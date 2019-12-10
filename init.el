@@ -1113,8 +1113,8 @@ prematurely even if it doesn't have anything to say.
   :config
   (use-package company-lsp)
   (defun lsp-go-mode-setup ()
-    (add-hook 'before-save-hook #'lsp-organize-imports)
-    (add-hook 'before-save-hook #'lsp-format-buffer))
+    (add-hook 'before-save-hook #'lsp-format-buffer nil 'local)
+    (add-hook 'before-save-hook #'lsp-organize-imports nil 'local))
   (add-hook 'go-mode-hook #'lsp-go-mode-setup))
 
 (use-package dumb-jump
