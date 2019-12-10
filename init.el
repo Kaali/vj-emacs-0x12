@@ -288,6 +288,7 @@
 (bind-key* "C-M-SPC" 'cycle-spacing)
 
 (add-hook 'prog-mode-hook 'flyspell-prog-mode)
+;; (add-hook 'prog-mode-hook 'flyspell-prog-mode)
 
 ;;; Packages
 
