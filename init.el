@@ -832,7 +832,7 @@ prematurely even if it doesn't have anything to say.
   (dolist (mode '(c-mode c++-mode css-mode objc-mode java-mode
                          js2-mode json-mode typescript-mode
                          python-mode sh-mode web-mode
-                         csharp-mode go-mode))
+                         csharp-mode go-mode protobuf-mode))
     (vj--sp-enter-and-indent-pair mode "{" nil))
 
   (dolist (mode '(js2-mode json-mode python-mode web-mode typescript-mode
