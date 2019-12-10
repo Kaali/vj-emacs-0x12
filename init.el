@@ -1353,7 +1353,6 @@ prematurely even if it doesn't have anything to say.
 (use-package go-mode
   :mode "\\.go\\'"
   :config
-  (add-hook 'before-save-hook #'gofmt-before-save)
   (add-hook 'go-mode-hook
             (lambda ()
               (set (make-local-variable 'whitespace-style) '(face empty trailing lines-tail))
