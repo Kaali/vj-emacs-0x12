@@ -1159,6 +1159,8 @@ prematurely even if it doesn't have anything to say.
              yas-expand-snippet yas-lookup-snippet
              yas-insert-snippet yas-new-snippet
              yas-visit-snippet-file snippet-mode)
+  :bind (("C-c y y" . yas-insert-snippet)
+         ("C-c y e" . yas-expand))
   :preface
   (defvar yas-minor-mode-map (make-sparse-keymap))
   :init
