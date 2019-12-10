@@ -221,10 +221,21 @@
 (column-number-mode t)
 (size-indication-mode t)
 
-(add-to-list
- 'display-buffer-alist
- '("\\*compilation\\*" display-buffer-reuse-window
-   (reusable-frames . t)))
+(defun vj--display-bottom (regexp size)
+  (add-to-list 'display-buffer-alist
+               `(,regexp
+                 (display-buffer-reuse-window
+                  display-buffer-in-side-window)
+                 (reusable-frames . visible)
+                 (side            . bottom)
+                 (window-height   . ,size))))
+
+(vj--display-bottom "\\`\\*Flycheck" 0.2)
+(vj--display-bottom "\\`\\*Flymake" 0.2)
+(vj--display-bottom "*Warnings*" 0.2)
+(vj--display-bottom "*edebug-trace*" 0.2)
+(vj--display-bottom "*Messages*" 0.4)
+
 
 ;; Save some buffers without prompt when emacs goes out of focus
 (defun save-some-buffers-without-prompt ()
@@ -1191,6 +1202,7 @@ prematurely even if it doesn't have anything to say.
          ("C-c o" . symbol-overlay-put)))
 
 (use-package shackle
+  :disabled t
   :demand t
   :config
   (setq shackle-default-rule '(:select t)
