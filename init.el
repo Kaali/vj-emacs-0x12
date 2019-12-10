@@ -1285,9 +1285,12 @@ prematurely even if it doesn't have anything to say.
 
 (use-package dtrt-indent
   :diminish ""
-  :hook (prog-mode . dtrt-indent-mode)
+  :hook ((prog-mode . dtrt-indent-mode)
+         (text-mode . dtrt-indent-mode)
+         (protobuf-mode . dtrt-indent-mode))
   :config
-  (add-to-list 'dtrt-indent-hook-mapping-list '(typescript-mode javascript typescript-indent-level)))
+  (add-to-list 'dtrt-indent-hook-mapping-list '(typescript-mode javascript typescript-indent-level))
+  (add-to-list 'dtrt-indent-hook-mapping-list '(protobuf-mode c/c++/java c-basic-offset)))
 
 (use-package direnv
   :unless is-windows
