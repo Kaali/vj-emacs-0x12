@@ -235,6 +235,7 @@
 (vj--display-bottom "*Warnings*" 0.2)
 (vj--display-bottom "*edebug-trace*" 0.2)
 (vj--display-bottom "*Messages*" 0.4)
+(vj--display-bottom "\\*compilation\\*" 0.4)
 
 
 ;; Save some buffers without prompt when emacs goes out of focus
